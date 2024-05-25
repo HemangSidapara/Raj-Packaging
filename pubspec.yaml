@@ -1,5 +1,5 @@
 name: raj_packaging
-description: "The stock and ordrer management app for the Raj Packaging."
+description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
 version: 1.0.0+1
