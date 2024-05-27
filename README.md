@@ -2,6 +2,7 @@
 
 The stock and order management app for the Raj Packaging.
 
-## Getting Started
+## Flutter version:
+- v3.22.1
 
 
