@@ -1,5 +1,5 @@
 class AppStrings {
-  static const String appName = "CPH Stocks";
+  static const String appName = "Raj Packaging";
   static const String login = "Login";
   static const String areYouSureYouWantToExitTheApp = "Are you sure you want to exit the app?";
   static const String no = "No";
