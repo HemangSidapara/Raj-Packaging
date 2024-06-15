@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
 import 'package:raj_packaging/Constants/app_fonts.dart';
 import 'package:raj_packaging/Routes/app_pages.dart';
-import 'package:raj_packaging/Screens/splash_screen/splash_bloc.dart';
 import 'package:raj_packaging/generated/l10n.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -35,34 +33,31 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SplashBloc(),
-      child: ResponsiveSizer(
-        builder: (context, orientation, screenType) {
-          return MaterialApp.router(
-            scaffoldMessengerKey: scaffoldMessengerKey,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              scaffoldBackgroundColor: AppColors.WHITE_COLOR,
-              fontFamily: AppFonts.appFontFamily,
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-              textSelectionTheme: TextSelectionThemeData(
-                selectionHandleColor: AppColors.PRIMARY_COLOR,
-              ),
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return MaterialApp.router(
+          scaffoldMessengerKey: scaffoldMessengerKey,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.WHITE_COLOR,
+            fontFamily: AppFonts.appFontFamily,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+            textSelectionTheme: TextSelectionThemeData(
+              selectionHandleColor: AppColors.PRIMARY_COLOR,
             ),
-            locale: const Locale('en'),
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            routerConfig: AppPages.pages,
-          );
-        },
-      ),
+          ),
+          locale: const Locale('en'),
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          routerConfig: AppPages.pages,
+        );
+      },
     );
   }
 }
