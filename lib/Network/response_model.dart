@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:raj_packaging/Utils/app_formatter.dart';
+import 'package:raj_packaging/Utils/app_extensions.dart';
 
 class ResponseModel {
   int? statusCode;

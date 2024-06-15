@@ -3,6 +3,7 @@ class AppAssets {
   static const String settingsAnim = "assets/animations/settings.gif";
   static const String searchAnim = "assets/animations/search_animation.gif";
   static const String updateAnim = "assets/animations/update_animation.gif";
+  static const String splashAnim = "assets/animations/splash_animation.json";
 
   ///Images
   static const String splashImage = "assets/images/splash_image.png";

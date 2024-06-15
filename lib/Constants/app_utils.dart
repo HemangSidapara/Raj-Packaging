@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
-import 'package:raj_packaging/Utils/app_formatter.dart';
+import 'package:raj_packaging/Utils/app_extensions.dart';
+import 'package:raj_packaging/main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Utils {
@@ -33,7 +34,6 @@ class Utils {
     Color? barColor,
     Color? iconColor,
     Color? textColor,
-    required BuildContext context,
   }) {
     final snackBar = SnackBar(
       backgroundColor: barColor ??
@@ -74,6 +74,6 @@ class Utils {
         ],
       ),
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
   }
 }

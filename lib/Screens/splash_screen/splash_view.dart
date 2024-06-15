@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
 import 'package:raj_packaging/Constants/app_strings.dart';
 import 'package:raj_packaging/Screens/splash_screen/splash_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -29,23 +31,56 @@ class _SplashViewState extends State<SplashView> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              ///Image
-              Image.asset(
-                AppAssets.splashImage,
-                height: 50.h,
-              ),
-              SizedBox(height: 2.h),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ///Image
+                    Lottie.asset(
+                      AppAssets.splashAnim,
+                      height: 50.h,
+                    ),
+                    SizedBox(height: 2.h),
 
-              ///Name
-              Text(
-                AppStrings.appName,
-                style: TextStyle(
-                  color: AppColors.WHITE_COLOR,
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w600,
+                    ///Name
+                    Text(
+                      AppStrings.appName,
+                      style: TextStyle(
+                        color: AppColors.WHITE_COLOR,
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              BlocBuilder<SplashBloc, SplashState>(
+                builder: (context, state) {
+                  return AnimatedOpacity(
+                    opacity: context.read<SplashBloc>().currentVersion.isNotEmpty ? 1 : 0,
+                    duration: const Duration(milliseconds: 250),
+                    child: Text(
+                      AppConstance.appVersion.replaceAll('1.0.0', context.read<SplashBloc>().currentVersion),
+                      style: TextStyle(
+                        color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Text(
+                AppStrings.poweredByMindwaveInfoway,
+                style: TextStyle(
+                  color: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.55),
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.sp,
+                ),
+              ),
+              SizedBox(height: 2.h),
             ],
           ),
         ),

@@ -7,7 +7,7 @@ class LoadingProgressBar extends StatelessWidget {
   Color? indicatorColor;
   double? width = 5.0;
   double? height = 5.0;
-  bool isDisMissile = false;
+  bool isDismissible = false;
   double? value;
 
   LoadingProgressBar({
@@ -15,7 +15,7 @@ class LoadingProgressBar extends StatelessWidget {
     this.color,
     this.width,
     this.height,
-    required this.isDisMissile,
+    required this.isDismissible,
     this.indicatorColor,
     this.value,
   });
@@ -23,7 +23,7 @@ class LoadingProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: isDismissible,
       child: Container(
         color: color,
         width: width,

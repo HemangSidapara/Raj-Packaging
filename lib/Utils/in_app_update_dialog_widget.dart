@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
-import 'package:raj_packaging/Constants/app_strings.dart';
+import 'package:raj_packaging/Screens/splash_screen/splash_bloc.dart';
 import 'package:raj_packaging/Widgets/button_widget.dart';
+import 'package:raj_packaging/generated/l10n.dart';
+import 'package:raj_packaging/main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 Future<void> showUpdateDialog({
   required void Function() onUpdate,
-  required RxBool isUpdateLoading,
-  required RxInt downloadedProgress,
 }) async {
   await showGeneralDialog(
-    context: Get.context!,
+    context: scaffoldMessengerKey.currentContext!,
     barrierDismissible: false,
     useRootNavigator: true,
     barrierLabel: 'string',
@@ -48,57 +48,61 @@ Future<void> showUpdateDialog({
             children: [
               Image.asset(
                 AppAssets.updateAnim,
-                height: context.isPortrait ? 10.h : 10.w,
+                height: 10.h,
               ),
-              SizedBox(height: context.isPortrait ? 2.h : 2.w),
+              SizedBox(height: 2.h),
               Text(
-                AppStrings.newVersionAvailable.tr,
+                S.current.newVersionAvailable,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.SECONDARY_COLOR,
-                  fontSize: context.isPortrait ? 18.sp : 14.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               const Spacer(),
-              Obx(() {
-                return ButtonWidget(
-                  onPressed: onUpdate,
-                  isLoading: isUpdateLoading.value,
-                  loaderWidget: Row(
-                    children: [
-                      Text(
-                        "${downloadedProgress.value}%",
-                        style: TextStyle(
-                          color: AppColors.PRIMARY_COLOR,
-                          fontWeight: FontWeight.w700,
-                          fontSize: context.isPortrait ? 14.sp : 12.sp,
+              BlocBuilder<SplashBloc, SplashState>(
+                builder: (context, state) {
+                  final isUpdateLoading = context.read<SplashBloc>().isUpdateLoading;
+                  final downloadedProgress = context.read<SplashBloc>().downloadedProgress;
+                  return ButtonWidget(
+                    onPressed: onUpdate,
+                    isLoading: isUpdateLoading,
+                    loaderWidget: Row(
+                      children: [
+                        Text(
+                          "$downloadedProgress%",
+                          style: TextStyle(
+                            color: AppColors.PRIMARY_COLOR,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: context.isPortrait ? 5.w : 5.h,
-                              width: context.isPortrait ? 5.w : 5.h,
-                              child: CircularProgressIndicator(
-                                color: AppColors.PRIMARY_COLOR,
-                                strokeWidth: 1.6,
-                                value: downloadedProgress.value / 100,
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 5.w,
+                                width: 5.w,
+                                child: CircularProgressIndicator(
+                                  color: AppColors.PRIMARY_COLOR,
+                                  strokeWidth: 1.6,
+                                  value: downloadedProgress / 100,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 4.w),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  buttonTitle: AppStrings.update.tr,
-                  buttonTitleColor: AppColors.PRIMARY_COLOR,
-                  buttonColor: AppColors.SECONDARY_COLOR,
-                );
-              }),
+                              SizedBox(width: 4.w),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    buttonTitle: S.current.update,
+                    buttonTitleColor: AppColors.PRIMARY_COLOR,
+                    buttonColor: AppColors.SECONDARY_COLOR,
+                  );
+                },
+              ),
               SizedBox(height: 2.h),
             ],
           ),

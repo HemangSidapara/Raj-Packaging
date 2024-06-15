@@ -16,6 +16,28 @@ class AppPages {
       GoRoute(
         path: Routes.splashScreen,
         name: Routes.splashScreen,
+        // pageBuilder: (context, state) {
+        //   return CustomTransitionPage(
+        //     key: state.pageKey,
+        //     name: Routes.splashScreen,
+        //     child: BlocProvider(
+        //       create: (context) => SplashBloc(),
+        //       child: const SplashView(),
+        //     ),
+        //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        //       return SlideTransition(
+        //         position: Tween<Offset>(
+        //           begin: const Offset(1.0, 0.0),
+        //           end: Offset.zero,
+        //         ).animate(animation),
+        //         child: FadeTransition(
+        //           opacity: animation,
+        //           child: child,
+        //         ),
+        //       );
+        //     },
+        //   );
+        // },
         builder: (context, state) => BlocListener<SplashBloc, SplashState>(
           listener: (context, state) {
             context.goNamed(Routes.signInScreen);
