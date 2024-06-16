@@ -5,6 +5,7 @@ import 'dart:convert';
 /// Data : [{"inAppUpdateId":"1","appUrl":"https://mindwaveinfoway.com/ClassicPVDHouse/AdminPanel/WebApi/Build/cph_stocks_v1.0.4.apk","appVersion":"1.0.5","createdDate":"2024-04-03 01:42:02"}]
 
 GetLatestVersionModel getLatestVersionModelFromJson(String str) => GetLatestVersionModel.fromJson(json.decode(str));
+
 String getLatestVersionModelToJson(GetLatestVersionModel data) => json.encode(data.toJson());
 
 class GetLatestVersionModel {
@@ -28,9 +29,11 @@ class GetLatestVersionModel {
       });
     }
   }
+
   String? _code;
   String? _msg;
   List<Data>? _data;
+
   GetLatestVersionModel copyWith({
     String? code,
     String? msg,
@@ -41,8 +44,11 @@ class GetLatestVersionModel {
         msg: msg ?? _msg,
         data: data ?? _data,
       );
+
   String? get code => _code;
+
   String? get msg => _msg;
+
   List<Data>? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -62,6 +68,7 @@ class GetLatestVersionModel {
 /// createdDate : "2024-04-03 01:42:02"
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
 
 class Data {
@@ -83,10 +90,12 @@ class Data {
     _appVersion = json['appVersion'];
     _createdDate = json['createdDate'];
   }
+
   String? _inAppUpdateId;
   String? _appUrl;
   String? _appVersion;
   String? _createdDate;
+
   Data copyWith({
     String? inAppUpdateId,
     String? appUrl,
@@ -99,9 +108,13 @@ class Data {
         appVersion: appVersion ?? _appVersion,
         createdDate: createdDate ?? _createdDate,
       );
+
   String? get inAppUpdateId => _inAppUpdateId;
+
   String? get appUrl => _appUrl;
+
   String? get appVersion => _appVersion;
+
   String? get createdDate => _createdDate;
 
   Map<String, dynamic> toJson() {

@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
-import 'package:raj_packaging/Screens/splash_screen/splash_bloc.dart';
+import 'package:raj_packaging/Screens/splash_screen/bloc/splash_bloc.dart';
 import 'package:raj_packaging/Widgets/button_widget.dart';
 import 'package:raj_packaging/generated/l10n.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-Future<void> showUpdateDialog({
+Future<void> showUpdateDialog<B extends StateStreamable<State>, State>({
   required BuildContext context,
   required void Function() onUpdate,
+  required B bloc,
 }) async {
   await showGeneralDialog(
     context: context,
@@ -28,8 +29,8 @@ Future<void> showUpdateDialog({
       );
     },
     pageBuilder: (context, animation, secondaryAnimation) {
-      return BlocProvider(
-        create: (context) => SplashBloc()..add(SplashStarted()),
+      return PopScope(
+        canPop: false,
         child: AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor: AppColors.WHITE_COLOR,
@@ -63,13 +64,13 @@ Future<void> showUpdateDialog({
                   ),
                 ),
                 const Spacer(),
-                BlocBuilder<SplashBloc, SplashState>(
+                BlocBuilder<B, State>(
+                  bloc: bloc,
                   builder: (context, state) {
-                    final isUpdateLoading = state is SplashUpdateProgress ? state.isUpdateLoading : false;
-                    final downloadedProgress = state is SplashUpdateProgress ? state.downloadedProgress : 0;
-
+                    final isUpdateLoading = (state is SplashUpdateProgressState) && state.isUpdateLoading;
+                    final downloadedProgress = (state is SplashUpdateProgressState) ? state.downloadedProgress : 0;
                     return ButtonWidget(
-                      onPressed: onUpdate,
+                      onPressed: isUpdateLoading ? null : onUpdate,
                       isLoading: isUpdateLoading,
                       loaderWidget: Row(
                         children: [

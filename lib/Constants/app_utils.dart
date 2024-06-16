@@ -42,7 +42,7 @@ class Utils {
               : isWarning
                   ? AppColors.WARNING_COLOR
                   : AppColors.SUCCESS_COLOR),
-      duration: const Duration(milliseconds: 3500),
+      duration: const Duration(milliseconds: 2500),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),

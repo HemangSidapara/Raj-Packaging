@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
@@ -22,22 +22,34 @@ part 'splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   bool isUpdateLoading = false;
-  int downloadedProgress = 0;
-  String currentVersion = "";
+  String _currentVersion = "";
   String _newAPKVersion = "";
   String _newAPKUrl = "";
+  int _downloadedProgress = 0;
 
   final _newAPKUrlController = StreamController<String?>.broadcast();
 
   Stream<String?> get newAPKUrlStream => _newAPKUrlController.stream;
+
+  final _downloadedProgressController = StreamController<int>.broadcast();
+
+  Stream<int> get downloadedProgressStream => _downloadedProgressController.stream;
 
   void setNewAPKUrl(String? url) {
     _newAPKUrlController.add(url);
     _newAPKUrl = url ?? "";
   }
 
-  SplashBloc() : super(SplashInitial()) {
-    on<SplashStarted>((event, emit) async {
+  void setDownloadedProgress(int progress) {
+    _downloadedProgressController.add(progress);
+    _downloadedProgress = progress;
+  }
+
+  Stopwatch stopwatch = Stopwatch();
+
+  SplashBloc() : super(SplashInitialState()) {
+    on<SplashStartedEvent>((event, emit) async {
+      stopwatch.start();
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: AppColors.SECONDARY_COLOR,
         systemNavigationBarIconBrightness: Brightness.light,
@@ -46,34 +58,57 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       ));
 
       newAPKUrlStream.listen((event) async {
-        currentVersion = (await GetPackageInfoService.instance.getInfo()).version;
-        add(SplashGetCurrentVersion());
-        debugPrint('currentVersion :: $currentVersion');
+        _currentVersion = (await GetPackageInfoService.instance.getInfo()).version;
+        add(SplashGetCurrentVersionEvent());
+        debugPrint('currentVersion :: $_currentVersion');
         debugPrint('newVersion :: $_newAPKVersion');
+        stopwatch.stop();
         if (event?.isNotEmpty == true && _newAPKVersion.isNotEmpty) {
-          if (Utils.isUpdateAvailable(currentVersion, _newAPKVersion)) {
-            add(SplashUpdateAvailable());
+          if (Utils.isUpdateAvailable(_currentVersion, _newAPKVersion)) {
+            add(SplashUpdateAvailableEvent());
           } else {
-            await nextScreenRoute(emit);
+            await Future.delayed(
+              Duration(milliseconds: 5000 - stopwatch.elapsedMilliseconds),
+              () async {
+                await nextScreenRoute(emit);
+              },
+            );
           }
         } else {
-          await nextScreenRoute(emit);
+          await Future.delayed(
+            Duration(milliseconds: 3000 - stopwatch.elapsedMilliseconds),
+            () async {
+              await nextScreenRoute(emit);
+            },
+          );
         }
       });
 
       await _getLatestVersion();
     });
 
-    on<SplashGetCurrentVersion>((event, emit) {
-      emit(SplashCurrentVersion());
+    on<SplashGetCurrentVersionEvent>((event, emit) async {
+      emit(SplashCurrentVersionState(currentVersion: _currentVersion));
     });
 
-    on<SplashUpdateAvailable>((event, emit) {
-      emit(SplashOnUpdateAvailable());
+    on<SplashUpdateAvailableEvent>((event, emit) {
+      emit(SplashOnUpdateAvailableState());
     });
 
-    on<SplashDownloadAndInstall>((event, emit) async {
+    on<SplashDownloadAndInstallStartEvent>((event, emit) async {
       await _downloadAndInstall(emit);
+    });
+
+    on<SplashDownloadAndInstallInProgressEvent>((event, emit) async {
+      emit(SplashUpdateProgressState(isUpdateLoading: event.isUpdateLoading, downloadedProgress: event.downloadedProgress));
+    });
+
+    on<SplashAuthorizedEvent>((event, emit) async {
+      emit(SplashAuthorizedState());
+    });
+
+    on<SplashUnauthorizedEvent>((event, emit) async {
+      emit(SplashUnauthorizedState());
     });
   }
 
@@ -90,26 +125,34 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     );
     debugPrint("token value ::: ${getData(AppConstance.authorizationToken)}");
     if (getData(AppConstance.authorizationToken) == null) {
-      emit(SplashUnauthorized());
+      add(SplashUnauthorizedEvent());
     } else {
-      emit(SplashAuthorized());
+      add(SplashAuthorizedEvent());
     }
   }
 
   /// Get latest Version on server
   Future<void> _getLatestVersion() async {
     final response = await AuthServices.getLatestVersionService();
-    GetLatestVersionModel versionModel = GetLatestVersionModel.fromJson(response.response?.data);
     if (response.isSuccess) {
+      GetLatestVersionModel versionModel = GetLatestVersionModel.fromJson(response.response?.data);
       setNewAPKUrl(versionModel.data?.firstOrNull?.appUrl ?? "");
       _newAPKVersion = versionModel.data?.firstOrNull?.appVersion ?? "";
+    } else {
+      setNewAPKUrl("");
+      _newAPKVersion = "";
     }
   }
 
   /// Download and install
   Future<void> _downloadAndInstall(Emitter<SplashState> emit) async {
     try {
-      emit(const SplashUpdateProgress(isUpdateLoading: true, downloadedProgress: 0));
+      emit(SplashUpdateProgressState(isUpdateLoading: true, downloadedProgress: _downloadedProgress));
+      downloadedProgressStream.listen(
+        (event) {
+          add(SplashDownloadAndInstallInProgressEvent(isUpdateLoading: true, downloadedProgress: event));
+        },
+      );
       final directory = await getExternalStorageDirectory();
       final downloadPath = '${directory?.path}/app-release.apk';
 
@@ -120,11 +163,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
           onReceiveProgress: (counter, total) {
             if (total != -1) {
               debugPrint("Downloaded % :: ${(counter / total * 100).toStringAsFixed(0)}%");
-              downloadedProgress = (counter / total * 100).toStringAsFixed(0).toInt();
-              emit(SplashUpdateProgress(
-                isUpdateLoading: true,
-                downloadedProgress: downloadedProgress,
-              ));
+              setDownloadedProgress((counter / total * 100).toStringAsFixed(0).toInt());
             }
           },
         );
@@ -144,7 +183,14 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         Utils.handleMessage(message: 'Failed to download.', isError: true);
       }
     } finally {
-      emit(const SplashUpdateProgress(isUpdateLoading: false, downloadedProgress: 100));
+      emit(SplashUpdateProgressState(isUpdateLoading: false, downloadedProgress: _downloadedProgress));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _newAPKUrlController.close();
+    _downloadedProgressController.close();
+    return super.close();
   }
 }
