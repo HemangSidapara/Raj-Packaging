@@ -21,12 +21,12 @@ class _DashboardViewState extends State<DashboardView> {
   ];
 
   final List<String> _contentList = [
-    S.current.orderDetails,
+    S.current.pendingOrders,
     S.current.challan,
   ];
 
   final List<String> _contentIconList = [
-    AppAssets.orderDetailsIcon,
+    AppAssets.pendingIcon,
     AppAssets.challanIcon,
   ];
 

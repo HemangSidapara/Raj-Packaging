@@ -137,5 +137,10 @@
   "enterHSize": "Enter H size",
   "pleaseEnterLSize": "Please enter L size",
   "pleaseEnterBSize": "Please enter B size",
-  "pleaseEnterHSize": "Please enter H size"
+  "pleas+eEnterHSize": "Please enter H size",
+  "boxes": "Boxes",
+  "productionSheetSize": "Production Sheet Size :",
+  "productionSheetQuantity": "Production Sheet Quantity",
+  "actualSheetSize": "Actual Sheet Size :",
+  "pendingOrders": "Pending Orders"
 }

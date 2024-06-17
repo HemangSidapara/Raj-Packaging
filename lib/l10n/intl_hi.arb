@@ -136,5 +136,10 @@
   "enterHSize": "H की साइज दर्ज करें",
   "pleaseEnterLSize": "कृपया L की साइज दर्ज करें",
   "pleaseEnterBSize": "कृपया B की साइज दर्ज करें",
-  "pleaseEnterHSize": "कृपया H की साइज दर्ज करें"
+  "pleaseEnterHSize": "कृपया H की साइज दर्ज करें",
+  "boxes": "बक्से",
+  "productionSheetSize": "उत्पादन सीट की साइज :",
+  "productionSheetQuantity": "उत्पादन सीट मात्रा",
+  "actualSheetSize": "वास्तविक सीट की साइज :",
+  "pendingOrders": "लंबित ऑर्डर"
 }

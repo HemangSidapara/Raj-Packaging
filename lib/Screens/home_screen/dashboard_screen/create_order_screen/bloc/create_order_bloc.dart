@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:raj_packaging/Network/services/create_order_services/create_order_service.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
 import 'package:raj_packaging/generated/l10n.dart';
 
@@ -8,6 +10,10 @@ part 'create_order_event.dart';
 part 'create_order_state.dart';
 
 class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
+  String partyName = "";
+  String phoneNumber = "";
+  String productName = "";
+
   int orderTypeIndex = 0;
   int plySheetTypeIndex = 0;
   int boxTypeIndex = 0;
@@ -40,6 +46,22 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     on<CreateOrderPlyBoxDiePunchTypeEvent>((event, emit) {
       plyBoxDiePunchTypeIndex = event.plyBoxDiePunchTypeIndex;
       emit(CreateOrderPlyBoxDiePunchTypeState(plyBoxDiePunchTypeIndex: event.plyBoxDiePunchTypeIndex));
+    });
+
+    on<CreateOrderButtonClickEvent>((event, emit) async {
+      await checkCreateOrder(event, emit);
+    });
+
+    on<CreateOrderLoadingEvent>((event, emit) async {
+      emit(CreateOrderLoadingState(isLoading: event.isLoading));
+    });
+
+    on<CreateOrderSuccessEvent>((event, emit) async {
+      emit(CreateOrderSuccessState(successMessage: event.successMessage));
+    });
+
+    on<CreateOrderFailedEvent>((event, emit) async {
+      emit(CreateOrderFailedState());
     });
   }
 
@@ -171,5 +193,41 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     }
 
     return ("", "");
+  }
+
+  Future<void> checkCreateOrder(CreateOrderButtonClickEvent event, Emitter<CreateOrderState> emit) async {
+    try {
+      add(const CreateOrderLoadingEvent(isLoading: true));
+      if (event.isValidate) {
+        final response = await CreateOrderService.loginService(
+          partyName: event.partyName,
+          partyPhone: event.partyPhone,
+          orderType: event.orderType,
+          boxType: event.boxType,
+          productName: event.productName,
+          orderQuantity: event.orderQuantity,
+          productionDeckle: event.productionDeckle,
+          productionCutting: event.productionCutting,
+          productionQuantity: event.productionQuantity,
+          deckle: event.deckle,
+          cutting: event.cutting,
+          ply: event.ply,
+          topPaper: event.topPaper,
+          paper: event.paper,
+          flute: event.flute,
+          l: event.l,
+          b: event.b,
+          h: event.h,
+        );
+
+        if (response.isSuccess) {
+          add(CreateOrderSuccessEvent(successMessage: response.message));
+        } else {
+          add(CreateOrderFailedEvent());
+        }
+      }
+    } finally {
+      add(const CreateOrderLoadingEvent(isLoading: false));
+    }
   }
 }

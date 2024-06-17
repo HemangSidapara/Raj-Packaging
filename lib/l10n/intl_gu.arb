@@ -137,5 +137,10 @@
   "enterHSize": "H સાઈઝ દાખલ કરો",
   "pleaseEnterLSize": "કૃપા કરીને L સાઈઝ દાખલ કરો",
   "pleaseEnterBSize": "કૃપા કરીને B સાઈઝ દાખલ કરો",
-  "pleaseEnterHSize": "કૃપા કરીને H સાઈઝ દાખલ કરો"
+  "pleaseEnterHSize": "કૃપા કરીને H સાઈઝ દાખલ કરો",
+  "boxes": "બોક્સ",
+  "productionSheetSize": "ઉત્પાદન સીટની સાઈઝ :",
+  "productionSheetQuantity": "ઉત્પાદન સીટ જથ્થો",
+  "actualSheetSize": "વાસ્તવિક સીટની સાઈઝ :",
+  "pendingOrders": "બાકી ઓર્ડર"
 }

@@ -35,8 +35,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
   final TextEditingController _orderSizeBoxRSCHController = TextEditingController();
   final TextEditingController _actualSheetSizeBoxRSCDeckleController = TextEditingController();
   final TextEditingController _actualSheetSizeBoxRSCCuttingController = TextEditingController();
-  final TextEditingController _orderSizeBoxDiePunchDeckleController = TextEditingController();
-  final TextEditingController _orderSizeBoxDiePunchCuttingController = TextEditingController();
+  final TextEditingController _actualSheetSizeBoxDiePunchDeckleController = TextEditingController();
+  final TextEditingController _actualSheetSizeBoxDiePunchCuttingController = TextEditingController();
 
   final TextEditingController _specificationRollPaperController = TextEditingController();
   final TextEditingController _specificationRollFluteController = TextEditingController();
@@ -64,6 +64,17 @@ class _CreateOrderViewState extends State<CreateOrderView> {
   final TextEditingController _productionSheetSizeBoxDiePunchCuttingController = TextEditingController();
 
   final TextEditingController _productionQuantityController = TextEditingController();
+
+  final List<String> orderTypeList = [
+    "Roll",
+    "Sheet",
+    "Box",
+  ];
+
+  final List<String> boxTypeList = [
+    "RSC",
+    "Die Punch",
+  ];
 
   final List<String> paperAndFluteTypesForRollList = [
     "100 gsm",
@@ -182,6 +193,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   ),
                                   onTap: () async {
                                     await showBottomSheetParty(context: context);
+                                    createOrderBloc.partyName = _partyNameController.text.trim();
                                   },
                                 ),
                                 SizedBox(height: 1.h),
@@ -195,6 +207,11 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   textInputAction: TextInputAction.next,
                                   maxLength: 10,
                                   keyboardType: TextInputType.number,
+                                  onChanged: (value) {
+                                    if (value.isNotEmpty) {
+                                      createOrderBloc.phoneNumber = value.trim();
+                                    }
+                                  },
                                 ),
                                 SizedBox(height: 1.h),
 
@@ -215,6 +232,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   ),
                                   onTap: () async {
                                     await showBottomSheetProduct(context: context);
+                                    createOrderBloc.productName = _productNameController.text.trim();
                                   },
                                 ),
                                 SizedBox(height: 1.h),
@@ -290,11 +308,11 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   SizedBox(height: 1.h),
                                 ],
 
-                                ///Order size [Deckle x Cutting]
+                                ///Order size or Actual Sheet Size [Deckle x Cutting or L x B x H]
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    S.current.orderSize,
+                                    createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1 ? S.current.actualSheetSize : S.current.orderSize,
                                     style: TextStyle(
                                       color: AppColors.PRIMARY_COLOR,
                                       fontSize: 18.sp,
@@ -310,12 +328,12 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     ///Deckle Or L
                                     Flexible(
                                       child: TextFieldWidget(
-                                        controller: createOrderBloc.orderTypeIndex == 1
-                                            ? _orderSizeSheetDeckleController
-                                            : createOrderBloc.orderTypeIndex == 2
-                                                ? createOrderBloc.boxTypeIndex == 1
-                                                    ? _orderSizeBoxDiePunchDeckleController
-                                                    : _orderSizeBoxRSCLController
+                                        controller: createOrderBloc.orderTypeIndex == 2
+                                            ? createOrderBloc.boxTypeIndex == 1
+                                                ? _actualSheetSizeBoxDiePunchDeckleController
+                                                : _orderSizeBoxRSCLController
+                                            : createOrderBloc.orderTypeIndex == 1
+                                                ? _orderSizeSheetDeckleController
                                                 : _orderSizeRollDeckleController,
                                         title: "${createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? S.current.l : S.current.deckle} (${S.current.inch})",
                                         hintText: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? S.current.enterLSize : S.current.enterDeckleSize,
@@ -363,7 +381,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                         child: TextFieldWidget(
                                           controller: createOrderBloc.orderTypeIndex == 2
                                               ? createOrderBloc.boxTypeIndex == 1
-                                                  ? _orderSizeBoxDiePunchCuttingController
+                                                  ? _actualSheetSizeBoxDiePunchCuttingController
                                                   : _orderSizeBoxRSCBController
                                               : _orderSizeSheetCuttingController,
                                           title: "${createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? S.current.b : S.current.cutting} (${S.current.inch})",
@@ -492,7 +510,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ///Top Paper
-                                    if (createOrderBloc.orderTypeIndex != 0 && (createOrderBloc.plySheetTypeIndex != 0 || createOrderBloc.boxTypeIndex == 0 || createOrderBloc.plyBoxDiePunchTypeIndex != 0)) ...[
+                                    if ((createOrderBloc.orderTypeIndex == 1 && createOrderBloc.plySheetTypeIndex != 0) || (createOrderBloc.orderTypeIndex == 2 && (createOrderBloc.boxTypeIndex == 0 || createOrderBloc.plyBoxDiePunchTypeIndex != 0))) ...[
                                       Flexible(
                                         child: TextFieldWidget(
                                           controller: createOrderBloc.orderTypeIndex == 2
@@ -651,7 +669,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 ///Order Quantity [Rolls, Sheets, Boxes]
                                 TextFieldWidget(
                                   controller: _orderQuantityController,
-                                  title: "${S.current.orderQuantity} (${createOrderBloc.orderTypeIndex == 1 ? S.current.sheets : S.current.rolls})",
+                                  title: "${S.current.orderQuantity} (${createOrderBloc.orderTypeIndex == 2 ? S.current.boxes : createOrderBloc.orderTypeIndex == 1 ? S.current.sheets : S.current.rolls})",
                                   hintText: S.current.enterQuantity,
                                   validator: createOrderBloc.validateQuantity,
                                   textInputAction: TextInputAction.next,
@@ -665,11 +683,81 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 ),
                                 SizedBox(height: 1.h),
 
-                                ///Production Size [Inch]
+                                ///Actual Sheet Size [Inch]
+                                if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) ...[
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      S.current.actualSheetSize,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 0.7.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ///Deckle
+                                      Flexible(
+                                        child: TextFieldWidget(
+                                          controller: _actualSheetSizeBoxRSCDeckleController,
+                                          title: "${S.current.deckle} (${S.current.inch})",
+                                          hintText: S.current.enterDeckleSize,
+                                          validator: createOrderBloc.validateDeckleSize,
+                                          textInputAction: TextInputAction.next,
+                                          maxLength: 10,
+                                          keyboardType: TextInputType.number,
+                                          readOnly: true,
+                                        ),
+                                      ),
+
+                                      ///Cross(x)
+                                      SizedBox(width: 1.5.w),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 3.3.h),
+                                        child: SizedBox(
+                                          height: 4.4.h,
+                                          child: Center(
+                                            child: Text(
+                                              'x',
+                                              style: TextStyle(
+                                                color: AppColors.PRIMARY_COLOR,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 18.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 1.5.w),
+
+                                      ///Cutting
+                                      Flexible(
+                                        child: TextFieldWidget(
+                                          controller: _actualSheetSizeBoxRSCCuttingController,
+                                          title: "${S.current.cutting} (${S.current.inch})",
+                                          hintText: S.current.enterCuttingSize,
+                                          validator: createOrderBloc.validateCuttingSize,
+                                          textInputAction: TextInputAction.next,
+                                          maxLength: 10,
+                                          keyboardType: TextInputType.number,
+                                          readOnly: true,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 1.h),
+                                ],
+
+                                ///Production Size [Inch] or Production Sheet Size [Inch]
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    S.current.productionSize,
+                                    createOrderBloc.orderTypeIndex == 2 ? S.current.productionSheetSize : S.current.productionSize,
                                     style: TextStyle(
                                       color: AppColors.PRIMARY_COLOR,
                                       fontSize: 18.sp,
@@ -685,7 +773,13 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     ///Deckle
                                     Flexible(
                                       child: TextFieldWidget(
-                                        controller: createOrderBloc.orderTypeIndex == 1 ? _productionSizeSheetDeckleController : _productionSizeRollDeckleController,
+                                        controller: createOrderBloc.orderTypeIndex == 2
+                                            ? createOrderBloc.boxTypeIndex == 1
+                                                ? _productionSheetSizeBoxDiePunchDeckleController
+                                                : _productionSheetSizeBoxRSCDeckleController
+                                            : createOrderBloc.orderTypeIndex == 1
+                                                ? _productionSizeSheetDeckleController
+                                                : _productionSizeRollDeckleController,
                                         title: "${S.current.deckle} (${S.current.inch})",
                                         hintText: S.current.enterDeckleSize,
                                         validator: createOrderBloc.validateDeckleSize,
@@ -701,7 +795,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     ),
 
                                     ///Cross(x)
-                                    if (createOrderBloc.orderTypeIndex == 1) ...[
+                                    if (createOrderBloc.orderTypeIndex != 0) ...[
                                       SizedBox(width: 1.5.w),
                                       Padding(
                                         padding: EdgeInsets.only(top: 3.3.h),
@@ -723,10 +817,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     ],
 
                                     ///Cutting
-                                    if (createOrderBloc.orderTypeIndex == 1)
+                                    if (createOrderBloc.orderTypeIndex != 0)
                                       Flexible(
                                         child: TextFieldWidget(
-                                          controller: _productionSizeSheetCuttingController,
+                                          controller: createOrderBloc.orderTypeIndex == 2
+                                              ? createOrderBloc.boxTypeIndex == 1
+                                                  ? _productionSheetSizeBoxDiePunchCuttingController
+                                                  : _productionSheetSizeBoxRSCCuttingController
+                                              : _productionSizeSheetCuttingController,
                                           title: "${S.current.cutting} (${S.current.inch})",
                                           hintText: S.current.enterCuttingSize,
                                           validator: createOrderBloc.validateCuttingSize,
@@ -744,16 +842,16 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 ),
                                 SizedBox(height: 1.h),
 
-                                ///Production Quantity [Rolls]
+                                ///Production Quantity [Rolls, Sheets, Boxes]
                                 TextFieldWidget(
                                   controller: _productionQuantityController,
-                                  title: "${S.current.productionQuantity} (${createOrderBloc.orderTypeIndex == 1 ? S.current.sheets : S.current.rolls})",
+                                  title: "${createOrderBloc.orderTypeIndex == 2 ? S.current.productionSheetQuantity : S.current.productionQuantity} (${createOrderBloc.orderTypeIndex == 2 ? S.current.boxes : createOrderBloc.orderTypeIndex == 1 ? S.current.sheets : S.current.rolls})",
                                   hintText: S.current.enterQuantity,
                                   validator: createOrderBloc.validateQuantity,
                                   textInputAction: TextInputAction.next,
                                   maxLength: 10,
                                   keyboardType: TextInputType.number,
-                                  readOnly: true,
+                                  readOnly: createOrderBloc.orderTypeIndex != 2,
                                 ),
                               ],
                             );
@@ -767,10 +865,93 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                 ///Create Order Button
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 2.h),
-                  child: ButtonWidget(
-                    onPressed: () async {},
-                    isLoading: false,
-                    buttonTitle: S.current.createOrder,
+                  child: BlocConsumer<CreateOrderBloc, CreateOrderState>(
+                    listener: (context, state) {
+                      if (state is CreateOrderSuccessState) {
+                        context.pop();
+                        Utils.handleMessage(message: state.successMessage);
+                      }
+                    },
+                    builder: (context, state) {
+                      final createOrderBloc = context.read<CreateOrderBloc>();
+                      return ButtonWidget(
+                        onPressed: () async {
+                          createOrderBloc.add(
+                            CreateOrderButtonClickEvent(
+                              isValidate: _createOrderFormKey.currentState?.validate() == true,
+                              partyName: _partyNameController.text.trim(),
+                              partyPhone: _phoneNumberController.text.trim(),
+                              orderType: orderTypeList[createOrderBloc.orderTypeIndex],
+                              boxType: createOrderBloc.orderTypeIndex == 2 ? boxTypeList[createOrderBloc.boxTypeIndex] : null,
+                              productName: _productNameController.text.trim(),
+                              orderQuantity: _orderQuantityController.text.trim(),
+                              productionDeckle: createOrderBloc.orderTypeIndex == 2
+                                  ? createOrderBloc.boxTypeIndex == 1
+                                      ? _productionSheetSizeBoxDiePunchDeckleController.text.trim()
+                                      : _productionSheetSizeBoxRSCDeckleController.text.trim()
+                                  : createOrderBloc.orderTypeIndex == 1
+                                      ? _productionSizeSheetDeckleController.text.trim()
+                                      : _productionSizeRollDeckleController.text.trim(),
+                              productionCutting: createOrderBloc.orderTypeIndex == 2
+                                  ? createOrderBloc.boxTypeIndex == 1
+                                      ? _productionSheetSizeBoxDiePunchCuttingController.text.trim()
+                                      : _productionSheetSizeBoxRSCCuttingController.text.trim()
+                                  : createOrderBloc.orderTypeIndex == 1
+                                      ? _productionSizeSheetCuttingController.text.trim()
+                                      : null,
+                              productionQuantity: _productionQuantityController.text.trim(),
+                              deckle: createOrderBloc.orderTypeIndex == 2
+                                  ? createOrderBloc.boxTypeIndex == 1
+                                      ? _actualSheetSizeBoxDiePunchDeckleController.text.trim()
+                                      : _actualSheetSizeBoxRSCDeckleController.text.trim()
+                                  : createOrderBloc.orderTypeIndex == 1
+                                      ? _orderSizeSheetDeckleController.text.trim()
+                                      : _orderSizeRollDeckleController.text.trim(),
+                              cutting: createOrderBloc.orderTypeIndex == 2
+                                  ? createOrderBloc.boxTypeIndex == 1
+                                      ? _actualSheetSizeBoxDiePunchCuttingController.text.trim()
+                                      : _actualSheetSizeBoxRSCCuttingController.text.trim()
+                                  : createOrderBloc.orderTypeIndex == 1
+                                      ? _orderSizeSheetCuttingController.text.trim()
+                                      : null,
+                              ply: createOrderBloc.orderTypeIndex == 2
+                                  ? createOrderBloc.boxTypeIndex == 1
+                                      ? _specificationBoxDiePunchPlyController.text.trim()
+                                      : _specificationBoxRSCPlyController.text.trim()
+                                  : createOrderBloc.orderTypeIndex == 1
+                                      ? _specificationSheetPlyController.text.trim()
+                                      : null,
+                              topPaper: createOrderBloc.orderTypeIndex == 2
+                                  ? createOrderBloc.boxTypeIndex == 1 && createOrderBloc.plyBoxDiePunchTypeIndex != 0
+                                      ? _specificationBoxDiePunchTopPaperController.text.trim()
+                                      : _specificationBoxRSCTopPaperController.text.trim()
+                                  : createOrderBloc.orderTypeIndex == 1 && createOrderBloc.plySheetTypeIndex != 0
+                                      ? _specificationSheetTopPaperController.text.trim()
+                                      : null,
+                              paper: createOrderBloc.orderTypeIndex == 2
+                                  ? createOrderBloc.boxTypeIndex == 1
+                                      ? _specificationBoxDiePunchPaperController.text.trim()
+                                      : _specificationBoxRSCPaperController.text.trim()
+                                  : createOrderBloc.orderTypeIndex == 1
+                                      ? _specificationSheetPaperController.text.trim()
+                                      : _specificationRollPaperController.text.trim(),
+                              flute: createOrderBloc.orderTypeIndex == 2
+                                  ? createOrderBloc.boxTypeIndex == 1
+                                      ? _specificationBoxDiePunchFluteController.text.trim()
+                                      : _specificationBoxRSCFluteController.text.trim()
+                                  : createOrderBloc.orderTypeIndex == 1
+                                      ? _specificationSheetFluteController.text.trim()
+                                      : _specificationRollFluteController.text.trim(),
+                              l: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCLController.text.trim() : null,
+                              b: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCBController.text.trim() : null,
+                              h: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCHController.text.trim() : null,
+                            ),
+                          );
+                        },
+                        isLoading: (state is CreateOrderLoadingState) ? state.isLoading : false,
+                        buttonTitle: S.current.createOrder,
+                      );
+                    },
                   ),
                 ),
               ],
@@ -1052,6 +1233,9 @@ class _CreateOrderViewState extends State<CreateOrderView> {
           onTap: () {
             _createOrderFormKey.currentState?.reset();
             createOrderBloc.add(CreateOrderTypeEvent(orderTypeIndex: index));
+            _partyNameController.text = createOrderBloc.partyName;
+            _phoneNumberController.text = createOrderBloc.phoneNumber;
+            _productNameController.text = createOrderBloc.productName;
             if (index == 1) {
               createOrderBloc.add(CreateOrderPlySheetTypeEvent(plySheetTypeIndex: plyTypesForSheetAndBoxDiePunchList.indexOf(_specificationSheetPlyController.text)));
             } else if (index == 2) {
@@ -1111,6 +1295,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         final createOrderBloc = context.read<CreateOrderBloc>();
         return InkWell(
           onTap: () {
+            _createOrderFormKey.currentState?.reset();
             createOrderBloc.add(CreateOrderBoxTypeEvent(boxTypeIndex: index));
             if (index == 1) {
               createOrderBloc.add(CreateOrderPlyBoxDiePunchTypeEvent(plyBoxDiePunchTypeIndex: plyTypesForSheetAndBoxDiePunchList.indexOf(_specificationBoxDiePunchPlyController.text)));

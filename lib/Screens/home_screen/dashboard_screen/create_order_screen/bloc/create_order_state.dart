@@ -53,3 +53,26 @@ class CreateOrderPlyBoxDiePunchTypeState extends CreateOrderState {
   @override
   List<Object?> get props => [plyBoxDiePunchTypeIndex];
 }
+
+class CreateOrderLoadingState extends CreateOrderState {
+  final bool isLoading;
+
+  const CreateOrderLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class CreateOrderSuccessState extends CreateOrderState {
+  final String? successMessage;
+
+  const CreateOrderSuccessState({this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class CreateOrderFailedState extends CreateOrderState {
+  @override
+  List<Object?> get props => [];
+}

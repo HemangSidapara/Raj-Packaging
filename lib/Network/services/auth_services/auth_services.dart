@@ -10,6 +10,7 @@ import 'package:raj_packaging/Network/models/auth_models/login_model.dart';
 import 'package:raj_packaging/Network/response_model.dart';
 
 class AuthServices {
+  ///Get Latest Version Service
   static Future<ResponseModel> getLatestVersionService() async {
     final response = await ApiBaseHelper.getHTTP(
       ApiUrls.inAppUpdateApi,
@@ -30,6 +31,7 @@ class AuthServices {
     return response;
   }
 
+  ///Login Service
   static Future<ResponseModel> loginService({
     required String phone,
     required String password,
