@@ -33,7 +33,7 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 2.h),
+      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 5.h),
       child: Column(
         children: [
           ///Header
@@ -134,7 +134,7 @@ class _DashboardViewState extends State<DashboardView> {
                     itemBuilder: (context, index) {
                       return ElevatedButton(
                         onPressed: () {
-                          context.goNamed(_contentRouteList[index]);
+                          // context.goNamed(_contentRouteList[index]);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,

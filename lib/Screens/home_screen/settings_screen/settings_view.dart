@@ -34,7 +34,7 @@ class _SettingsViewState extends State<SettingsView> {
         ),
       ],
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w).copyWith(top: 5.h),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,54 +128,15 @@ class _SettingsViewState extends State<SettingsView> {
                     color: AppColors.HINT_GREY_COLOR,
                     thickness: 1,
                   ),
-                  SizedBox(height: 1.h),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 50.w, minHeight: 0.w, maxWidth: 90.w, minWidth: 90.w),
                     child: GridView.count(
                       crossAxisCount: 2,
+                      padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       crossAxisSpacing: 5.w,
                       childAspectRatio: 3,
                       children: [
-                        ///Gujarati
-                        BlocBuilder<SettingsBloc, SettingsState>(
-                          buildWhen: (previous, current) => previous is SettingsGetCurrentLocalState || current is SettingsGetCurrentLocalState,
-                          builder: (context, state) {
-                            return InkWell(
-                              onTap: () async {
-                                setState(() {
-                                  context.read<SettingsBloc>().add(const SettingsSetNewLocalEvent(locale: Locale("gu", "IN")));
-                                });
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
-                                child: Row(
-                                  children: [
-                                    AnimatedOpacity(
-                                      opacity: state is SettingsGetCurrentLocalState && state.isGujaratiLang ? 1 : 0,
-                                      duration: const Duration(milliseconds: 300),
-                                      child: Icon(
-                                        Icons.done_rounded,
-                                        size: 6.w,
-                                        color: AppColors.SECONDARY_COLOR,
-                                      ),
-                                    ),
-                                    SizedBox(width: 2.w),
-                                    Text(
-                                      S.current.gujarati,
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.SECONDARY_COLOR,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-
                         ///English
                         BlocBuilder<SettingsBloc, SettingsState>(
                           buildWhen: (previous, current) => current is SettingsGetCurrentLocalState,
@@ -202,6 +163,45 @@ class _SettingsViewState extends State<SettingsView> {
                                     SizedBox(width: 2.w),
                                     Text(
                                       S.current.english,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.SECONDARY_COLOR,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+
+                        ///Gujarati
+                        BlocBuilder<SettingsBloc, SettingsState>(
+                          buildWhen: (previous, current) => previous is SettingsGetCurrentLocalState || current is SettingsGetCurrentLocalState,
+                          builder: (context, state) {
+                            return InkWell(
+                              onTap: () async {
+                                setState(() {
+                                  context.read<SettingsBloc>().add(const SettingsSetNewLocalEvent(locale: Locale("gu", "IN")));
+                                });
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+                                child: Row(
+                                  children: [
+                                    AnimatedOpacity(
+                                      opacity: state is SettingsGetCurrentLocalState && state.isGujaratiLang ? 1 : 0,
+                                      duration: const Duration(milliseconds: 300),
+                                      child: Icon(
+                                        Icons.done_rounded,
+                                        size: 6.w,
+                                        color: AppColors.SECONDARY_COLOR,
+                                      ),
+                                    ),
+                                    SizedBox(width: 2.w),
+                                    Text(
+                                      S.current.gujarati,
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w600,

@@ -68,7 +68,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
             add(SplashUpdateAvailableEvent());
           } else {
             await Future.delayed(
-              Duration(milliseconds: 5000 - stopwatch.elapsedMilliseconds),
+              Duration(milliseconds: 3000 - stopwatch.elapsedMilliseconds),
               () async {
                 await nextScreenRoute(emit);
               },

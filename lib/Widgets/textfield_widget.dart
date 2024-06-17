@@ -29,6 +29,7 @@ class TextFieldWidget extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final Color? primaryColor;
   final Color? secondaryColor;
+  final BorderRadius? borderRadius;
 
   const TextFieldWidget({
     super.key,
@@ -56,6 +57,7 @@ class TextFieldWidget extends StatefulWidget {
     this.inputFormatters,
     this.primaryColor,
     this.secondaryColor,
+    this.borderRadius,
   });
 
   @override
@@ -127,35 +129,35 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                 fontWeight: FontWeight.w500,
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
                 borderSide: BorderSide(
                   color: AppColors.ERROR_COLOR,
                   width: 1,
                 ),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
                 borderSide: BorderSide(
                   color: AppColors.ERROR_COLOR,
                   width: 1,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
                 borderSide: BorderSide(
                   color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
                   width: 1,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
                 borderSide: BorderSide(
                   color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
                   width: 1,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
                 borderSide: BorderSide(
                   color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
                   width: 1,
