@@ -125,5 +125,17 @@
   "topPaper": "Top Paper",
   "sheets": "Sheets",
   "enterType": "Enter type",
-  "pleaseEnterType": "Please enter type"
+  "pleaseEnterType": "Please enter type",
+  "boxType": "Box Type :",
+  "rsc": "RSC",
+  "diePunch": "Die Punch",
+  "l": "L",
+  "b": "b",
+  "h": "h",
+  "enterLSize": "Enter L size",
+  "enterBSize": "Enter B size",
+  "enterHSize": "Enter H size",
+  "pleaseEnterLSize": "Please enter L size",
+  "pleaseEnterBSize": "Please enter B size",
+  "pleaseEnterHSize": "Please enter H size"
 }

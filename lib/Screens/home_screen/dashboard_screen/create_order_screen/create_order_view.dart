@@ -30,6 +30,13 @@ class _CreateOrderViewState extends State<CreateOrderView> {
   final TextEditingController _orderSizeRollDeckleController = TextEditingController();
   final TextEditingController _orderSizeSheetDeckleController = TextEditingController();
   final TextEditingController _orderSizeSheetCuttingController = TextEditingController();
+  final TextEditingController _orderSizeBoxRSCLController = TextEditingController();
+  final TextEditingController _orderSizeBoxRSCBController = TextEditingController();
+  final TextEditingController _orderSizeBoxRSCHController = TextEditingController();
+  final TextEditingController _actualSheetSizeBoxRSCDeckleController = TextEditingController();
+  final TextEditingController _actualSheetSizeBoxRSCCuttingController = TextEditingController();
+  final TextEditingController _orderSizeBoxDiePunchDeckleController = TextEditingController();
+  final TextEditingController _orderSizeBoxDiePunchCuttingController = TextEditingController();
 
   final TextEditingController _specificationRollPaperController = TextEditingController();
   final TextEditingController _specificationRollFluteController = TextEditingController();
@@ -37,11 +44,25 @@ class _CreateOrderViewState extends State<CreateOrderView> {
   final TextEditingController _specificationSheetTopPaperController = TextEditingController();
   final TextEditingController _specificationSheetPaperController = TextEditingController();
   final TextEditingController _specificationSheetFluteController = TextEditingController();
+  final TextEditingController _specificationBoxRSCPlyController = TextEditingController(text: "3");
+  final TextEditingController _specificationBoxRSCTopPaperController = TextEditingController();
+  final TextEditingController _specificationBoxRSCPaperController = TextEditingController();
+  final TextEditingController _specificationBoxRSCFluteController = TextEditingController();
+  final TextEditingController _specificationBoxDiePunchPlyController = TextEditingController(text: "2");
+  final TextEditingController _specificationBoxDiePunchTopPaperController = TextEditingController();
+  final TextEditingController _specificationBoxDiePunchPaperController = TextEditingController();
+  final TextEditingController _specificationBoxDiePunchFluteController = TextEditingController();
+
   final TextEditingController _orderQuantityController = TextEditingController();
 
   final TextEditingController _productionSizeRollDeckleController = TextEditingController();
   final TextEditingController _productionSizeSheetDeckleController = TextEditingController();
   final TextEditingController _productionSizeSheetCuttingController = TextEditingController();
+  final TextEditingController _productionSheetSizeBoxRSCDeckleController = TextEditingController();
+  final TextEditingController _productionSheetSizeBoxRSCCuttingController = TextEditingController();
+  final TextEditingController _productionSheetSizeBoxDiePunchDeckleController = TextEditingController();
+  final TextEditingController _productionSheetSizeBoxDiePunchCuttingController = TextEditingController();
+
   final TextEditingController _productionQuantityController = TextEditingController();
 
   final List<String> paperAndFluteTypesForRollList = [
@@ -50,7 +71,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     "180 gsm",
   ];
 
-  final List<String> plyTypesForSheetList = [
+  final List<String> plyTypesForSheetAndBoxDiePunchList = [
     "2",
     "3",
     "5",
@@ -59,7 +80,15 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     "11",
   ];
 
-  final List<String> topPaperPaperAndFluteTypesForSheetList = [
+  final List<String> plyTypesForBoxRSCList = [
+    "3",
+    "5",
+    "7",
+    "9",
+    "11",
+  ];
+
+  final List<String> topPaperPaperAndFluteTypesForSheetAndBoxList = [
     "100 gsm",
     "150 gsm",
     "180 gsm",
@@ -68,6 +97,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     "Plastic",
   ];
 
+  ///Get Production Quantity
   void _getProductionQuantity(CreateOrderBloc createOrderBloc) {
     if (createOrderBloc.orderTypeIndex == 0) {
       _productionQuantityController.text = createOrderBloc.productionQuantityCalculatorForRoll(
@@ -86,6 +116,17 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         productionSizeCutting: _productionSizeSheetCuttingController.text,
       );
     }
+  }
+
+  ///Get Actual Sheet Size for Box RSC
+  void _getActualSheetSizeForBoxRSC(CreateOrderBloc createOrderBloc) {
+    createOrderBloc.actualSheetSizeCalculatorForBoxRSC(
+      actualSheetSizeBoxRSCDecalController: _actualSheetSizeBoxRSCDeckleController,
+      actualSheetSizeBoxRSCCuttingController: _actualSheetSizeBoxRSCCuttingController,
+      orderSizeL: _orderSizeBoxRSCLController.text,
+      orderSizeB: _orderSizeBoxRSCBController.text,
+      orderSizeH: _orderSizeBoxRSCHController.text,
+    );
   }
 
   @override
@@ -221,6 +262,34 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 ),
                                 SizedBox(height: 1.h),
 
+                                ///Box Type[RSC, Die Punch]
+                                if (createOrderBloc.orderTypeIndex == 2) ...[
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      S.current.boxType,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 1.3.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ///Roll
+                                      BoxTypeWidget(title: S.current.rsc, index: 0),
+                                      SizedBox(width: 2.w),
+
+                                      ///Sheet
+                                      BoxTypeWidget(title: S.current.diePunch, index: 1),
+                                    ],
+                                  ),
+                                  SizedBox(height: 1.h),
+                                ],
+
                                 ///Order size [Deckle x Cutting]
                                 Align(
                                   alignment: Alignment.centerLeft,
@@ -238,26 +307,36 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ///Deckle
+                                    ///Deckle Or L
                                     Flexible(
                                       child: TextFieldWidget(
-                                        controller: createOrderBloc.orderTypeIndex == 1 ? _orderSizeSheetDeckleController : _orderSizeRollDeckleController,
-                                        title: "${S.current.deckle} (${S.current.inch})",
-                                        hintText: S.current.enterDeckleSize,
+                                        controller: createOrderBloc.orderTypeIndex == 1
+                                            ? _orderSizeSheetDeckleController
+                                            : createOrderBloc.orderTypeIndex == 2
+                                                ? createOrderBloc.boxTypeIndex == 1
+                                                    ? _orderSizeBoxDiePunchDeckleController
+                                                    : _orderSizeBoxRSCLController
+                                                : _orderSizeRollDeckleController,
+                                        title: "${createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? S.current.l : S.current.deckle} (${S.current.inch})",
+                                        hintText: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? S.current.enterLSize : S.current.enterDeckleSize,
                                         validator: createOrderBloc.validateDeckleSize,
                                         textInputAction: TextInputAction.next,
                                         maxLength: 10,
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
                                           if (value.isNotEmpty) {
-                                            _getProductionQuantity(createOrderBloc);
+                                            if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) {
+                                              _getActualSheetSizeForBoxRSC(createOrderBloc);
+                                            } else if (createOrderBloc.orderTypeIndex != 2) {
+                                              _getProductionQuantity(createOrderBloc);
+                                            }
                                           }
                                         },
                                       ),
                                     ),
 
                                     ///Cross(x)
-                                    if (createOrderBloc.orderTypeIndex == 1) ...[
+                                    if (createOrderBloc.orderTypeIndex != 0) ...[
                                       SizedBox(width: 1.5.w),
                                       Padding(
                                         padding: EdgeInsets.only(top: 3.3.h),
@@ -278,24 +357,72 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                       SizedBox(width: 1.5.w),
                                     ],
 
-                                    ///Cutting
-                                    if (createOrderBloc.orderTypeIndex == 1)
+                                    ///Cutting or B
+                                    if (createOrderBloc.orderTypeIndex != 0)
                                       Flexible(
                                         child: TextFieldWidget(
-                                          controller: _orderSizeSheetCuttingController,
-                                          title: "${S.current.cutting} (${S.current.inch})",
-                                          hintText: S.current.enterCuttingSize,
+                                          controller: createOrderBloc.orderTypeIndex == 2
+                                              ? createOrderBloc.boxTypeIndex == 1
+                                                  ? _orderSizeBoxDiePunchCuttingController
+                                                  : _orderSizeBoxRSCBController
+                                              : _orderSizeSheetCuttingController,
+                                          title: "${createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? S.current.b : S.current.cutting} (${S.current.inch})",
+                                          hintText: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? S.current.enterBSize : S.current.enterCuttingSize,
                                           validator: createOrderBloc.validateCuttingSize,
                                           textInputAction: TextInputAction.next,
                                           maxLength: 10,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
                                             if (value.isNotEmpty) {
-                                              _getProductionQuantity(createOrderBloc);
+                                              if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) {
+                                                _getActualSheetSizeForBoxRSC(createOrderBloc);
+                                              } else if (createOrderBloc.orderTypeIndex != 2) {
+                                                _getProductionQuantity(createOrderBloc);
+                                              }
                                             }
                                           },
                                         ),
                                       ),
+
+                                    ///Cross(x) & H
+                                    if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) ...[
+                                      SizedBox(width: 1.5.w),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 3.3.h),
+                                        child: SizedBox(
+                                          height: 4.4.h,
+                                          child: Center(
+                                            child: Text(
+                                              'x',
+                                              style: TextStyle(
+                                                color: AppColors.PRIMARY_COLOR,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 18.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 1.5.w),
+
+                                      ///H
+                                      Flexible(
+                                        child: TextFieldWidget(
+                                          controller: _orderSizeBoxRSCHController,
+                                          title: "${S.current.h} (${S.current.inch})",
+                                          hintText: S.current.enterHSize,
+                                          validator: createOrderBloc.validateCuttingSize,
+                                          textInputAction: TextInputAction.next,
+                                          maxLength: 10,
+                                          keyboardType: TextInputType.number,
+                                          onChanged: (value) {
+                                            if (value.isNotEmpty) {
+                                              _getActualSheetSizeForBoxRSC(createOrderBloc);
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ],
                                 ),
                                 SizedBox(height: 1.h),
@@ -313,10 +440,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   ),
                                 ),
                                 SizedBox(height: 0.7.h),
-                                if (createOrderBloc.orderTypeIndex == 1) ...[
+                                if (createOrderBloc.orderTypeIndex != 0) ...[
                                   ///Ply
                                   TextFieldWidget(
-                                    controller: _specificationSheetPlyController,
+                                    controller: createOrderBloc.orderTypeIndex == 2
+                                        ? createOrderBloc.boxTypeIndex == 1
+                                            ? _specificationBoxDiePunchPlyController
+                                            : _specificationBoxRSCPlyController
+                                        : _specificationSheetPlyController,
                                     title: S.current.ply,
                                     hintText: S.current.selectPly,
                                     validator: createOrderBloc.validatePly,
@@ -332,11 +463,25 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     onTap: () async {
                                       await showBottomSheetSpecificationType(
                                         context: context,
-                                        typeList: plyTypesForSheetList,
-                                        selectedType: _specificationSheetPlyController.text,
+                                        typeList: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? plyTypesForBoxRSCList : plyTypesForSheetAndBoxDiePunchList,
+                                        selectedType: createOrderBloc.orderTypeIndex == 2
+                                            ? createOrderBloc.boxTypeIndex == 1
+                                                ? _specificationBoxDiePunchPlyController.text
+                                                : _specificationBoxRSCPlyController.text
+                                            : _specificationSheetPlyController.text,
                                         onPressed: (index, typeName) {
-                                          _specificationSheetPlyController.text = plyTypesForSheetList[index];
-                                          createOrderBloc.add(CreateOrderPlyTypeEvent(plyTypeIndex: index));
+                                          if (createOrderBloc.orderTypeIndex == 2) {
+                                            if (createOrderBloc.boxTypeIndex == 1) {
+                                              _specificationBoxDiePunchPlyController.text = plyTypesForSheetAndBoxDiePunchList[index];
+                                              createOrderBloc.add(CreateOrderPlyBoxDiePunchTypeEvent(plyBoxDiePunchTypeIndex: index));
+                                            } else {
+                                              _specificationBoxRSCPlyController.text = plyTypesForBoxRSCList[index];
+                                              createOrderBloc.add(CreateOrderPlyBoxRSCTypeEvent(plyBoxRSCTypeIndex: index));
+                                            }
+                                          } else {
+                                            _specificationSheetPlyController.text = plyTypesForSheetAndBoxDiePunchList[index];
+                                            createOrderBloc.add(CreateOrderPlySheetTypeEvent(plySheetTypeIndex: index));
+                                          }
                                         },
                                       );
                                     },
@@ -347,10 +492,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ///Top Paper
-                                    if (createOrderBloc.orderTypeIndex == 1 && createOrderBloc.plyTypeIndex != 0) ...[
+                                    if (createOrderBloc.orderTypeIndex != 0 && (createOrderBloc.plySheetTypeIndex != 0 || createOrderBloc.boxTypeIndex == 0 || createOrderBloc.plyBoxDiePunchTypeIndex != 0)) ...[
                                       Flexible(
                                         child: TextFieldWidget(
-                                          controller: _specificationSheetTopPaperController,
+                                          controller: createOrderBloc.orderTypeIndex == 2
+                                              ? createOrderBloc.boxTypeIndex == 1
+                                                  ? _specificationBoxDiePunchTopPaperController
+                                                  : _specificationBoxRSCTopPaperController
+                                              : _specificationSheetTopPaperController,
                                           title: S.current.topPaper,
                                           hintText: S.current.selectType,
                                           validator: createOrderBloc.validateSpecificationType,
@@ -366,11 +515,23 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           onTap: () async {
                                             await showBottomSheetSpecificationType(
                                               context: context,
-                                              typeList: topPaperPaperAndFluteTypesForSheetList,
-                                              selectedType: _specificationSheetTopPaperController.text,
-                                              manualAddTypeEnable: createOrderBloc.orderTypeIndex == 1,
+                                              typeList: topPaperPaperAndFluteTypesForSheetAndBoxList,
+                                              selectedType: createOrderBloc.orderTypeIndex == 2
+                                                  ? createOrderBloc.boxTypeIndex == 1
+                                                      ? _specificationBoxDiePunchTopPaperController.text
+                                                      : _specificationBoxRSCTopPaperController.text
+                                                  : _specificationSheetTopPaperController.text,
+                                              manualAddTypeEnable: createOrderBloc.orderTypeIndex != 0,
                                               onPressed: (index, typeName) {
-                                                _specificationSheetTopPaperController.text = typeName;
+                                                if (createOrderBloc.orderTypeIndex == 2) {
+                                                  if (createOrderBloc.boxTypeIndex == 1) {
+                                                    _specificationBoxDiePunchTopPaperController.text = typeName;
+                                                  } else {
+                                                    _specificationBoxRSCTopPaperController.text = typeName;
+                                                  }
+                                                } else {
+                                                  _specificationSheetTopPaperController.text = typeName;
+                                                }
                                               },
                                             );
                                           },
@@ -382,7 +543,13 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     ///Paper
                                     Flexible(
                                       child: TextFieldWidget(
-                                        controller: createOrderBloc.orderTypeIndex == 1 ? _specificationSheetPaperController : _specificationRollPaperController,
+                                        controller: createOrderBloc.orderTypeIndex == 2
+                                            ? createOrderBloc.boxTypeIndex == 1
+                                                ? _specificationBoxDiePunchPaperController
+                                                : _specificationBoxRSCPaperController
+                                            : createOrderBloc.orderTypeIndex == 1
+                                                ? _specificationSheetPaperController
+                                                : _specificationRollPaperController,
                                         title: S.current.paper,
                                         hintText: S.current.selectType,
                                         validator: createOrderBloc.validateSpecificationType,
@@ -398,11 +565,23 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                         onTap: () async {
                                           await showBottomSheetSpecificationType(
                                             context: context,
-                                            typeList: createOrderBloc.orderTypeIndex == 1 ? topPaperPaperAndFluteTypesForSheetList : paperAndFluteTypesForRollList,
-                                            selectedType: createOrderBloc.orderTypeIndex == 1 ? _specificationSheetPaperController.text : _specificationRollPaperController.text,
-                                            manualAddTypeEnable: createOrderBloc.orderTypeIndex == 1,
+                                            typeList: createOrderBloc.orderTypeIndex != 0 ? topPaperPaperAndFluteTypesForSheetAndBoxList : paperAndFluteTypesForRollList,
+                                            selectedType: createOrderBloc.orderTypeIndex == 2
+                                                ? createOrderBloc.boxTypeIndex == 1
+                                                    ? _specificationBoxDiePunchPaperController.text
+                                                    : _specificationBoxRSCPaperController.text
+                                                : createOrderBloc.orderTypeIndex == 1
+                                                    ? _specificationSheetPaperController.text
+                                                    : _specificationRollPaperController.text,
+                                            manualAddTypeEnable: createOrderBloc.orderTypeIndex != 0,
                                             onPressed: (index, typeName) {
-                                              if (createOrderBloc.orderTypeIndex == 1) {
+                                              if (createOrderBloc.orderTypeIndex == 2) {
+                                                if (createOrderBloc.boxTypeIndex == 1) {
+                                                  _specificationBoxDiePunchPaperController.text = typeName;
+                                                } else {
+                                                  _specificationBoxRSCPaperController.text = typeName;
+                                                }
+                                              } else if (createOrderBloc.orderTypeIndex == 1) {
                                                 _specificationSheetPaperController.text = typeName;
                                               } else {
                                                 _specificationRollPaperController.text = typeName;
@@ -417,7 +596,13 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     ///Flute
                                     Flexible(
                                       child: TextFieldWidget(
-                                        controller: createOrderBloc.orderTypeIndex == 1 ? _specificationSheetFluteController : _specificationRollFluteController,
+                                        controller: createOrderBloc.orderTypeIndex == 2
+                                            ? createOrderBloc.boxTypeIndex == 1
+                                                ? _specificationBoxDiePunchFluteController
+                                                : _specificationBoxRSCFluteController
+                                            : createOrderBloc.orderTypeIndex == 1
+                                                ? _specificationSheetFluteController
+                                                : _specificationRollFluteController,
                                         title: S.current.flute,
                                         hintText: S.current.selectType,
                                         validator: createOrderBloc.validateSpecificationType,
@@ -433,11 +618,23 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                         onTap: () async {
                                           await showBottomSheetSpecificationType(
                                             context: context,
-                                            typeList: createOrderBloc.orderTypeIndex == 1 ? topPaperPaperAndFluteTypesForSheetList : paperAndFluteTypesForRollList,
-                                            selectedType: createOrderBloc.orderTypeIndex == 1 ? _specificationSheetFluteController.text : _specificationRollPaperController.text,
-                                            manualAddTypeEnable: createOrderBloc.orderTypeIndex == 1,
+                                            typeList: createOrderBloc.orderTypeIndex != 0 ? topPaperPaperAndFluteTypesForSheetAndBoxList : paperAndFluteTypesForRollList,
+                                            selectedType: createOrderBloc.orderTypeIndex == 2
+                                                ? createOrderBloc.boxTypeIndex == 1
+                                                    ? _specificationBoxDiePunchFluteController.text
+                                                    : _specificationBoxRSCFluteController.text
+                                                : createOrderBloc.orderTypeIndex == 1
+                                                    ? _specificationSheetFluteController.text
+                                                    : _specificationRollPaperController.text,
+                                            manualAddTypeEnable: createOrderBloc.orderTypeIndex != 0,
                                             onPressed: (index, typeName) {
-                                              if (createOrderBloc.orderTypeIndex == 1) {
+                                              if (createOrderBloc.orderTypeIndex == 2) {
+                                                if (createOrderBloc.boxTypeIndex == 1) {
+                                                  _specificationBoxDiePunchFluteController.text = typeName;
+                                                } else {
+                                                  _specificationBoxRSCFluteController.text = typeName;
+                                                }
+                                              } else if (createOrderBloc.orderTypeIndex == 1) {
                                                 _specificationSheetFluteController.text = typeName;
                                               } else {
                                                 _specificationRollFluteController.text = typeName;
@@ -851,47 +1048,52 @@ class _CreateOrderViewState extends State<CreateOrderView> {
       buildWhen: (previous, current) => current is CreateOrderTypeState,
       builder: (context, state) {
         final createOrderBloc = context.read<CreateOrderBloc>();
-        return GestureDetector(
+        return InkWell(
           onTap: () {
             _createOrderFormKey.currentState?.reset();
             createOrderBloc.add(CreateOrderTypeEvent(orderTypeIndex: index));
             if (index == 1) {
-              createOrderBloc.add(CreateOrderPlyTypeEvent(plyTypeIndex: plyTypesForSheetList.indexOf(_specificationSheetPlyController.text)));
+              createOrderBloc.add(CreateOrderPlySheetTypeEvent(plySheetTypeIndex: plyTypesForSheetAndBoxDiePunchList.indexOf(_specificationSheetPlyController.text)));
+            } else if (index == 2) {
+              createOrderBloc.add(CreateOrderBoxTypeEvent(boxTypeIndex: createOrderBloc.boxTypeIndex));
             }
           },
-          child: Row(
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                padding: EdgeInsets.all(0.5.w),
-                decoration: BoxDecoration(
-                  color: createOrderBloc.orderTypeIndex == index ? AppColors.PRIMARY_COLOR : AppColors.SECONDARY_COLOR,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: AppColors.PRIMARY_COLOR,
-                    width: 1,
-                  ),
-                ),
-                child: AnimatedOpacity(
-                  opacity: createOrderBloc.orderTypeIndex == index ? 1 : 0,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 15.w, minHeight: 2.5.h),
+            child: Row(
+              children: [
+                AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  child: Icon(
-                    FontAwesomeIcons.check,
-                    color: AppColors.SECONDARY_COLOR,
-                    size: 4.w,
+                  padding: EdgeInsets.all(0.5.w),
+                  decoration: BoxDecoration(
+                    color: createOrderBloc.orderTypeIndex == index ? AppColors.PRIMARY_COLOR : AppColors.SECONDARY_COLOR,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: AppColors.PRIMARY_COLOR,
+                      width: 1,
+                    ),
+                  ),
+                  child: AnimatedOpacity(
+                    opacity: createOrderBloc.orderTypeIndex == index ? 1 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Icon(
+                      FontAwesomeIcons.check,
+                      color: AppColors.SECONDARY_COLOR,
+                      size: 4.w,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(width: 2.w),
-              Text(
-                title,
-                style: TextStyle(
-                  color: AppColors.PRIMARY_COLOR,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
+                SizedBox(width: 2.w),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -907,47 +1109,51 @@ class _CreateOrderViewState extends State<CreateOrderView> {
       buildWhen: (previous, current) => current is CreateOrderTypeState,
       builder: (context, state) {
         final createOrderBloc = context.read<CreateOrderBloc>();
-        return GestureDetector(
+        return InkWell(
           onTap: () {
-            _createOrderFormKey.currentState?.reset();
-            createOrderBloc.add(CreateOrderTypeEvent(orderTypeIndex: index));
+            createOrderBloc.add(CreateOrderBoxTypeEvent(boxTypeIndex: index));
             if (index == 1) {
-              createOrderBloc.add(CreateOrderPlyTypeEvent(plyTypeIndex: plyTypesForSheetList.indexOf(_specificationSheetPlyController.text)));
-            } else if (index == 2) {}
+              createOrderBloc.add(CreateOrderPlyBoxDiePunchTypeEvent(plyBoxDiePunchTypeIndex: plyTypesForSheetAndBoxDiePunchList.indexOf(_specificationBoxDiePunchPlyController.text)));
+            } else {
+              createOrderBloc.add(CreateOrderPlyBoxRSCTypeEvent(plyBoxRSCTypeIndex: plyTypesForBoxRSCList.indexOf(_specificationBoxRSCPlyController.text)));
+            }
           },
-          child: Row(
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                padding: EdgeInsets.all(0.5.w),
-                decoration: BoxDecoration(
-                  color: state is CreateOrderTypeState && index == state.orderTypeIndex ? AppColors.PRIMARY_COLOR : AppColors.SECONDARY_COLOR,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: AppColors.PRIMARY_COLOR,
-                    width: 1,
-                  ),
-                ),
-                child: AnimatedOpacity(
-                  opacity: state is CreateOrderTypeState && index == state.orderTypeIndex ? 1 : 0,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 15.w, minHeight: 2.5.h),
+            child: Row(
+              children: [
+                AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  child: Icon(
-                    FontAwesomeIcons.check,
-                    color: AppColors.SECONDARY_COLOR,
-                    size: 4.w,
+                  padding: EdgeInsets.all(0.5.w),
+                  decoration: BoxDecoration(
+                    color: createOrderBloc.boxTypeIndex == index ? AppColors.PRIMARY_COLOR : AppColors.SECONDARY_COLOR,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: AppColors.PRIMARY_COLOR,
+                      width: 1,
+                    ),
+                  ),
+                  child: AnimatedOpacity(
+                    opacity: createOrderBloc.boxTypeIndex == index ? 1 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Icon(
+                      FontAwesomeIcons.check,
+                      color: AppColors.SECONDARY_COLOR,
+                      size: 4.w,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(width: 2.w),
-              Text(
-                title,
-                style: TextStyle(
-                  color: AppColors.PRIMARY_COLOR,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
+                SizedBox(width: 2.w),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

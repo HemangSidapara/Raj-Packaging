@@ -18,13 +18,13 @@ class CreateOrderTypeEvent extends CreateOrderEvent {
   List<Object?> get props => [orderTypeIndex];
 }
 
-class CreateOrderPlyTypeEvent extends CreateOrderEvent {
-  final int plyTypeIndex;
+class CreateOrderPlySheetTypeEvent extends CreateOrderEvent {
+  final int plySheetTypeIndex;
 
-  const CreateOrderPlyTypeEvent({this.plyTypeIndex = 0});
+  const CreateOrderPlySheetTypeEvent({this.plySheetTypeIndex = 0});
 
   @override
-  List<Object?> get props => [plyTypeIndex];
+  List<Object?> get props => [plySheetTypeIndex];
 }
 
 class CreateOrderBoxTypeEvent extends CreateOrderEvent {
@@ -34,4 +34,22 @@ class CreateOrderBoxTypeEvent extends CreateOrderEvent {
 
   @override
   List<Object?> get props => [boxTypeIndex];
+}
+
+class CreateOrderPlyBoxRSCTypeEvent extends CreateOrderEvent {
+  final int plyBoxRSCTypeIndex;
+
+  const CreateOrderPlyBoxRSCTypeEvent({this.plyBoxRSCTypeIndex = 0});
+
+  @override
+  List<Object?> get props => [plyBoxRSCTypeIndex];
+}
+
+class CreateOrderPlyBoxDiePunchTypeEvent extends CreateOrderEvent {
+  final int plyBoxDiePunchTypeIndex;
+
+  const CreateOrderPlyBoxDiePunchTypeEvent({this.plyBoxDiePunchTypeIndex = 0});
+
+  @override
+  List<Object?> get props => [plyBoxDiePunchTypeIndex];
 }

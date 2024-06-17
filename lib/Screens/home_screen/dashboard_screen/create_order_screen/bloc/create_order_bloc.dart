@@ -9,8 +9,10 @@ part 'create_order_state.dart';
 
 class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   int orderTypeIndex = 0;
-  int plyTypeIndex = 0;
+  int plySheetTypeIndex = 0;
   int boxTypeIndex = 0;
+  int plyBoxRSCTypeIndex = 0;
+  int plyBoxDiePunchTypeIndex = 0;
 
   CreateOrderBloc() : super(CreateOrderInitial()) {
     on<CreateOrderStartedEvent>((event, emit) {});
@@ -20,14 +22,24 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
       emit(CreateOrderTypeState(orderTypeIndex: event.orderTypeIndex));
     });
 
-    on<CreateOrderPlyTypeEvent>((event, emit) {
-      plyTypeIndex = event.plyTypeIndex;
-      emit(CreateOrderPlyTypeState(plyTypeIndex: event.plyTypeIndex));
+    on<CreateOrderPlySheetTypeEvent>((event, emit) {
+      plySheetTypeIndex = event.plySheetTypeIndex;
+      emit(CreateOrderPlySheetTypeState(plySheetTypeIndex: event.plySheetTypeIndex));
     });
 
     on<CreateOrderBoxTypeEvent>((event, emit) {
       boxTypeIndex = event.boxTypeIndex;
       emit(CreateOrderBoxTypeState(boxTypeIndex: event.boxTypeIndex));
+    });
+
+    on<CreateOrderPlyBoxRSCTypeEvent>((event, emit) {
+      plyBoxRSCTypeIndex = event.plyBoxRSCTypeIndex;
+      emit(CreateOrderPlyBoxRSCTypeState(plyBoxRSCTypeIndex: event.plyBoxRSCTypeIndex));
+    });
+
+    on<CreateOrderPlyBoxDiePunchTypeEvent>((event, emit) {
+      plyBoxDiePunchTypeIndex = event.plyBoxDiePunchTypeIndex;
+      emit(CreateOrderPlyBoxDiePunchTypeState(plyBoxDiePunchTypeIndex: event.plyBoxDiePunchTypeIndex));
     });
   }
 
@@ -143,5 +155,21 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     }
 
     return productionQuantityController.text;
+  }
+
+  (String deckle, String cutting) actualSheetSizeCalculatorForBoxRSC({
+    required TextEditingController actualSheetSizeBoxRSCDecalController,
+    required TextEditingController actualSheetSizeBoxRSCCuttingController,
+    required String orderSizeL,
+    required String orderSizeB,
+    required String orderSizeH,
+  }) {
+    if (orderSizeL.isNotEmpty && orderSizeB.isNotEmpty && orderSizeH.isNotEmpty) {
+      actualSheetSizeBoxRSCDecalController.text = (orderSizeB.toDouble() + orderSizeB.toDouble()).toStringAsFixed(2);
+      actualSheetSizeBoxRSCCuttingController.text = (((orderSizeL.toDouble() + orderSizeB.toDouble()) * 2) + 1.5).toStringAsFixed(2);
+      return (actualSheetSizeBoxRSCDecalController.text, actualSheetSizeBoxRSCCuttingController.text);
+    }
+
+    return ("", "");
   }
 }

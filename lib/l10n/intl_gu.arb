@@ -125,5 +125,17 @@
   "topPaper": "ટોપ પેપર",
   "sheets": "સીટ્સ",
   "enterType": "પ્રકાર દાખલ કરો",
-  "pleaseEnterType": "કૃપા કરીને પ્રકાર દાખલ કરો"
+  "pleaseEnterType": "કૃપા કરીને પ્રકાર દાખલ કરો",
+  "boxType": "બોક્સ નો પ્રકાર :",
+  "rsc": "RSC",
+  "diePunch": "ડાઇ પંચ",
+  "l": "L",
+  "b": "b",
+  "h": "h",
+  "enterLSize": "L સાઈઝ દાખલ કરો",
+  "enterBSize": "B સાઈઝ દાખલ કરો",
+  "enterHSize": "H સાઈઝ દાખલ કરો",
+  "pleaseEnterLSize": "કૃપા કરીને L સાઈઝ દાખલ કરો",
+  "pleaseEnterBSize": "કૃપા કરીને B સાઈઝ દાખલ કરો",
+  "pleaseEnterHSize": "કૃપા કરીને H સાઈઝ દાખલ કરો"
 }

@@ -18,13 +18,13 @@ class CreateOrderTypeState extends CreateOrderState {
   List<Object?> get props => [orderTypeIndex];
 }
 
-class CreateOrderPlyTypeState extends CreateOrderState {
-  final int plyTypeIndex;
+class CreateOrderPlySheetTypeState extends CreateOrderState {
+  final int plySheetTypeIndex;
 
-  const CreateOrderPlyTypeState({this.plyTypeIndex = 0});
+  const CreateOrderPlySheetTypeState({this.plySheetTypeIndex = 0});
 
   @override
-  List<Object?> get props => [plyTypeIndex];
+  List<Object?> get props => [plySheetTypeIndex];
 }
 
 class CreateOrderBoxTypeState extends CreateOrderState {
@@ -34,4 +34,22 @@ class CreateOrderBoxTypeState extends CreateOrderState {
 
   @override
   List<Object?> get props => [boxTypeIndex];
+}
+
+class CreateOrderPlyBoxRSCTypeState extends CreateOrderState {
+  final int plyBoxRSCTypeIndex;
+
+  const CreateOrderPlyBoxRSCTypeState({this.plyBoxRSCTypeIndex = 0});
+
+  @override
+  List<Object?> get props => [plyBoxRSCTypeIndex];
+}
+
+class CreateOrderPlyBoxDiePunchTypeState extends CreateOrderState {
+  final int plyBoxDiePunchTypeIndex;
+
+  const CreateOrderPlyBoxDiePunchTypeState({this.plyBoxDiePunchTypeIndex = 0});
+
+  @override
+  List<Object?> get props => [plyBoxDiePunchTypeIndex];
 }
