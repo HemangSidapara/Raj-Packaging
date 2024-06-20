@@ -9,6 +9,49 @@ final class CreateOrderInitial extends CreateOrderState {
   List<Object> get props => [];
 }
 
+class CreateOrderGetPartiesLoadingState extends CreateOrderState {
+  final bool isLoading;
+
+  const CreateOrderGetPartiesLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class CreateOrderGetPartiesSuccessState extends CreateOrderState {
+  final List<get_orders.Data> partyList;
+  final String? successMessage;
+
+  const CreateOrderGetPartiesSuccessState({required this.partyList, required this.successMessage});
+
+  @override
+  List<Object?> get props => [partyList, successMessage];
+}
+
+class CreateOrderGetPartiesFailedState extends CreateOrderState {
+  @override
+  List<Object?> get props => [];
+}
+
+class CreateOrderSelectedPartyState extends CreateOrderState {
+  final List<get_orders.ProductData> productList;
+  final String? partyId;
+
+  const CreateOrderSelectedPartyState({required this.productList, required this.partyId});
+
+  @override
+  List<Object?> get props => [productList, partyId];
+}
+
+class CreateOrderSelectedProductState extends CreateOrderState {
+  final String? productId;
+
+  const CreateOrderSelectedProductState({required this.productId});
+
+  @override
+  List<Object?> get props => [productId];
+}
+
 class CreateOrderTypeState extends CreateOrderState {
   final int orderTypeIndex;
 

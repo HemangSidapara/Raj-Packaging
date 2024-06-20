@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
             datePickerTheme: DatePickerThemeData(headerBackgroundColor: AppColors.SECONDARY_COLOR),
             useMaterial3: true,
             textSelectionTheme: TextSelectionThemeData(
-              selectionHandleColor: AppColors.PRIMARY_COLOR,
+              selectionHandleColor: AppColors.DARK_GREEN_COLOR,
             ),
           ),
           locale: Locale(

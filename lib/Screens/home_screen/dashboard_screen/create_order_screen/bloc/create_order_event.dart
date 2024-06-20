@@ -9,6 +9,53 @@ class CreateOrderStartedEvent extends CreateOrderEvent {
   List<Object?> get props => [];
 }
 
+class CreateOrderGetPartiesEvent extends CreateOrderEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class CreateOrderGetPartiesLoadingEvent extends CreateOrderEvent {
+  final bool isLoading;
+
+  const CreateOrderGetPartiesLoadingEvent({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class CreateOrderGetPartiesSuccessEvent extends CreateOrderEvent {
+  final List<get_orders.Data> partyList;
+  final String? successMessage;
+
+  const CreateOrderGetPartiesSuccessEvent({required this.partyList, this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class CreateOrderGetPartiesFailedEvent extends CreateOrderEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class CreateOrderSelectedPartyEvent extends CreateOrderEvent {
+  final String? partyId;
+
+  const CreateOrderSelectedPartyEvent({required this.partyId});
+
+  @override
+  List<Object?> get props => [partyId];
+}
+
+class CreateOrderSelectedProductEvent extends CreateOrderEvent {
+  final String? productId;
+
+  const CreateOrderSelectedProductEvent({required this.productId});
+
+  @override
+  List<Object?> get props => [productId];
+}
+
 class CreateOrderTypeEvent extends CreateOrderEvent {
   final int orderTypeIndex;
 

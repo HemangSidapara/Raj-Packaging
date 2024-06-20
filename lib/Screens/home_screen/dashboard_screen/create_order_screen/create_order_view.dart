@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
@@ -9,6 +11,7 @@ import 'package:raj_packaging/Constants/app_utils.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/create_order_screen/bloc/create_order_bloc.dart';
 import 'package:raj_packaging/Widgets/button_widget.dart';
 import 'package:raj_packaging/Widgets/custom_header_widget.dart';
+import 'package:raj_packaging/Widgets/loading_widget.dart';
 import 'package:raj_packaging/Widgets/textfield_widget.dart';
 import 'package:raj_packaging/generated/l10n.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -147,6 +150,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
       child: GestureDetector(
         onTap: () => Utils.unfocus(),
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Padding(
             padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
             child: Column(
@@ -194,6 +198,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   onTap: () async {
                                     await showBottomSheetParty(context: context);
                                     createOrderBloc.partyName = _partyNameController.text.trim();
+                                    createOrderBloc.add(CreateOrderSelectedPartyEvent(partyId: createOrderBloc.selectedPartyId));
                                   },
                                 ),
                                 SizedBox(height: 1.h),
@@ -969,6 +974,12 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     GlobalKey<FormState> addPartyFormKey = GlobalKey<FormState>();
     TextEditingController addPartyController = TextEditingController();
 
+    String? selectedPartyId = createOrderBloc.selectedPartyId;
+
+    if (selectedPartyId == null) {
+      addPartyController.text = createOrderBloc.partyName;
+    }
+
     await showModalBottomSheet(
       context: context,
       constraints: BoxConstraints(maxWidth: 100.w, minWidth: 100.w, maxHeight: 90.h, minHeight: 0.h),
@@ -991,96 +1002,240 @@ class _CreateOrderViewState extends State<CreateOrderView> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h).copyWith(bottom: keyboardPadding),
+              padding: EdgeInsets.symmetric(vertical: 1.h),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ///Back & Title
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        S.current.selectParty,
-                        style: TextStyle(
-                          color: AppColors.SECONDARY_COLOR,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18.sp,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        style: IconButton.styleFrom(
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        icon: Icon(
-                          Icons.close_rounded,
-                          color: AppColors.SECONDARY_COLOR,
-                          size: 6.w,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    color: AppColors.HINT_GREY_COLOR,
-                    thickness: 1,
-                  ),
-                  // SizedBox(height: 2.h),
-
-                  ///Add party
-                  Form(
-                    key: addPartyFormKey,
+                  ///Back, Title & Select
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
-                          child: TextFieldWidget(
-                            controller: addPartyController,
-                            title: S.current.add,
-                            hintText: S.current.enterPartyName,
-                            validator: createOrderBloc.validatePartyName,
-                            primaryColor: AppColors.SECONDARY_COLOR,
-                            secondaryColor: AppColors.PRIMARY_COLOR,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              bottomLeft: Radius.circular(8),
-                            ),
+                        IconButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: IconButton.styleFrom(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: AppColors.SECONDARY_COLOR,
+                            size: 6.w,
                           ),
                         ),
-                        SizedBox(width: 2.w),
-                        Padding(
-                          padding: EdgeInsets.only(top: 3.h),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (addPartyFormKey.currentState?.validate() == true) {
-                                _partyNameController.text = addPartyController.text;
-                                context.pop();
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.SECONDARY_COLOR,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(8),
-                                  bottomRight: Radius.circular(8),
-                                ),
-                              ),
-                              padding: EdgeInsets.zero,
-                              maximumSize: Size(12.w, 4.4.h),
-                              minimumSize: Size(12.w, 4.4.h),
-                            ),
-                            child: Icon(
-                              Icons.add_rounded,
-                              size: 5.w,
-                              color: AppColors.WHITE_COLOR,
+                        Text(
+                          S.current.selectParty,
+                          style: TextStyle(
+                            color: AppColors.SECONDARY_COLOR,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            final party = createOrderBloc.partyList.firstWhereOrNull((e) => e.partyId == selectedPartyId);
+                            _partyNameController.text = party?.partyName ?? "";
+                            _phoneNumberController.text = party?.partyPhone ?? "";
+                            createOrderBloc.add(CreateOrderSelectedPartyEvent(partyId: selectedPartyId));
+                            context.pop();
+                          },
+                          style: IconButton.styleFrom(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: Text(
+                            S.current.select,
+                            style: TextStyle(
+                              color: AppColors.DARK_GREEN_COLOR,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Divider(
+                      color: AppColors.HINT_GREY_COLOR,
+                      thickness: 1,
+                    ),
+                  ),
+
+                  ///Add party
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w).copyWith(bottom: keyboardPadding != 0 ? 22.h : 0),
+                    child: Form(
+                      key: addPartyFormKey,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: TextFieldWidget(
+                              controller: addPartyController,
+                              title: S.current.add,
+                              hintText: S.current.enterPartyName,
+                              validator: createOrderBloc.validatePartyName,
+                              primaryColor: AppColors.SECONDARY_COLOR,
+                              secondaryColor: AppColors.PRIMARY_COLOR,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                bottomLeft: Radius.circular(8),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 2.w),
+                          Padding(
+                            padding: EdgeInsets.only(top: 3.h),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (addPartyFormKey.currentState?.validate() == true) {
+                                  _partyNameController.text = addPartyController.text;
+                                  _phoneNumberController.clear();
+                                  createOrderBloc.add(const CreateOrderSelectedPartyEvent(partyId: null));
+                                  context.pop();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.SECONDARY_COLOR,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(8),
+                                    bottomRight: Radius.circular(8),
+                                  ),
+                                ),
+                                padding: EdgeInsets.zero,
+                                maximumSize: Size(12.w, 4.4.h),
+                                minimumSize: Size(12.w, 4.4.h),
+                              ),
+                              child: Icon(
+                                Icons.add_rounded,
+                                size: 5.w,
+                                color: AppColors.WHITE_COLOR,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+
+                  ///Parties
+                  if (createOrderBloc.state is CreateOrderGetPartiesLoadingState && (createOrderBloc.state as CreateOrderGetPartiesLoadingState).isLoading)
+                    SizedBox(
+                      height: 20.h,
+                      child: const Center(
+                        child: LoadingWidget(),
+                      ),
+                    )
+                  else if (createOrderBloc.partyList.isEmpty)
+                    SizedBox(
+                      height: 20.h,
+                      child: Center(
+                        child: Text(
+                          S.current.noDataFound,
+                          style: TextStyle(
+                            color: AppColors.BLACK_COLOR,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    Flexible(
+                      child: StatefulBuilder(builder: (context, partyState) {
+                        return AnimationLimiter(
+                          child: ListView.separated(
+                            itemCount: createOrderBloc.partyList.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                            itemBuilder: (context, index) {
+                              final party = createOrderBloc.partyList[index];
+                              return AnimationConfiguration.staggeredList(
+                                position: index,
+                                duration: const Duration(milliseconds: 400),
+                                child: SlideAnimation(
+                                  verticalOffset: 50.0,
+                                  child: FadeInAnimation(
+                                    child: InkWell(
+                                      onTap: () {
+                                        partyState(() {
+                                          selectedPartyId = party.partyId;
+                                        });
+                                      },
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.WHITE_COLOR,
+                                          borderRadius: BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: AppColors.GREY_COLOR.withOpacity(0.2),
+                                              blurRadius: 25,
+                                              offset: const Offset(-10, 5),
+                                              spreadRadius: 3,
+                                            )
+                                          ],
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h).copyWith(left: 4.w),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                  party.partyName ?? "",
+                                                  style: TextStyle(
+                                                    color: AppColors.BLACK_COLOR,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16.sp,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 2.w),
+                                              AnimatedContainer(
+                                                duration: const Duration(milliseconds: 300),
+                                                decoration: BoxDecoration(
+                                                  color: selectedPartyId == party.partyId ? AppColors.DARK_GREEN_COLOR : AppColors.WHITE_COLOR,
+                                                  border: Border.all(
+                                                    color: selectedPartyId == party.partyId ? AppColors.DARK_GREEN_COLOR : AppColors.GREY_COLOR,
+                                                    width: 1,
+                                                  ),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                padding: EdgeInsets.all(1.w),
+                                                child: AnimatedOpacity(
+                                                  opacity: selectedPartyId == party.partyId ? 1 : 0,
+                                                  duration: const Duration(milliseconds: 300),
+                                                  child: Icon(
+                                                    Icons.check_rounded,
+                                                    color: AppColors.WHITE_COLOR,
+                                                    size: 3.w,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(height: 1.5.h);
+                            },
+                          ),
+                        );
+                      }),
+                    ),
+
                   SizedBox(height: 2.h),
                 ],
               ),
@@ -1098,6 +1253,12 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     GlobalKey<FormState> addProductFormKey = GlobalKey<FormState>();
     TextEditingController addProductController = TextEditingController();
 
+    String? selectedProductId = createOrderBloc.selectedProductId;
+
+    if (selectedProductId == null) {
+      addProductController.text = createOrderBloc.productName;
+    }
+
     await showModalBottomSheet(
       context: context,
       constraints: BoxConstraints(maxWidth: 100.w, minWidth: 100.w, maxHeight: 90.h, minHeight: 0.h),
@@ -1120,96 +1281,250 @@ class _CreateOrderViewState extends State<CreateOrderView> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h).copyWith(bottom: keyboardPadding),
+              padding: EdgeInsets.symmetric(vertical: 1.h),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ///Back & Title
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        S.current.selectProduct,
-                        style: TextStyle(
-                          color: AppColors.SECONDARY_COLOR,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18.sp,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        style: IconButton.styleFrom(
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        icon: Icon(
-                          Icons.close_rounded,
-                          color: AppColors.SECONDARY_COLOR,
-                          size: 6.w,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    color: AppColors.HINT_GREY_COLOR,
-                    thickness: 1,
-                  ),
-                  // SizedBox(height: 2.h),
-
-                  ///Add product
-                  Form(
-                    key: addProductFormKey,
+                  ///Back, Title & Select
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
-                          child: TextFieldWidget(
-                            controller: addProductController,
-                            title: S.current.add,
-                            hintText: S.current.enterProductName,
-                            validator: createOrderBloc.validateProductName,
-                            primaryColor: AppColors.SECONDARY_COLOR,
-                            secondaryColor: AppColors.PRIMARY_COLOR,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              bottomLeft: Radius.circular(8),
-                            ),
+                        IconButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: IconButton.styleFrom(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: AppColors.SECONDARY_COLOR,
+                            size: 6.w,
                           ),
                         ),
-                        SizedBox(width: 2.w),
-                        Padding(
-                          padding: EdgeInsets.only(top: 3.h),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (addProductFormKey.currentState?.validate() == true) {
-                                _productNameController.text = addProductController.text;
-                                context.pop();
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.SECONDARY_COLOR,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(8),
-                                  bottomRight: Radius.circular(8),
-                                ),
-                              ),
-                              padding: EdgeInsets.zero,
-                              maximumSize: Size(12.w, 4.4.h),
-                              minimumSize: Size(12.w, 4.4.h),
-                            ),
-                            child: Icon(
-                              Icons.add_rounded,
-                              size: 5.w,
-                              color: AppColors.WHITE_COLOR,
+                        Text(
+                          S.current.selectProduct,
+                          style: TextStyle(
+                            color: AppColors.SECONDARY_COLOR,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            final product = createOrderBloc.productList.firstWhereOrNull((e) => e.productId == selectedProductId);
+                            _productNameController.text = product?.productName ?? "";
+                            createOrderBloc.add(CreateOrderSelectedProductEvent(productId: selectedProductId));
+                            createOrderBloc.add(CreateOrderTypeEvent(orderTypeIndex: product?.orderType != null ? orderTypeList.indexOf(product!.orderType!) : 0));
+                            _orderSizeSheetDeckleController.text = product?.deckle ?? "";
+                            _orderSizeSheetCuttingController.text = product?.cutting ?? "";
+                            createOrderBloc.add(CreateOrderPlySheetTypeEvent(plySheetTypeIndex: product?.ply != null ? plyTypesForSheetAndBoxDiePunchList.indexOf(product!.ply!) : 0));
+                            _specificationSheetPlyController.text = product?.ply ?? "";
+                            if (product?.ply != null && product?.ply?.isNotEmpty == true && product?.ply != "2") {
+                              _specificationSheetTopPaperController.text = product?.topPaper ?? "";
+                            }
+                            _specificationSheetPaperController.text = product?.paper ?? "";
+                            _specificationSheetFluteController.text = product?.flute ?? "";
+                            _productionSizeSheetDeckleController.text = product?.productionDeckle ?? "";
+                            _productionSizeSheetCuttingController.text = product?.productionCutting ?? "";
+                            context.pop();
+                          },
+                          style: IconButton.styleFrom(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: Text(
+                            S.current.select,
+                            style: TextStyle(
+                              color: AppColors.DARK_GREEN_COLOR,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Divider(
+                      color: AppColors.HINT_GREY_COLOR,
+                      thickness: 1,
+                    ),
+                  ),
+
+                  ///Add product
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w).copyWith(bottom: keyboardPadding != 0 ? 15.h : 0),
+                    child: Form(
+                      key: addProductFormKey,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: TextFieldWidget(
+                              controller: addProductController,
+                              title: S.current.add,
+                              hintText: S.current.enterProductName,
+                              validator: createOrderBloc.validateProductName,
+                              primaryColor: AppColors.SECONDARY_COLOR,
+                              secondaryColor: AppColors.PRIMARY_COLOR,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                bottomLeft: Radius.circular(8),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 2.w),
+                          Padding(
+                            padding: EdgeInsets.only(top: 3.h),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (addProductFormKey.currentState?.validate() == true) {
+                                  _productNameController.text = addProductController.text;
+                                  createOrderBloc.add(const CreateOrderSelectedProductEvent(productId: null));
+                                  context.pop();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.SECONDARY_COLOR,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(8),
+                                    bottomRight: Radius.circular(8),
+                                  ),
+                                ),
+                                padding: EdgeInsets.zero,
+                                maximumSize: Size(12.w, 4.4.h),
+                                minimumSize: Size(12.w, 4.4.h),
+                              ),
+                              child: Icon(
+                                Icons.add_rounded,
+                                size: 5.w,
+                                color: AppColors.WHITE_COLOR,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+
+                  ///Products
+                  if (createOrderBloc.state is CreateOrderGetPartiesLoadingState && (createOrderBloc.state as CreateOrderGetPartiesLoadingState).isLoading)
+                    SizedBox(
+                      height: 20.h,
+                      child: const Center(
+                        child: LoadingWidget(),
+                      ),
+                    )
+                  else if (createOrderBloc.productList.isEmpty)
+                    SizedBox(
+                      height: 20.h,
+                      child: Center(
+                        child: Text(
+                          S.current.noDataFound,
+                          style: TextStyle(
+                            color: AppColors.BLACK_COLOR,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    Flexible(
+                      child: StatefulBuilder(builder: (context, productState) {
+                        return AnimationLimiter(
+                          child: ListView.separated(
+                            itemCount: createOrderBloc.productList.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                            itemBuilder: (context, index) {
+                              final product = createOrderBloc.productList[index];
+                              return AnimationConfiguration.staggeredList(
+                                position: index,
+                                duration: const Duration(milliseconds: 400),
+                                child: SlideAnimation(
+                                  verticalOffset: 50.0,
+                                  child: FadeInAnimation(
+                                    child: InkWell(
+                                      onTap: () {
+                                        productState(() {
+                                          selectedProductId = product.productId;
+                                        });
+                                      },
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.WHITE_COLOR,
+                                          borderRadius: BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: AppColors.GREY_COLOR.withOpacity(0.2),
+                                              blurRadius: 25,
+                                              offset: const Offset(-10, 5),
+                                              spreadRadius: 3,
+                                            )
+                                          ],
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h).copyWith(left: 4.w),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                  product.productName ?? "",
+                                                  style: TextStyle(
+                                                    color: AppColors.BLACK_COLOR,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16.sp,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 2.w),
+                                              AnimatedContainer(
+                                                duration: const Duration(milliseconds: 300),
+                                                decoration: BoxDecoration(
+                                                  color: selectedProductId == product.productId ? AppColors.DARK_GREEN_COLOR : AppColors.WHITE_COLOR,
+                                                  border: Border.all(
+                                                    color: selectedProductId == product.productId ? AppColors.DARK_GREEN_COLOR : AppColors.GREY_COLOR,
+                                                    width: 1,
+                                                  ),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                padding: EdgeInsets.all(1.w),
+                                                child: AnimatedOpacity(
+                                                  opacity: selectedProductId == product.productId ? 1 : 0,
+                                                  duration: const Duration(milliseconds: 300),
+                                                  child: Icon(
+                                                    Icons.check_rounded,
+                                                    color: AppColors.WHITE_COLOR,
+                                                    size: 3.w,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(height: 1.5.h);
+                            },
+                          ),
+                        );
+                      }),
+                    ),
+
                   SizedBox(height: 2.h),
                 ],
               ),

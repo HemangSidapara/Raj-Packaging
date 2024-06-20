@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:raj_packaging/Network/models/orders_models/get_orders_model.dart' as get_orders;
 import 'package:raj_packaging/Network/services/create_order_services/create_order_service.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
 import 'package:raj_packaging/generated/l10n.dart';
@@ -20,8 +22,43 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   int plyBoxRSCTypeIndex = 0;
   int plyBoxDiePunchTypeIndex = 0;
 
+  List<get_orders.Data> partyList = <get_orders.Data>[];
+  String? selectedPartyId;
+  List<get_orders.ProductData> productList = <get_orders.ProductData>[];
+  String? selectedProductId;
+
   CreateOrderBloc() : super(CreateOrderInitial()) {
-    on<CreateOrderStartedEvent>((event, emit) {});
+    on<CreateOrderStartedEvent>((event, emit) {
+      add(CreateOrderGetPartiesEvent());
+    });
+
+    on<CreateOrderGetPartiesEvent>((event, emit) async {
+      await getPartiesApiCall(event, emit);
+    });
+
+    on<CreateOrderSelectedPartyEvent>((event, emit) {
+      selectedPartyId = event.partyId;
+      productList.clear();
+      productList.addAll(partyList.firstWhereOrNull((element) => element.partyId == event.partyId)?.productData ?? []);
+      emit(CreateOrderSelectedPartyState(productList: productList, partyId: event.partyId));
+    });
+
+    on<CreateOrderSelectedProductEvent>((event, emit) {
+      selectedProductId = event.productId;
+      emit(CreateOrderSelectedProductState(productId: event.productId));
+    });
+
+    on<CreateOrderGetPartiesLoadingEvent>((event, emit) async {
+      emit(CreateOrderGetPartiesLoadingState(isLoading: event.isLoading));
+    });
+
+    on<CreateOrderGetPartiesSuccessEvent>((event, emit) async {
+      emit(CreateOrderGetPartiesSuccessState(partyList: event.partyList, successMessage: event.successMessage));
+    });
+
+    on<CreateOrderGetPartiesFailedEvent>((event, emit) async {
+      emit(CreateOrderGetPartiesFailedState());
+    });
 
     on<CreateOrderTypeEvent>((event, emit) {
       orderTypeIndex = event.orderTypeIndex;
@@ -195,11 +232,31 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     return ("", "");
   }
 
+  Future<void> getPartiesApiCall(CreateOrderGetPartiesEvent event, Emitter<CreateOrderState> emit) async {
+    try {
+      add(const CreateOrderGetPartiesLoadingEvent(isLoading: true));
+      final response = await CreateOrderService.getPartiesService();
+
+      if (response.isSuccess) {
+        get_orders.GetOrdersModel getOrdersModel = get_orders.GetOrdersModel.fromJson(response.response?.data);
+        partyList.clear();
+        partyList.addAll(getOrdersModel.data ?? []);
+        add(CreateOrderGetPartiesSuccessEvent(partyList: getOrdersModel.data ?? [], successMessage: response.message));
+      } else {
+        add(CreateOrderGetPartiesFailedEvent());
+      }
+    } finally {
+      add(const CreateOrderGetPartiesLoadingEvent(isLoading: false));
+    }
+  }
+
   Future<void> checkCreateOrder(CreateOrderButtonClickEvent event, Emitter<CreateOrderState> emit) async {
     try {
       add(const CreateOrderLoadingEvent(isLoading: true));
       if (event.isValidate) {
         final response = await CreateOrderService.loginService(
+          partyId: selectedPartyId,
+          productId: selectedProductId,
           partyName: event.partyName,
           partyPhone: event.partyPhone,
           orderType: event.orderType,

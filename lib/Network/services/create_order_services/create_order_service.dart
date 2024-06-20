@@ -6,8 +6,30 @@ import 'package:raj_packaging/Network/api_base_helper.dart';
 import 'package:raj_packaging/Network/response_model.dart';
 
 class CreateOrderService {
+  ///Get Parties
+  static Future<ResponseModel> getPartiesService() async {
+    final response = await ApiBaseHelper.getHTTP(
+      ApiUrls.getOrdersApi,
+      showProgress: false,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      onSuccess: (res) {
+        if (res.isSuccess) {
+          debugPrint("getOrdersApi Success ::: ${res.message}");
+        } else {
+          debugPrint("getOrdersApi Error ::: ${res.message}");
+          Utils.handleMessage(message: res.message, isError: true);
+        }
+      },
+    );
+    return response;
+  }
+
   ///Create Order Service
   static Future<ResponseModel> loginService({
+    String? partyId,
+    String? productId,
     required String partyName,
     required String partyPhone,
     required String orderType,
@@ -28,6 +50,8 @@ class CreateOrderService {
     String? h,
   }) async {
     final params = {
+      ApiKeys.partyId: partyId,
+      ApiKeys.productId: productId,
       ApiKeys.partyName: partyName,
       ApiKeys.partyPhone: partyPhone,
       ApiKeys.orderType: orderType,

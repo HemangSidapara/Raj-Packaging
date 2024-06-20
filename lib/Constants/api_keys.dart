@@ -1,6 +1,8 @@
 class ApiKeys {
   static const phone = "phone";
   static const password = "password";
+  static const partyId = "partyId";
+  static const productId = "productId";
   static const partyName = "partyName";
   static const partyPhone = "partyPhone";
   static const orderType = "orderType";

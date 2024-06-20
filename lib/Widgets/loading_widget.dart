@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:raj_packaging/Constants/app_colors.dart';
+import 'package:lottie/lottie.dart';
+import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoadingWidget extends StatelessWidget {
-  final Color? loaderColor;
+  final double? height;
+  final double? width;
 
-  const LoadingWidget({super.key, this.loaderColor});
+  const LoadingWidget({
+    super.key,
+    this.height,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: context.isPortrait ? 8.w : 6.h,
-          width: context.isPortrait ? 8.w : 6.h,
-          child: CircularProgressIndicator(
-            color: loaderColor ?? AppColors.PRIMARY_COLOR,
-            strokeWidth: 3,
-          ),
-        ),
-      ],
+    return Lottie.asset(
+      AppAssets.splashAnim,
+      height: height ?? 10.h,
+      width: width ?? 10.h,
     );
   }
 }
