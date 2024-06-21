@@ -24,6 +24,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
 
   List<get_orders.Data> partyList = <get_orders.Data>[];
   String? selectedPartyId;
+  bool isPartyEditEnable = false;
   List<get_orders.ProductData> productList = <get_orders.ProductData>[];
   String? selectedProductId;
 
@@ -41,6 +42,11 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
       productList.clear();
       productList.addAll(partyList.firstWhereOrNull((element) => element.partyId == event.partyId)?.productData ?? []);
       emit(CreateOrderSelectedPartyState(productList: productList, partyId: event.partyId));
+    });
+
+    on<CreateOrderPartyEditEvent>((event, emit) {
+      isPartyEditEnable = event.isEnable;
+      emit(CreateOrderPartyEditState(isEnable: event.isEnable));
     });
 
     on<CreateOrderSelectedProductEvent>((event, emit) {

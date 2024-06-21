@@ -47,6 +47,15 @@ class CreateOrderSelectedPartyEvent extends CreateOrderEvent {
   List<Object?> get props => [partyId];
 }
 
+class CreateOrderPartyEditEvent extends CreateOrderEvent {
+  final bool isEnable;
+
+  const CreateOrderPartyEditEvent({required this.isEnable});
+
+  @override
+  List<Object?> get props => [isEnable];
+}
+
 class CreateOrderSelectedProductEvent extends CreateOrderEvent {
   final String? productId;
 
