@@ -37,16 +37,27 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
       await getPartiesApiCall(event, emit);
     });
 
+    on<CreateOrderEditPartyClickEvent>((event, emit) async {
+      await checkEditParty(event, emit);
+    });
+
+    on<CreateOrderEditPartyLoadingEvent>((event, emit) async {
+      emit(CreateOrderEditPartyLoadingState(isLoading: event.isLoading));
+    });
+
+    on<CreateOrderEditPartySuccessEvent>((event, emit) async {
+      emit(CreateOrderEditPartySuccessState(successMessage: event.successMessage));
+    });
+
+    on<CreateOrderEditPartyFailedEvent>((event, emit) async {
+      emit(CreateOrderEditPartyFailedState(failedMessage: event.failedMessage));
+    });
+
     on<CreateOrderSelectedPartyEvent>((event, emit) {
       selectedPartyId = event.partyId;
       productList.clear();
       productList.addAll(partyList.firstWhereOrNull((element) => element.partyId == event.partyId)?.productData ?? []);
       emit(CreateOrderSelectedPartyState(productList: productList, partyId: event.partyId));
-    });
-
-    on<CreateOrderPartyEditEvent>((event, emit) {
-      isPartyEditEnable = event.isEnable;
-      emit(CreateOrderPartyEditState(isEnable: event.isEnable));
     });
 
     on<CreateOrderSelectedProductEvent>((event, emit) {
@@ -256,13 +267,34 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     }
   }
 
+  Future<void> checkEditParty(CreateOrderEditPartyClickEvent event, Emitter<CreateOrderState> emit) async {
+    try {
+      add(const CreateOrderEditPartyLoadingEvent(isLoading: true));
+      if (event.isValidate) {
+        final response = await CreateOrderService.editPartyService(
+          partyId: event.partyId,
+          partyName: event.partyName,
+          partyPhone: event.partyPhone,
+        );
+
+        if (response.isSuccess) {
+          add(CreateOrderEditPartySuccessEvent(successMessage: response.message));
+        } else {
+          add(CreateOrderEditPartyFailedEvent(failedMessage: response.message));
+        }
+      }
+    } finally {
+      add(const CreateOrderEditPartyLoadingEvent(isLoading: false));
+    }
+  }
+
   Future<void> checkCreateOrder(CreateOrderButtonClickEvent event, Emitter<CreateOrderState> emit) async {
     try {
       add(const CreateOrderLoadingEvent(isLoading: true));
       if (event.isValidate) {
         final response = await CreateOrderService.loginService(
-          partyId: selectedPartyId,
-          productId: selectedProductId,
+          partyId: event.partyId,
+          productId: event.productId,
           partyName: event.partyName,
           partyPhone: event.partyPhone,
           orderType: event.orderType,

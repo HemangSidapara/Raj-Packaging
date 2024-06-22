@@ -9,6 +9,7 @@ import 'package:raj_packaging/Constants/app_strings.dart';
 import 'package:raj_packaging/Routes/app_pages.dart';
 import 'package:raj_packaging/Screens/splash_screen/bloc/splash_bloc.dart';
 import 'package:raj_packaging/Utils/in_app_update_dialog_widget.dart';
+import 'package:raj_packaging/main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SplashView extends StatefulWidget {
@@ -21,6 +22,7 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
+    globalContext = context;
     return BlocProvider(
       create: (context) => SplashBloc()..add(SplashStartedEvent()),
       child: BlocListener<SplashBloc, SplashState>(

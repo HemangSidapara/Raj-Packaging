@@ -142,5 +142,9 @@
   "productionSheetSize": "Production Sheet Size :",
   "productionSheetQuantity": "Production Sheet Quantity",
   "actualSheetSize": "Actual Sheet Size :",
-  "pendingOrders": "Pending Orders"
+  "pendingOrders": "Pending Orders",
+  "editParty": "Edit Party",
+  "editPartyName": "Edit Party Name",
+  "editPhoneNumber": "Edit Phone Number",
+  "save": "Save"
 }

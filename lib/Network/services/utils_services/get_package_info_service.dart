@@ -5,13 +5,13 @@ class GetPackageInfoService {
   static GetPackageInfoService instance = GetPackageInfoService();
 
   Future<_PackageInfoData> getInfo() async {
-    final _info = await _platform.invokeMapMethod<String, dynamic>('getPackageInfo');
+    final info = await _platform.invokeMapMethod<String, dynamic>('getPackageInfo');
     return _PackageInfoData(
-      appName: _info?['appName'] ?? '',
-      packageName: _info?['packageName'] ?? '',
-      version: _info?['version'] ?? '',
-      buildNumber: _info?['buildNumber'] ?? '',
-      installerStore: _info?['installerStore'] as String?,
+      appName: info?['appName'] ?? '',
+      packageName: info?['packageName'] ?? '',
+      version: info?['version'] ?? '',
+      buildNumber: info?['buildNumber'] ?? '',
+      installerStore: info?['installerStore'] as String?,
     );
   }
 }

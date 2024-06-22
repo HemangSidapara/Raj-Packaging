@@ -142,5 +142,9 @@
   "productionSheetSize": "ઉત્પાદન સીટની સાઈઝ :",
   "productionSheetQuantity": "ઉત્પાદન સીટ જથ્થો",
   "actualSheetSize": "વાસ્તવિક સીટની સાઈઝ :",
-  "pendingOrders": "બાકી ઓર્ડર"
+  "pendingOrders": "બાકી ઓર્ડર",
+  "editParty": "પાર્ટી સંપાદિત કરો",
+  "editPartyName": "પાર્ટીનું નામ સંપાદિત કરો",
+  "editPhoneNumber": "ફોન નંબર સંપાદિત કરો",
+  "save": "સાચવો"
 }

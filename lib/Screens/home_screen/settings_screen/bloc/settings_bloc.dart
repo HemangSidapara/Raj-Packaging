@@ -60,7 +60,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<void> checkLogOut(Emitter<SettingsState> emit) async {
     try {
       add(const SettingsLogOutLoadingEvent(isLoading: true));
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 3));
       await clearData();
       emit(SettingsLogOutSuccessState());
     } finally {

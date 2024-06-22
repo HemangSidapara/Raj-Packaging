@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -30,6 +29,8 @@ class TextFieldWidget extends StatefulWidget {
   final Color? primaryColor;
   final Color? secondaryColor;
   final BorderRadius? borderRadius;
+  final List<Widget>? titleChildren;
+  final MainAxisAlignment? titleChildrenMainAxisAlignment;
 
   const TextFieldWidget({
     super.key,
@@ -58,6 +59,8 @@ class TextFieldWidget extends StatefulWidget {
     this.primaryColor,
     this.secondaryColor,
     this.borderRadius,
+    this.titleChildren,
+    this.titleChildrenMainAxisAlignment,
   });
 
   @override
@@ -68,21 +71,31 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: context.isPortrait ? null : widget.textFieldWidth ?? 50.w,
+      width: widget.textFieldWidth,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (widget.title != null) ...[
-            Padding(
-              padding: EdgeInsets.only(left: context.isPortrait ? 2.w : 1.w),
-              child: Text(
-                widget.title!,
-                style: TextStyle(
-                  color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
-                  fontSize: context.isPortrait ? 16.sp : 12.sp,
-                  fontWeight: FontWeight.w600,
+            Row(
+              mainAxisAlignment: widget.titleChildrenMainAxisAlignment ?? MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 2.w),
+                  child: Text(
+                    widget.title!,
+                    style: TextStyle(
+                      color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-              ),
+                if (widget.titleChildren != null) ...[
+                  SizedBox(width: 2.w),
+                  ...widget.titleChildren!,
+                ],
+              ],
             ),
             SizedBox(height: 1.h),
           ],
@@ -94,7 +107,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             style: TextStyle(
               color: widget.secondaryColor ?? AppColors.SECONDARY_COLOR,
               fontWeight: FontWeight.w600,
-              fontSize: context.isPortrait ? 15.sp : 9.sp,
+              fontSize: 15.sp,
             ),
             obscureText: widget.obscureText ?? false,
             textInputAction: widget.textInputAction,
@@ -120,12 +133,12 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               suffixIcon: widget.suffixIcon,
               hintStyle: TextStyle(
                 color: widget.secondaryColor ?? AppColors.SECONDARY_COLOR.withOpacity(0.5),
-                fontSize: context.isPortrait ? 15.sp : 9.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
               ),
               errorStyle: TextStyle(
                 color: AppColors.ERROR_COLOR,
-                fontSize: context.isPortrait ? 15.sp : 9.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
               ),
               focusedErrorBorder: OutlineInputBorder(
@@ -165,7 +178,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               ),
               errorMaxLines: 2,
               isDense: true,
-              contentPadding: widget.contentPadding ?? EdgeInsets.symmetric(horizontal: context.isPortrait ? 3.w : 3.h, vertical: context.isPortrait ? 1.h : 1.w).copyWith(right: context.isPortrait ? 1.5.w : 1.5.h),
+              contentPadding: widget.contentPadding ?? EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h).copyWith(right: 1.5.w),
             ),
           ),
         ],

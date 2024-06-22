@@ -38,6 +38,55 @@ class CreateOrderGetPartiesFailedEvent extends CreateOrderEvent {
   List<Object?> get props => [];
 }
 
+class CreateOrderEditPartyClickEvent extends CreateOrderEvent {
+  final bool isValidate;
+  final String partyId;
+  final String partyName;
+  final String partyPhone;
+
+  const CreateOrderEditPartyClickEvent({
+    required this.isValidate,
+    required this.partyId,
+    required this.partyName,
+    required this.partyPhone,
+  });
+
+  @override
+  List<Object?> get props => [
+        isValidate,
+        partyId,
+        partyName,
+        partyPhone,
+      ];
+}
+
+class CreateOrderEditPartyLoadingEvent extends CreateOrderEvent {
+  final bool isLoading;
+
+  const CreateOrderEditPartyLoadingEvent({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class CreateOrderEditPartySuccessEvent extends CreateOrderEvent {
+  final String? successMessage;
+
+  const CreateOrderEditPartySuccessEvent({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class CreateOrderEditPartyFailedEvent extends CreateOrderEvent {
+  final String? failedMessage;
+
+  const CreateOrderEditPartyFailedEvent({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}
+
 class CreateOrderSelectedPartyEvent extends CreateOrderEvent {
   final String? partyId;
 
@@ -45,15 +94,6 @@ class CreateOrderSelectedPartyEvent extends CreateOrderEvent {
 
   @override
   List<Object?> get props => [partyId];
-}
-
-class CreateOrderPartyEditEvent extends CreateOrderEvent {
-  final bool isEnable;
-
-  const CreateOrderPartyEditEvent({required this.isEnable});
-
-  @override
-  List<Object?> get props => [isEnable];
 }
 
 class CreateOrderSelectedProductEvent extends CreateOrderEvent {
@@ -112,6 +152,8 @@ class CreateOrderPlyBoxDiePunchTypeEvent extends CreateOrderEvent {
 
 class CreateOrderButtonClickEvent extends CreateOrderEvent {
   final bool isValidate;
+  final String? partyId;
+  final String? productId;
   final String partyName;
   final String partyPhone;
   final String orderType;
@@ -133,6 +175,8 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
 
   const CreateOrderButtonClickEvent({
     required this.isValidate,
+    this.partyId,
+    this.productId,
     required this.partyName,
     required this.partyPhone,
     required this.orderType,
@@ -154,7 +198,29 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        isValidate,
+        partyId,
+        productId,
+        partyName,
+        partyPhone,
+        orderType,
+        boxType,
+        productName,
+        orderQuantity,
+        productionDeckle,
+        productionCutting,
+        productionQuantity,
+        deckle,
+        cutting,
+        ply,
+        topPaper,
+        paper,
+        flute,
+        l,
+        b,
+        h,
+      ];
 }
 
 class CreateOrderLoadingEvent extends CreateOrderEvent {

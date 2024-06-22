@@ -11,6 +11,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
+late BuildContext globalContext;
+
 void main() {
   GetStorage.init();
   runApp(
@@ -26,13 +28,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  GlobalKey<ScaffoldState> key = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(

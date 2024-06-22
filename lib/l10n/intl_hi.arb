@@ -141,5 +141,9 @@
   "productionSheetSize": "उत्पादन सीट की साइज :",
   "productionSheetQuantity": "उत्पादन सीट मात्रा",
   "actualSheetSize": "वास्तविक सीट की साइज :",
-  "pendingOrders": "लंबित ऑर्डर"
+  "pendingOrders": "लंबित ऑर्डर",
+  "editParty": "पार्टी संपादित करें",
+  "editPartyName": "पार्टी का नाम संपादित करें",
+  "editPhoneNumber": "फ़ोन नंबर संपादित करें",
+  "save": "संचय"
 }

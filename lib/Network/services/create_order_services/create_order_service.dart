@@ -90,4 +90,35 @@ class CreateOrderService {
 
     return response;
   }
+
+  ///Edit Party Service
+  static Future<ResponseModel> editPartyService({
+    required String partyId,
+    required String partyName,
+    required String partyPhone,
+  }) async {
+    final params = {
+      ApiKeys.partyId: partyId,
+      ApiKeys.partyName: partyName,
+      ApiKeys.partyPhone: partyPhone,
+    };
+    final response = await ApiBaseHelper.postHTTP(
+      ApiUrls.editPartyApi,
+      params: params,
+      showProgress: false,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      onSuccess: (res) async {
+        if (res.isSuccess) {
+          debugPrint("editPartyApi success :: ${res.message}");
+        } else {
+          debugPrint("editPartyApi error :: ${res.message}");
+          Utils.handleMessage(message: res.message, isError: true);
+        }
+      },
+    );
+
+    return response;
+  }
 }

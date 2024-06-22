@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
+import 'package:raj_packaging/Network/models/orders_models/get_orders_model.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/create_order_screen/bloc/create_order_bloc.dart';
 import 'package:raj_packaging/Widgets/button_widget.dart';
 import 'package:raj_packaging/Widgets/custom_header_widget.dart';
@@ -25,6 +26,7 @@ class CreateOrderView extends StatefulWidget {
 
 class _CreateOrderViewState extends State<CreateOrderView> {
   final GlobalKey<FormState> _createOrderFormKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   final TextEditingController _partyNameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -150,7 +152,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
       child: GestureDetector(
         onTap: () => Utils.unfocus(),
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          key: _scaffoldMessengerKey,
           body: Padding(
             padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
             child: Column(
@@ -175,7 +177,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                       padding: EdgeInsets.symmetric(horizontal: 7.w),
                       child: Form(
                         key: _createOrderFormKey,
-                        child: BlocBuilder<CreateOrderBloc, CreateOrderState>(
+                        child: BlocConsumer<CreateOrderBloc, CreateOrderState>(
+                          listener: (context, state) {},
                           builder: (context, state) {
                             final createOrderBloc = context.read<CreateOrderBloc>();
                             return Column(
@@ -184,6 +187,31 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 TextFieldWidget(
                                   controller: _partyNameController,
                                   title: S.current.partyName,
+                                  titleChildren: [
+                                    AnimatedOpacity(
+                                      opacity: createOrderBloc.selectedPartyId != null ? 1 : 0,
+                                      duration: const Duration(milliseconds: 300),
+                                      child: IconButton(
+                                        onPressed: () async {
+                                          await showBottomSheetPartyEdit(context: context);
+                                        },
+                                        style: IconButton.styleFrom(
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                          padding: EdgeInsets.zero,
+                                          alignment: Alignment.center,
+                                          maximumSize: Size(5.w, 5.w),
+                                          minimumSize: Size(5.w, 5.w),
+                                          surfaceTintColor: AppColors.WHITE_COLOR,
+                                          elevation: 4,
+                                        ),
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.penToSquare,
+                                          color: AppColors.WARNING_COLOR,
+                                          size: 5.w,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                   hintText: S.current.selectParty,
                                   validator: createOrderBloc.validatePartyList,
                                   textInputAction: TextInputAction.next,
@@ -196,9 +224,9 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     size: 5.w,
                                   ),
                                   onTap: () async {
-                                    await showBottomSheetParty(context: context);
+                                    await showBottomSheetParty(createOrderBloc: createOrderBloc);
                                     createOrderBloc.partyName = _partyNameController.text.trim();
-                                    createOrderBloc.add(CreateOrderSelectedPartyEvent(partyId: createOrderBloc.selectedPartyId));
+                                    createOrderBloc.phoneNumber = _phoneNumberController.text.trim();
                                   },
                                 ),
                                 SizedBox(height: 1.h),
@@ -884,6 +912,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                           createOrderBloc.add(
                             CreateOrderButtonClickEvent(
                               isValidate: _createOrderFormKey.currentState?.validate() == true,
+                              partyId: createOrderBloc.selectedPartyId,
+                              productId: createOrderBloc.selectedProductId,
                               partyName: _partyNameController.text.trim(),
                               partyPhone: _phoneNumberController.text.trim(),
                               orderType: orderTypeList[createOrderBloc.orderTypeIndex],
@@ -968,9 +998,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
   }
 
   ///Party Bottom Sheet
-  Future<void> showBottomSheetParty({required BuildContext context}) async {
-    final createOrderBloc = context.read<CreateOrderBloc>();
-
+  Future<void> showBottomSheetParty({required CreateOrderBloc createOrderBloc}) async {
     GlobalKey<FormState> addPartyFormKey = GlobalKey<FormState>();
     TextEditingController addPartyController = TextEditingController();
 
@@ -1002,7 +1030,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 1.h),
+              padding: EdgeInsets.symmetric(vertical: 1.h).copyWith(bottom: keyboardPadding),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -1066,7 +1094,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
 
                   ///Add party
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w).copyWith(bottom: keyboardPadding != 0 ? 22.h : 0),
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Form(
                       key: addPartyFormKey,
                       child: Row(
@@ -1246,6 +1274,178 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     );
   }
 
+  ///Party Edit Bottom Sheet
+  Future<void> showBottomSheetPartyEdit({required BuildContext context}) async {
+    final createOrderBloc = context.read<CreateOrderBloc>();
+
+    GlobalKey<FormState> editPartyFormKey = GlobalKey<FormState>();
+    TextEditingController editPartyController = TextEditingController(text: createOrderBloc.partyName);
+    TextEditingController editPhoneNumberController = TextEditingController(text: createOrderBloc.phoneNumber);
+
+    await showModalBottomSheet(
+      context: context,
+      constraints: BoxConstraints(maxWidth: 100.w, minWidth: 100.w, maxHeight: 90.h, minHeight: 0.h),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      isScrollControlled: true,
+      useRootNavigator: true,
+      clipBehavior: Clip.hardEdge,
+      backgroundColor: AppColors.WHITE_COLOR,
+      builder: (context) {
+        final keyboardPadding = MediaQuery.viewInsetsOf(context).bottom;
+        return GestureDetector(
+          onTap: Utils.unfocus,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(top: 1.h, bottom: keyboardPadding),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ///Back, Title & Save
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: IconButton.styleFrom(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: AppColors.SECONDARY_COLOR,
+                            size: 6.w,
+                          ),
+                        ),
+                        Text(
+                          S.current.editParty,
+                          style: TextStyle(
+                            color: AppColors.SECONDARY_COLOR,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                        BlocProvider(
+                          create: (context) => CreateOrderBloc(),
+                          child: BlocConsumer<CreateOrderBloc, CreateOrderState>(
+                            listener: (context, state) {
+                              if (state is CreateOrderEditPartySuccessState) {
+                                context.pop();
+                                Utils.handleMessage(message: state.successMessage);
+                                createOrderBloc.add(CreateOrderGetPartiesEvent());
+                              }
+                              if (state is CreateOrderGetPartiesSuccessState) {
+                                _partyNameController.text = editPartyController.text.trim();
+                                createOrderBloc.partyName = _partyNameController.text;
+                                _phoneNumberController.text = editPhoneNumberController.text.trim();
+                                createOrderBloc.phoneNumber = _phoneNumberController.text;
+                              }
+                              if (state is CreateOrderEditPartyFailedState) {
+                                context.pop();
+                              }
+                            },
+                            builder: (context, state) {
+                              final editPartyBloc = context.read<CreateOrderBloc>();
+                              return TextButton(
+                                onPressed: () async {
+                                  if (createOrderBloc.selectedPartyId != null) {
+                                    editPartyBloc.add(
+                                      CreateOrderEditPartyClickEvent(
+                                        isValidate: editPartyFormKey.currentState?.validate() == true,
+                                        partyId: createOrderBloc.selectedPartyId!,
+                                        partyName: editPartyController.text.trim(),
+                                        partyPhone: editPhoneNumberController.text.trim(),
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: IconButton.styleFrom(
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: state is CreateOrderEditPartyLoadingState && state.isLoading
+                                    ? LoadingWidget(
+                                        width: 8.w,
+                                        height: 8.w,
+                                      )
+                                    : Text(
+                                        S.current.save,
+                                        style: TextStyle(
+                                          color: AppColors.DARK_GREEN_COLOR,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Divider(
+                      color: AppColors.HINT_GREY_COLOR,
+                      thickness: 1,
+                    ),
+                  ),
+
+                  ///Edit party
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Form(
+                      key: editPartyFormKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ///Party Name
+                          TextFieldWidget(
+                            controller: editPartyController,
+                            title: S.current.editPartyName,
+                            hintText: S.current.enterPartyName,
+                            validator: createOrderBloc.validatePartyName,
+                            primaryColor: AppColors.SECONDARY_COLOR,
+                            secondaryColor: AppColors.PRIMARY_COLOR,
+                            maxLength: 30,
+                            textInputAction: TextInputAction.next,
+                          ),
+
+                          ///Phone number
+                          TextFieldWidget(
+                            controller: editPhoneNumberController,
+                            title: S.current.editPhoneNumber,
+                            hintText: S.current.enterPhoneNumber,
+                            validator: createOrderBloc.validatePhoneNumber,
+                            primaryColor: AppColors.SECONDARY_COLOR,
+                            secondaryColor: AppColors.PRIMARY_COLOR,
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   ///Product Bottom Sheet
   Future<void> showBottomSheetProduct({required BuildContext context}) async {
     final createOrderBloc = context.read<CreateOrderBloc>();
@@ -1281,7 +1481,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 1.h),
+              padding: EdgeInsets.symmetric(vertical: 1.h).copyWith(bottom: keyboardPadding),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -1318,17 +1518,17 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                             _productNameController.text = product?.productName ?? "";
                             createOrderBloc.add(CreateOrderSelectedProductEvent(productId: selectedProductId));
                             createOrderBloc.add(CreateOrderTypeEvent(orderTypeIndex: product?.orderType != null ? orderTypeList.indexOf(product!.orderType!) : 0));
-                            _orderSizeSheetDeckleController.text = product?.deckle ?? "";
-                            _orderSizeSheetCuttingController.text = product?.cutting ?? "";
-                            createOrderBloc.add(CreateOrderPlySheetTypeEvent(plySheetTypeIndex: product?.ply != null ? plyTypesForSheetAndBoxDiePunchList.indexOf(product!.ply!) : 0));
-                            _specificationSheetPlyController.text = product?.ply ?? "";
-                            if (product?.ply != null && product?.ply?.isNotEmpty == true && product?.ply != "2") {
-                              _specificationSheetTopPaperController.text = product?.topPaper ?? "";
+
+                            if (product?.orderType != null) {
+                              if (product?.orderType == "Box") {
+                                boxVariableSetup(createOrderBloc: createOrderBloc, product: product);
+                              } else if (product?.orderType == "Sheet") {
+                                sheetVariableSetup(createOrderBloc: createOrderBloc, product: product);
+                              } else if (product?.orderType == "Roll") {
+                                rollVariableSetup(createOrderBloc: createOrderBloc, product: product);
+                              }
                             }
-                            _specificationSheetPaperController.text = product?.paper ?? "";
-                            _specificationSheetFluteController.text = product?.flute ?? "";
-                            _productionSizeSheetDeckleController.text = product?.productionDeckle ?? "";
-                            _productionSizeSheetCuttingController.text = product?.productionCutting ?? "";
+
                             context.pop();
                           },
                           style: IconButton.styleFrom(
@@ -1356,7 +1556,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
 
                   ///Add product
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w).copyWith(bottom: keyboardPadding != 0 ? 15.h : 0),
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Form(
                       key: addProductFormKey,
                       child: Row(
@@ -1442,7 +1642,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                           child: ListView.separated(
                             itemCount: createOrderBloc.productList.length,
                             shrinkWrap: true,
-                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h).copyWith(bottom: 3.h),
                             itemBuilder: (context, index) {
                               final product = createOrderBloc.productList[index];
                               return AnimationConfiguration.staggeredList(
@@ -1533,6 +1733,72 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         );
       },
     );
+  }
+
+  ///Roll Setup
+  void rollVariableSetup({
+    required CreateOrderBloc createOrderBloc,
+    ProductData? product,
+  }) {
+    _orderSizeRollDeckleController.text = product?.deckle ?? "";
+    _specificationRollPaperController.text = product?.paper ?? "";
+    _specificationRollFluteController.text = product?.flute ?? "";
+    _productionSizeRollDeckleController.text = product?.productionDeckle ?? "";
+  }
+
+  ///Sheet Setup
+  void sheetVariableSetup({
+    required CreateOrderBloc createOrderBloc,
+    ProductData? product,
+  }) {
+    _orderSizeSheetDeckleController.text = product?.deckle ?? "";
+    _orderSizeSheetCuttingController.text = product?.cutting ?? "";
+    createOrderBloc.add(CreateOrderPlySheetTypeEvent(plySheetTypeIndex: product?.ply != null ? plyTypesForSheetAndBoxDiePunchList.indexOf(product!.ply!) : 0));
+    _specificationSheetPlyController.text = product?.ply ?? "";
+    if (product?.ply != null && product?.ply?.isNotEmpty == true && product?.ply != "2") {
+      _specificationSheetTopPaperController.text = product?.topPaper ?? "";
+    }
+    _specificationSheetPaperController.text = product?.paper ?? "";
+    _specificationSheetFluteController.text = product?.flute ?? "";
+    _productionSizeSheetDeckleController.text = product?.productionDeckle ?? "";
+    _productionSizeSheetCuttingController.text = product?.productionCutting ?? "";
+  }
+
+  ///Box Setup
+  void boxVariableSetup({
+    required CreateOrderBloc createOrderBloc,
+    ProductData? product,
+  }) {
+    createOrderBloc.add(CreateOrderBoxTypeEvent(boxTypeIndex: product?.boxType != null ? boxTypeList.indexOf(product!.boxType!) : 0));
+    if (product?.boxType != null) {
+      if (product?.boxType == "Die Punch") {
+        _actualSheetSizeBoxDiePunchDeckleController.text = product?.deckle ?? "";
+        _actualSheetSizeBoxDiePunchCuttingController.text = product?.cutting ?? "";
+        _actualSheetSizeBoxDiePunchCuttingController.text = product?.cutting ?? "";
+        createOrderBloc.add(CreateOrderPlyBoxDiePunchTypeEvent(plyBoxDiePunchTypeIndex: product?.ply != null ? plyTypesForSheetAndBoxDiePunchList.indexOf(product!.ply!) : 0));
+        _specificationBoxDiePunchPlyController.text = product?.ply ?? "";
+        if (product?.ply != null && product?.ply?.isNotEmpty == true && product?.ply != "2") {
+          _specificationBoxDiePunchTopPaperController.text = product?.topPaper ?? "";
+        }
+        _specificationBoxDiePunchPaperController.text = product?.paper ?? "";
+        _specificationBoxDiePunchFluteController.text = product?.flute ?? "";
+        _productionSheetSizeBoxDiePunchDeckleController.text = product?.productionDeckle ?? "";
+        _productionSheetSizeBoxDiePunchCuttingController.text = product?.productionCutting ?? "";
+      } else {
+        _orderSizeBoxRSCLController.text = product?.l ?? "";
+        _orderSizeBoxRSCBController.text = product?.b ?? "";
+        _orderSizeBoxRSCHController.text = product?.h ?? "";
+        createOrderBloc.add(CreateOrderPlyBoxRSCTypeEvent(plyBoxRSCTypeIndex: product?.ply != null ? plyTypesForBoxRSCList.indexOf(product!.ply!) : 0));
+        _specificationBoxRSCPlyController.text = product?.ply ?? "";
+        _specificationBoxRSCTopPaperController.text = product?.topPaper ?? "";
+        _specificationBoxRSCPaperController.text = product?.paper ?? "";
+        _specificationBoxRSCFluteController.text = product?.flute ?? "";
+        _actualSheetSizeBoxRSCCuttingController.text = product?.cutting ?? "";
+        _actualSheetSizeBoxRSCCuttingController.text = product?.cutting ?? "";
+        _productionSheetSizeBoxRSCDeckleController.text = product?.productionDeckle ?? "";
+        _productionSheetSizeBoxRSCCuttingController.text = product?.productionCutting ?? "";
+      }
+    }
   }
 
   ///Order Type
