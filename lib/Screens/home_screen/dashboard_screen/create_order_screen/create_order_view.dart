@@ -1023,251 +1023,259 @@ class _CreateOrderViewState extends State<CreateOrderView> {
       backgroundColor: AppColors.WHITE_COLOR,
       builder: (context) {
         final keyboardPadding = MediaQuery.viewInsetsOf(context).bottom;
-        return GestureDetector(
-          onTap: Utils.unfocus,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 1.h).copyWith(bottom: keyboardPadding),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ///Back, Title & Select
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return BlocProvider.value(
+          value: createOrderBloc,
+          child: BlocBuilder<CreateOrderBloc, CreateOrderState>(
+            builder: (context, state) {
+              final createOrderBloc = context.read<CreateOrderBloc>();
+              return GestureDetector(
+                onTap: Utils.unfocus,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 1.h).copyWith(bottom: keyboardPadding),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            context.pop();
-                          },
-                          style: IconButton.styleFrom(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          icon: Icon(
-                            Icons.close_rounded,
-                            color: AppColors.SECONDARY_COLOR,
-                            size: 6.w,
-                          ),
-                        ),
-                        Text(
-                          S.current.selectParty,
-                          style: TextStyle(
-                            color: AppColors.SECONDARY_COLOR,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18.sp,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            final party = createOrderBloc.partyList.firstWhereOrNull((e) => e.partyId == selectedPartyId);
-                            _partyNameController.text = party?.partyName ?? "";
-                            _phoneNumberController.text = party?.partyPhone ?? "";
-                            createOrderBloc.add(CreateOrderSelectedPartyEvent(partyId: selectedPartyId));
-                            context.pop();
-                          },
-                          style: IconButton.styleFrom(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: Text(
-                            S.current.select,
-                            style: TextStyle(
-                              color: AppColors.DARK_GREEN_COLOR,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w),
-                    child: Divider(
-                      color: AppColors.HINT_GREY_COLOR,
-                      thickness: 1,
-                    ),
-                  ),
-
-                  ///Add party
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w),
-                    child: Form(
-                      key: addPartyFormKey,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: TextFieldWidget(
-                              controller: addPartyController,
-                              title: S.current.add,
-                              hintText: S.current.enterPartyName,
-                              validator: createOrderBloc.validatePartyName,
-                              primaryColor: AppColors.SECONDARY_COLOR,
-                              secondaryColor: AppColors.PRIMARY_COLOR,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                bottomLeft: Radius.circular(8),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 2.w),
-                          Padding(
-                            padding: EdgeInsets.only(top: 3.h),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (addPartyFormKey.currentState?.validate() == true) {
-                                  _partyNameController.text = addPartyController.text;
-                                  _phoneNumberController.clear();
-                                  createOrderBloc.add(const CreateOrderSelectedPartyEvent(partyId: null));
+                        ///Back, Title & Select
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                onPressed: () {
                                   context.pop();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.SECONDARY_COLOR,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(8),
-                                    bottomRight: Radius.circular(8),
+                                },
+                                style: IconButton.styleFrom(
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                icon: Icon(
+                                  Icons.close_rounded,
+                                  color: AppColors.SECONDARY_COLOR,
+                                  size: 6.w,
+                                ),
+                              ),
+                              Text(
+                                S.current.selectParty,
+                                style: TextStyle(
+                                  color: AppColors.SECONDARY_COLOR,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.sp,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  final party = createOrderBloc.partyList.firstWhereOrNull((e) => e.partyId == selectedPartyId);
+                                  _partyNameController.text = party?.partyName ?? "";
+                                  _phoneNumberController.text = party?.partyPhone ?? "";
+                                  createOrderBloc.add(CreateOrderSelectedPartyEvent(partyId: selectedPartyId));
+                                  context.pop();
+                                },
+                                style: IconButton.styleFrom(
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  S.current.select,
+                                  style: TextStyle(
+                                    color: AppColors.DARK_GREEN_COLOR,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                padding: EdgeInsets.zero,
-                                maximumSize: Size(12.w, 4.4.h),
-                                minimumSize: Size(12.w, 4.4.h),
                               ),
-                              child: Icon(
-                                Icons.add_rounded,
-                                size: 5.w,
-                                color: AppColors.WHITE_COLOR,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 2.h),
-
-                  ///Parties
-                  if (createOrderBloc.state is CreateOrderGetPartiesLoadingState && (createOrderBloc.state as CreateOrderGetPartiesLoadingState).isLoading)
-                    SizedBox(
-                      height: 20.h,
-                      child: const Center(
-                        child: LoadingWidget(),
-                      ),
-                    )
-                  else if (createOrderBloc.partyList.isEmpty)
-                    SizedBox(
-                      height: 20.h,
-                      child: Center(
-                        child: Text(
-                          S.current.noDataFound,
-                          style: TextStyle(
-                            color: AppColors.BLACK_COLOR,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
+                            ],
                           ),
                         ),
-                      ),
-                    )
-                  else
-                    Flexible(
-                      child: StatefulBuilder(builder: (context, partyState) {
-                        return AnimationLimiter(
-                          child: ListView.separated(
-                            itemCount: createOrderBloc.partyList.length,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-                            itemBuilder: (context, index) {
-                              final party = createOrderBloc.partyList[index];
-                              return AnimationConfiguration.staggeredList(
-                                position: index,
-                                duration: const Duration(milliseconds: 400),
-                                child: SlideAnimation(
-                                  verticalOffset: 50.0,
-                                  child: FadeInAnimation(
-                                    child: InkWell(
-                                      onTap: () {
-                                        partyState(() {
-                                          selectedPartyId = party.partyId;
-                                        });
-                                      },
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: AppColors.WHITE_COLOR,
-                                          borderRadius: BorderRadius.circular(10),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: AppColors.GREY_COLOR.withOpacity(0.2),
-                                              blurRadius: 25,
-                                              offset: const Offset(-10, 5),
-                                              spreadRadius: 3,
-                                            )
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h).copyWith(left: 4.w),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Flexible(
-                                                child: Text(
-                                                  party.partyName ?? "",
-                                                  style: TextStyle(
-                                                    color: AppColors.BLACK_COLOR,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 16.sp,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 2.w),
-                                              AnimatedContainer(
-                                                duration: const Duration(milliseconds: 300),
-                                                decoration: BoxDecoration(
-                                                  color: selectedPartyId == party.partyId ? AppColors.DARK_GREEN_COLOR : AppColors.WHITE_COLOR,
-                                                  border: Border.all(
-                                                    color: selectedPartyId == party.partyId ? AppColors.DARK_GREEN_COLOR : AppColors.GREY_COLOR,
-                                                    width: 1,
-                                                  ),
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                padding: EdgeInsets.all(1.w),
-                                                child: AnimatedOpacity(
-                                                  opacity: selectedPartyId == party.partyId ? 1 : 0,
-                                                  duration: const Duration(milliseconds: 300),
-                                                  child: Icon(
-                                                    Icons.check_rounded,
-                                                    color: AppColors.WHITE_COLOR,
-                                                    size: 3.w,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          child: Divider(
+                            color: AppColors.HINT_GREY_COLOR,
+                            thickness: 1,
+                          ),
+                        ),
+
+                        ///Add party
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          child: Form(
+                            key: addPartyFormKey,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  child: TextFieldWidget(
+                                    controller: addPartyController,
+                                    title: S.current.add,
+                                    hintText: S.current.enterPartyName,
+                                    validator: createOrderBloc.validatePartyName,
+                                    primaryColor: AppColors.SECONDARY_COLOR,
+                                    secondaryColor: AppColors.PRIMARY_COLOR,
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      bottomLeft: Radius.circular(8),
                                     ),
                                   ),
                                 ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return SizedBox(height: 1.5.h);
-                            },
+                                SizedBox(width: 2.w),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 3.h),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (addPartyFormKey.currentState?.validate() == true) {
+                                        _partyNameController.text = addPartyController.text;
+                                        _phoneNumberController.clear();
+                                        createOrderBloc.add(const CreateOrderSelectedPartyEvent(partyId: null));
+                                        context.pop();
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.SECONDARY_COLOR,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(8),
+                                          bottomRight: Radius.circular(8),
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      maximumSize: Size(12.w, 4.4.h),
+                                      minimumSize: Size(12.w, 4.4.h),
+                                    ),
+                                    child: Icon(
+                                      Icons.add_rounded,
+                                      size: 5.w,
+                                      color: AppColors.WHITE_COLOR,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        );
-                      }),
-                    ),
+                        ),
+                        SizedBox(height: 2.h),
 
-                  SizedBox(height: 2.h),
-                ],
-              ),
-            ),
+                        ///Parties
+                        if (createOrderBloc.state is CreateOrderGetPartiesLoadingState && (createOrderBloc.state as CreateOrderGetPartiesLoadingState).isLoading)
+                          SizedBox(
+                            height: 20.h,
+                            child: const Center(
+                              child: LoadingWidget(),
+                            ),
+                          )
+                        else if (createOrderBloc.partyList.isEmpty)
+                          SizedBox(
+                            height: 20.h,
+                            child: Center(
+                              child: Text(
+                                S.current.noDataFound,
+                                style: TextStyle(
+                                  color: AppColors.BLACK_COLOR,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          )
+                        else
+                          Flexible(
+                            child: StatefulBuilder(builder: (context, partyState) {
+                              return AnimationLimiter(
+                                child: ListView.separated(
+                                  itemCount: createOrderBloc.partyList.length,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                                  itemBuilder: (context, index) {
+                                    final party = createOrderBloc.partyList[index];
+                                    return AnimationConfiguration.staggeredList(
+                                      position: index,
+                                      duration: const Duration(milliseconds: 400),
+                                      child: SlideAnimation(
+                                        verticalOffset: 50.0,
+                                        child: FadeInAnimation(
+                                          child: InkWell(
+                                            onTap: () {
+                                              partyState(() {
+                                                selectedPartyId = party.partyId;
+                                              });
+                                            },
+                                            borderRadius: BorderRadius.circular(10),
+                                            child: DecoratedBox(
+                                              decoration: BoxDecoration(
+                                                color: AppColors.WHITE_COLOR,
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: AppColors.GREY_COLOR.withOpacity(0.2),
+                                                    blurRadius: 25,
+                                                    offset: const Offset(-10, 5),
+                                                    spreadRadius: 3,
+                                                  )
+                                                ],
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h).copyWith(left: 4.w),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        party.partyName ?? "",
+                                                        style: TextStyle(
+                                                          color: AppColors.BLACK_COLOR,
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 16.sp,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 2.w),
+                                                    AnimatedContainer(
+                                                      duration: const Duration(milliseconds: 300),
+                                                      decoration: BoxDecoration(
+                                                        color: selectedPartyId == party.partyId ? AppColors.DARK_GREEN_COLOR : AppColors.WHITE_COLOR,
+                                                        border: Border.all(
+                                                          color: selectedPartyId == party.partyId ? AppColors.DARK_GREEN_COLOR : AppColors.GREY_COLOR,
+                                                          width: 1,
+                                                        ),
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      padding: EdgeInsets.all(1.w),
+                                                      child: AnimatedOpacity(
+                                                        opacity: selectedPartyId == party.partyId ? 1 : 0,
+                                                        duration: const Duration(milliseconds: 300),
+                                                        child: Icon(
+                                                          Icons.check_rounded,
+                                                          color: AppColors.WHITE_COLOR,
+                                                          size: 3.w,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(height: 1.5.h);
+                                  },
+                                ),
+                              );
+                            }),
+                          ),
+
+                        SizedBox(height: 2.h),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         );
       },
