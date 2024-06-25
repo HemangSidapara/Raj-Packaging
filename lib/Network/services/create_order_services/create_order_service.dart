@@ -98,7 +98,7 @@ class CreateOrderService {
     required String partyPhone,
   }) async {
     final params = {
-      ApiKeys.partyId: partyId,
+      // ApiKeys.partyId: partyId,
       ApiKeys.partyName: partyName,
       ApiKeys.partyPhone: partyPhone,
     };
@@ -114,7 +114,6 @@ class CreateOrderService {
           debugPrint("editPartyApi success :: ${res.message}");
         } else {
           debugPrint("editPartyApi error :: ${res.message}");
-          Utils.handleMessage(message: res.message, isError: true);
         }
       },
     );

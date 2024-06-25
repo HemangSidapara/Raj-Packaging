@@ -16,7 +16,7 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView> {
   final List<String> _contentRouteList = [
-    Routes.orderDetailsScreen,
+    Routes.pendingOrdersScreen,
     Routes.challanScreen,
   ];
 
@@ -134,7 +134,7 @@ class _DashboardViewState extends State<DashboardView> {
                     itemBuilder: (context, index) {
                       return ElevatedButton(
                         onPressed: () {
-                          // context.goNamed(_contentRouteList[index]);
+                          context.goNamed(_contentRouteList[index]);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,

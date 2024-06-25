@@ -26,7 +26,6 @@ class CreateOrderView extends StatefulWidget {
 
 class _CreateOrderViewState extends State<CreateOrderView> {
   final GlobalKey<FormState> _createOrderFormKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   final TextEditingController _partyNameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -152,7 +151,6 @@ class _CreateOrderViewState extends State<CreateOrderView> {
       child: GestureDetector(
         onTap: () => Utils.unfocus(),
         child: Scaffold(
-          key: _scaffoldMessengerKey,
           body: Padding(
             padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
             child: Column(
@@ -1343,8 +1341,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                             fontSize: 18.sp,
                           ),
                         ),
-                        BlocProvider(
-                          create: (context) => CreateOrderBloc(),
+                        BlocProvider.value(
+                          value: createOrderBloc,
                           child: BlocConsumer<CreateOrderBloc, CreateOrderState>(
                             listener: (context, state) {
                               if (state is CreateOrderEditPartySuccessState) {
@@ -1359,7 +1357,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 createOrderBloc.phoneNumber = _phoneNumberController.text;
                               }
                               if (state is CreateOrderEditPartyFailedState) {
-                                context.pop();
+                                Utils.handleMessage(message: state.failedMessage, isError: true);
                               }
                             },
                             builder: (context, state) {

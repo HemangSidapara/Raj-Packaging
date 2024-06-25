@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:raj_packaging/Screens/home_screen/dashboard_screen/challan_screen/challan_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/create_order_screen/create_order_view.dart';
+import 'package:raj_packaging/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_view.dart';
 import 'package:raj_packaging/Screens/home_screen/home_view.dart';
 import 'package:raj_packaging/Screens/sign_in_screen/sign_in_view.dart';
 import 'package:raj_packaging/Screens/splash_screen/bloc/splash_bloc.dart';
@@ -83,6 +85,58 @@ class AppPages {
                 key: state.pageKey,
                 name: Routes.createOrderScreen,
                 child: const CreateOrderView(),
+                transitionDuration: transitionDuration,
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1.0, 0.0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+
+          ///Pending Orders
+          GoRoute(
+            path: Routes.pendingOrdersScreen,
+            name: Routes.pendingOrdersScreen,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                name: Routes.pendingOrdersScreen,
+                child: const PendingOrdersView(),
+                transitionDuration: transitionDuration,
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1.0, 0.0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+
+          ///Challan
+          GoRoute(
+            path: Routes.challanScreen,
+            name: Routes.challanScreen,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                name: Routes.challanScreen,
+                child: const ChallanView(),
                 transitionDuration: transitionDuration,
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   return SlideTransition(

@@ -6,8 +6,6 @@ class Routes {
   static const passwordScreen = '/password';
   static const homeScreen = '/home';
   static String createOrderScreen = '${homeScreen.replaceAll("/", "")}/createOrderScreen';
-  static const orderDetailsScreen = '/orderDetailsScreen';
-  static const addOrderCycleScreen = '/addOrderCycleScreen';
-  static const challanScreen = '/challanScreen';
-  static const viewCyclesScreen = '/viewCyclesScreen';
+  static String pendingOrdersScreen = '${homeScreen.replaceAll("/", "")}/pendingOrdersScreen';
+  static String challanScreen = '${homeScreen.replaceAll("/", "")}/challanScreen';
 }
