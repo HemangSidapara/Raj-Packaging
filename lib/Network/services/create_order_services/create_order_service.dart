@@ -98,7 +98,7 @@ class CreateOrderService {
     required String partyPhone,
   }) async {
     final params = {
-      // ApiKeys.partyId: partyId,
+      ApiKeys.partyId: partyId,
       ApiKeys.partyName: partyName,
       ApiKeys.partyPhone: partyPhone,
     };

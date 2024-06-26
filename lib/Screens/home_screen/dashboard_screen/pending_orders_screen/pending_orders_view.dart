@@ -327,7 +327,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                     SizedBox(height: 0.5.h),
                                                     Padding(
                                                       padding: EdgeInsets.symmetric(horizontal: 2.w),
-                                                      child: Row(
+                                                      child: const Row(
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           ///Details

@@ -241,7 +241,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     required String orderSizeH,
   }) {
     if (orderSizeL.isNotEmpty && orderSizeB.isNotEmpty && orderSizeH.isNotEmpty) {
-      actualSheetSizeBoxRSCDecalController.text = (orderSizeB.toDouble() + orderSizeB.toDouble()).toStringAsFixed(2);
+      actualSheetSizeBoxRSCDecalController.text = (orderSizeB.toDouble() + orderSizeH.toDouble()).toStringAsFixed(2);
       actualSheetSizeBoxRSCCuttingController.text = (((orderSizeL.toDouble() + orderSizeB.toDouble()) * 2) + 1.5).toStringAsFixed(2);
       return (actualSheetSizeBoxRSCDecalController.text, actualSheetSizeBoxRSCCuttingController.text);
     }
