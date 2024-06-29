@@ -145,5 +145,6 @@
   "editParty": "पार्टी संपादित करें",
   "editPartyName": "पार्टी का नाम संपादित करें",
   "editPhoneNumber": "फ़ोन नंबर संपादित करें",
-  "save": "संचय"
+  "save": "संचय",
+  "pleaseEnterValidPhoneNumber": "कृपया वैध फ़ोन नंबर दर्ज करें"
 }

@@ -146,5 +146,6 @@
   "editParty": "Edit Party",
   "editPartyName": "Edit Party Name",
   "editPhoneNumber": "Edit Phone Number",
-  "save": "Save"
+  "save": "Save",
+  "pleaseEnterValidPhoneNumber": "Please enter valid phone number"
 }

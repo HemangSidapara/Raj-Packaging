@@ -136,6 +136,8 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   String? validatePhoneNumber(String? value) {
     if (value == null || value.isEmpty) {
       return S.current.pleaseEnterPhoneNumber;
+    } else if (value.length < 10) {
+      return S.current.pleaseEnterValidPhoneNumber;
     }
     return null;
   }
@@ -210,7 +212,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     required String productionSizeDeckle,
   }) {
     if (orderQuantity.isNotEmpty && productionSizeDeckle.isNotEmpty && orderSizeDeckle.isNotEmpty) {
-      productionQuantityController.text = (orderQuantity.toDouble() / (productionSizeDeckle.toDouble() / orderSizeDeckle.toDouble())).toStringAsFixed(2);
+      productionQuantityController.text = (orderQuantity.toDouble() / (productionSizeDeckle.toDouble() / orderSizeDeckle.toDouble())).truncateToDouble().toStringAsFixed(0);
       return productionQuantityController.text;
     }
 
@@ -226,7 +228,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     required String productionSizeCutting,
   }) {
     if (orderQuantity.isNotEmpty && productionSizeDeckle.isNotEmpty && orderSizeDeckle.isNotEmpty && productionSizeCutting.isNotEmpty && orderSizeCutting.isNotEmpty) {
-      productionQuantityController.text = (orderQuantity.toDouble() / ((productionSizeDeckle.toDouble() / orderSizeDeckle.toDouble()) * (productionSizeCutting.toDouble() / orderSizeCutting.toDouble()))).toStringAsFixed(2);
+      productionQuantityController.text = (orderQuantity.toDouble() / ((productionSizeDeckle.toDouble() / orderSizeDeckle.toDouble()) * (productionSizeCutting.toDouble() / orderSizeCutting.toDouble()))).truncateToDouble().toStringAsFixed(0);
       return productionQuantityController.text;
     }
 

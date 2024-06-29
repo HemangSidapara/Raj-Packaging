@@ -234,7 +234,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   controller: _phoneNumberController,
                                   title: S.current.phoneNumber,
                                   hintText: S.current.enterPhoneNumber,
-                                  validator: createOrderBloc.validatePartyList,
+                                  validator: createOrderBloc.validatePhoneNumber,
                                   textInputAction: TextInputAction.next,
                                   maxLength: 10,
                                   keyboardType: TextInputType.number,
@@ -882,7 +882,6 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   textInputAction: TextInputAction.next,
                                   maxLength: 10,
                                   keyboardType: TextInputType.number,
-                                  readOnly: createOrderBloc.orderTypeIndex != 2,
                                 ),
                               ],
                             );
@@ -1780,7 +1779,6 @@ class _CreateOrderViewState extends State<CreateOrderView> {
       if (product?.boxType == "Die Punch") {
         _actualSheetSizeBoxDiePunchDeckleController.text = product?.deckle ?? "";
         _actualSheetSizeBoxDiePunchCuttingController.text = product?.cutting ?? "";
-        _actualSheetSizeBoxDiePunchCuttingController.text = product?.cutting ?? "";
         createOrderBloc.add(CreateOrderPlyBoxDiePunchTypeEvent(plyBoxDiePunchTypeIndex: product?.ply != null ? plyTypesForSheetAndBoxDiePunchList.indexOf(product!.ply!) : 0));
         _specificationBoxDiePunchPlyController.text = product?.ply ?? "";
         if (product?.ply != null && product?.ply?.isNotEmpty == true && product?.ply != "2") {
@@ -1799,7 +1797,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         _specificationBoxRSCTopPaperController.text = product?.topPaper ?? "";
         _specificationBoxRSCPaperController.text = product?.paper ?? "";
         _specificationBoxRSCFluteController.text = product?.flute ?? "";
-        _actualSheetSizeBoxRSCCuttingController.text = product?.cutting ?? "";
+        _actualSheetSizeBoxRSCDeckleController.text = product?.deckle ?? "";
         _actualSheetSizeBoxRSCCuttingController.text = product?.cutting ?? "";
         _productionSheetSizeBoxRSCDeckleController.text = product?.productionDeckle ?? "";
         _productionSheetSizeBoxRSCCuttingController.text = product?.productionCutting ?? "";

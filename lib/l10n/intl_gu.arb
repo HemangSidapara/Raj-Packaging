@@ -146,5 +146,6 @@
   "editParty": "પાર્ટી સંપાદિત કરો",
   "editPartyName": "પાર્ટીનું નામ સંપાદિત કરો",
   "editPhoneNumber": "ફોન નંબર સંપાદિત કરો",
-  "save": "સાચવો"
+  "save": "સાચવો",
+  "pleaseEnterValidPhoneNumber": "કૃપા કરીને માન્ય ફોન નંબર દાખલ કરો"
 }
