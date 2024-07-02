@@ -77,7 +77,7 @@
   "cancel": "Cancel",
   "delete": "Delete",
   "deletePartyText": "Are you sure? You want to delete 'Party'? After deleting all data will be lost under this party.",
-  "deleteItemText": "Are you sure? You want to delete 'Item'? After deleting all cycles will be lost under this order.",
+  "deleteItemText": "Are you sure? You want to delete? After deleting all data will be lost under this order.",
   "itemDetails": "Item Details",
   "searchPvdColor": "Search pvd color",
   "selectPvdColor": "Select pvd color",

@@ -7,4 +7,5 @@ class ApiUrls {
   static const String inAppUpdateApi = '${_apiPath}InAppUpdate.php';
   static const String getOrdersApi = '${_apiPath}getOrders.php';
   static const String editPartyApi = '${_apiPath}editParty.php';
+  static const String deleteOrderApi = '${_apiPath}deleteOrder.php?orderId=';
 }

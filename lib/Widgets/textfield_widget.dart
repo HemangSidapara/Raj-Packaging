@@ -31,6 +31,7 @@ class TextFieldWidget extends StatefulWidget {
   final BorderRadius? borderRadius;
   final List<Widget>? titleChildren;
   final MainAxisAlignment? titleChildrenMainAxisAlignment;
+  final bool? isCrossEnable;
 
   const TextFieldWidget({
     super.key,
@@ -61,6 +62,7 @@ class TextFieldWidget extends StatefulWidget {
     this.borderRadius,
     this.titleChildren,
     this.titleChildrenMainAxisAlignment,
+    this.isCrossEnable = false,
   });
 
   @override
@@ -99,87 +101,109 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             ),
             SizedBox(height: 1.h),
           ],
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: widget.controller,
-            validator: widget.validator,
-            focusNode: widget.focusNode,
-            style: TextStyle(
-              color: widget.secondaryColor ?? AppColors.SECONDARY_COLOR,
-              fontWeight: FontWeight.w600,
-              fontSize: 15.sp,
-            ),
-            obscureText: widget.obscureText ?? false,
-            textInputAction: widget.textInputAction,
-            keyboardType: widget.keyboardType,
-            maxLength: widget.maxLength,
-            cursorColor: widget.secondaryColor ?? AppColors.SECONDARY_COLOR,
-            enabled: widget.isDisable == false,
-            onTap: widget.onTap,
-            onChanged: widget.onChanged,
-            onSaved: widget.onSaved,
-            onFieldSubmitted: widget.onFieldSubmitted,
-            readOnly: widget.readOnly,
-            inputFormatters: widget.inputFormatters,
-            decoration: InputDecoration(
-              counter: const SizedBox(),
-              counterStyle: TextStyle(color: widget.primaryColor ?? AppColors.PRIMARY_COLOR),
-              filled: true,
-              prefixIconConstraints: widget.prefixIconConstraints,
-              prefixIcon: widget.prefixIcon,
-              fillColor: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
-              hintText: widget.hintText,
-              suffixIconConstraints: widget.suffixIconConstraints,
-              suffixIcon: widget.suffixIcon,
-              hintStyle: TextStyle(
-                color: widget.secondaryColor ?? AppColors.SECONDARY_COLOR.withOpacity(0.5),
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w600,
-              ),
-              errorStyle: TextStyle(
-                color: AppColors.ERROR_COLOR,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: AppColors.ERROR_COLOR,
-                  width: 1,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: widget.controller,
+                  validator: widget.validator,
+                  focusNode: widget.focusNode,
+                  style: TextStyle(
+                    color: widget.secondaryColor ?? AppColors.SECONDARY_COLOR,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15.sp,
+                  ),
+                  obscureText: widget.obscureText ?? false,
+                  textInputAction: widget.textInputAction,
+                  keyboardType: widget.keyboardType,
+                  maxLength: widget.maxLength,
+                  cursorColor: widget.secondaryColor ?? AppColors.SECONDARY_COLOR,
+                  enabled: widget.isDisable == false,
+                  onTap: widget.onTap,
+                  onChanged: widget.onChanged,
+                  onSaved: widget.onSaved,
+                  onFieldSubmitted: widget.onFieldSubmitted,
+                  readOnly: widget.readOnly,
+                  inputFormatters: widget.inputFormatters,
+                  decoration: InputDecoration(
+                    counter: const SizedBox(),
+                    counterStyle: TextStyle(color: widget.primaryColor ?? AppColors.PRIMARY_COLOR),
+                    filled: true,
+                    prefixIconConstraints: widget.prefixIconConstraints,
+                    prefixIcon: widget.prefixIcon,
+                    fillColor: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
+                    hintText: widget.hintText,
+                    suffixIconConstraints: widget.suffixIconConstraints,
+                    suffixIcon: widget.suffixIcon,
+                    hintStyle: TextStyle(
+                      color: widget.secondaryColor ?? AppColors.SECONDARY_COLOR.withOpacity(0.5),
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    errorStyle: TextStyle(
+                      color: AppColors.ERROR_COLOR,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: AppColors.ERROR_COLOR,
+                        width: 1,
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: AppColors.ERROR_COLOR,
+                        width: 1,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
+                        width: 1,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
+                        width: 1,
+                      ),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
+                        width: 1,
+                      ),
+                    ),
+                    errorMaxLines: 2,
+                    isDense: true,
+                    contentPadding: widget.contentPadding ?? EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h).copyWith(right: 1.5.w),
+                  ),
                 ),
               ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: AppColors.ERROR_COLOR,
-                  width: 1,
+              if (widget.isCrossEnable == true) ...[
+                SizedBox(width: 1.5.w),
+                Padding(
+                  padding: EdgeInsets.only(top: 0.3.h),
+                  child: Text(
+                    'x',
+                    style: TextStyle(
+                      color: AppColors.PRIMARY_COLOR,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18.sp,
+                    ),
+                  ),
                 ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
-                  width: 1,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
-                  width: 1,
-                ),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: widget.primaryColor ?? AppColors.PRIMARY_COLOR,
-                  width: 1,
-                ),
-              ),
-              errorMaxLines: 2,
-              isDense: true,
-              contentPadding: widget.contentPadding ?? EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h).copyWith(right: 1.5.w),
-            ),
+                SizedBox(width: 1.5.w),
+              ],
+            ],
           ),
         ],
       ),

@@ -117,18 +117,27 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     if (createOrderBloc.orderTypeIndex == 0) {
       _productionQuantityController.text = createOrderBloc.productionQuantityCalculatorForRoll(
         productionQuantityController: _productionQuantityController,
-        orderQuantity: _orderQuantityController.text,
-        orderSizeDeckle: _orderSizeRollDeckleController.text,
-        productionSizeDeckle: _productionSizeRollDeckleController.text,
+        orderQuantity: _orderQuantityController.text.trim(),
+        orderSizeDeckle: _orderSizeRollDeckleController.text.trim(),
+        productionSizeDeckle: _productionSizeRollDeckleController.text.trim(),
       );
     } else if (createOrderBloc.orderTypeIndex == 1) {
       createOrderBloc.productionQuantityCalculatorForSheet(
         productionQuantityController: _productionQuantityController,
-        orderQuantity: _orderQuantityController.text,
-        orderSizeDeckle: _orderSizeSheetDeckleController.text,
-        productionSizeDeckle: _productionSizeSheetDeckleController.text,
-        orderSizeCutting: _orderSizeSheetCuttingController.text,
-        productionSizeCutting: _productionSizeSheetCuttingController.text,
+        orderQuantity: _orderQuantityController.text.trim(),
+        orderSizeDeckle: _orderSizeSheetDeckleController.text.trim(),
+        productionSizeDeckle: _productionSizeSheetDeckleController.text.trim(),
+        orderSizeCutting: _orderSizeSheetCuttingController.text.trim(),
+        productionSizeCutting: _productionSizeSheetCuttingController.text.trim(),
+      );
+    } else if (createOrderBloc.orderTypeIndex == 2) {
+      createOrderBloc.productionQuantityCalculatorForBox(
+        productionQuantityController: _productionQuantityController,
+        orderQuantity: _orderQuantityController.text.trim(),
+        actualSizeDeckle: createOrderBloc.boxTypeIndex == 1 ? _actualSheetSizeBoxDiePunchDeckleController.text.trim() : _actualSheetSizeBoxRSCDeckleController.text.trim(),
+        productionSizeDeckle: createOrderBloc.boxTypeIndex == 1 ? _productionSheetSizeBoxDiePunchDeckleController.text.trim() : _productionSheetSizeBoxRSCDeckleController.text.trim(),
+        actualSizeCutting: createOrderBloc.boxTypeIndex == 1 ? _actualSheetSizeBoxDiePunchCuttingController.text.trim() : _actualSheetSizeBoxRSCCuttingController.text.trim(),
+        productionSizeCutting: createOrderBloc.boxTypeIndex == 1 ? _productionSheetSizeBoxDiePunchCuttingController.text.trim() : _productionSheetSizeBoxRSCCuttingController.text.trim(),
       );
     }
   }
@@ -138,9 +147,9 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     createOrderBloc.actualSheetSizeCalculatorForBoxRSC(
       actualSheetSizeBoxRSCDecalController: _actualSheetSizeBoxRSCDeckleController,
       actualSheetSizeBoxRSCCuttingController: _actualSheetSizeBoxRSCCuttingController,
-      orderSizeL: _orderSizeBoxRSCLController.text,
-      orderSizeB: _orderSizeBoxRSCBController.text,
-      orderSizeH: _orderSizeBoxRSCHController.text,
+      orderSizeL: _orderSizeBoxRSCLController.text.trim(),
+      orderSizeB: _orderSizeBoxRSCBController.text.trim(),
+      orderSizeH: _orderSizeBoxRSCHController.text.trim(),
     );
   }
 
@@ -376,35 +385,13 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           if (value.isNotEmpty) {
                                             if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) {
                                               _getActualSheetSizeForBoxRSC(createOrderBloc);
-                                            } else if (createOrderBloc.orderTypeIndex != 2) {
-                                              _getProductionQuantity(createOrderBloc);
                                             }
+                                            _getProductionQuantity(createOrderBloc);
                                           }
                                         },
+                                        isCrossEnable: createOrderBloc.orderTypeIndex != 0,
                                       ),
                                     ),
-
-                                    ///Cross(x)
-                                    if (createOrderBloc.orderTypeIndex != 0) ...[
-                                      SizedBox(width: 1.5.w),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 3.3.h),
-                                        child: SizedBox(
-                                          height: 4.4.h,
-                                          child: Center(
-                                            child: Text(
-                                              'x',
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18.sp,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 1.5.w),
-                                    ],
 
                                     ///Cutting or B
                                     if (createOrderBloc.orderTypeIndex != 0)
@@ -425,35 +412,16 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                             if (value.isNotEmpty) {
                                               if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) {
                                                 _getActualSheetSizeForBoxRSC(createOrderBloc);
-                                              } else if (createOrderBloc.orderTypeIndex != 2) {
-                                                _getProductionQuantity(createOrderBloc);
                                               }
+                                              _getProductionQuantity(createOrderBloc);
                                             }
                                           },
+                                          isCrossEnable: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0,
                                         ),
                                       ),
 
                                     ///Cross(x) & H
                                     if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) ...[
-                                      SizedBox(width: 1.5.w),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 3.3.h),
-                                        child: SizedBox(
-                                          height: 4.4.h,
-                                          child: Center(
-                                            child: Text(
-                                              'x',
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18.sp,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 1.5.w),
-
                                       ///H
                                       Flexible(
                                         child: TextFieldWidget(
@@ -468,6 +436,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                             if (value.isNotEmpty) {
                                               _getActualSheetSizeForBoxRSC(createOrderBloc);
                                             }
+                                            _getProductionQuantity(createOrderBloc);
                                           },
                                         ),
                                       ),
@@ -742,29 +711,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           textInputAction: TextInputAction.next,
                                           maxLength: 10,
                                           keyboardType: TextInputType.number,
-                                          readOnly: true,
+                                          isCrossEnable: true,
+                                          onChanged: (value) {
+                                            if (value.isNotEmpty) {
+                                              _getProductionQuantity(createOrderBloc);
+                                            }
+                                          },
                                         ),
                                       ),
-
-                                      ///Cross(x)
-                                      SizedBox(width: 1.5.w),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 3.3.h),
-                                        child: SizedBox(
-                                          height: 4.4.h,
-                                          child: Center(
-                                            child: Text(
-                                              'x',
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18.sp,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 1.5.w),
 
                                       ///Cutting
                                       Flexible(
@@ -776,7 +730,11 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           textInputAction: TextInputAction.next,
                                           maxLength: 10,
                                           keyboardType: TextInputType.number,
-                                          readOnly: true,
+                                          onChanged: (value) {
+                                            if (value.isNotEmpty) {
+                                              _getProductionQuantity(createOrderBloc);
+                                            }
+                                          },
                                         ),
                                       ),
                                     ],
@@ -822,30 +780,9 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                             _getProductionQuantity(createOrderBloc);
                                           }
                                         },
+                                        isCrossEnable: createOrderBloc.orderTypeIndex != 0,
                                       ),
                                     ),
-
-                                    ///Cross(x)
-                                    if (createOrderBloc.orderTypeIndex != 0) ...[
-                                      SizedBox(width: 1.5.w),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 3.3.h),
-                                        child: SizedBox(
-                                          height: 4.4.h,
-                                          child: Center(
-                                            child: Text(
-                                              'x',
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18.sp,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 1.5.w),
-                                    ],
 
                                     ///Cutting
                                     if (createOrderBloc.orderTypeIndex != 0)
@@ -1099,56 +1036,51 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                           padding: EdgeInsets.symmetric(horizontal: 5.w),
                           child: Form(
                             key: addPartyFormKey,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  child: TextFieldWidget(
-                                    controller: addPartyController,
-                                    title: S.current.add,
-                                    hintText: S.current.enterPartyName,
-                                    validator: createOrderBloc.validatePartyName,
-                                    primaryColor: AppColors.SECONDARY_COLOR,
-                                    secondaryColor: AppColors.PRIMARY_COLOR,
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(8),
-                                      bottomLeft: Radius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 2.w),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 3.h),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      if (addPartyFormKey.currentState?.validate() == true) {
-                                        _partyNameController.text = addPartyController.text;
-                                        _phoneNumberController.clear();
-                                        createOrderBloc.add(const CreateOrderSelectedPartyEvent(partyId: null));
-                                        context.pop();
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.SECONDARY_COLOR,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(8),
-                                          bottomRight: Radius.circular(8),
+                            child: TextFieldWidget(
+                              controller: addPartyController,
+                              title: S.current.add,
+                              hintText: S.current.enterPartyName,
+                              validator: createOrderBloc.validatePartyName,
+                              primaryColor: AppColors.SECONDARY_COLOR,
+                              secondaryColor: AppColors.PRIMARY_COLOR,
+                              suffixIcon: InkWell(
+                                onTap: () {
+                                  if (addPartyFormKey.currentState?.validate() == true) {
+                                    _partyNameController.text = addPartyController.text;
+                                    _phoneNumberController.clear();
+                                    createOrderBloc.add(const CreateOrderSelectedPartyEvent(partyId: null));
+                                    context.pop();
+                                  }
+                                },
+                                child: SizedBox(
+                                  width: 10.w,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: 5.h,
+                                        child: VerticalDivider(
+                                          color: AppColors.PRIMARY_COLOR,
+                                          width: 1,
                                         ),
                                       ),
-                                      padding: EdgeInsets.zero,
-                                      maximumSize: Size(12.w, 4.4.h),
-                                      minimumSize: Size(12.w, 4.4.h),
-                                    ),
-                                    child: Icon(
-                                      Icons.add_rounded,
-                                      size: 5.w,
-                                      color: AppColors.WHITE_COLOR,
-                                    ),
+                                      Flexible(
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.add_rounded,
+                                            size: Device.screenType == ScreenType.mobile
+                                                ? 5.w
+                                                : Device.aspectRatio > 5
+                                                    ? 3.w
+                                                    : 5.w,
+                                            color: AppColors.WHITE_COLOR,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
@@ -1564,55 +1496,50 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Form(
                       key: addProductFormKey,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: TextFieldWidget(
-                              controller: addProductController,
-                              title: S.current.add,
-                              hintText: S.current.enterProductName,
-                              validator: createOrderBloc.validateProductName,
-                              primaryColor: AppColors.SECONDARY_COLOR,
-                              secondaryColor: AppColors.PRIMARY_COLOR,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                bottomLeft: Radius.circular(8),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 2.w),
-                          Padding(
-                            padding: EdgeInsets.only(top: 3.h),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (addProductFormKey.currentState?.validate() == true) {
-                                  _productNameController.text = addProductController.text;
-                                  createOrderBloc.add(const CreateOrderSelectedProductEvent(productId: null));
-                                  context.pop();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.SECONDARY_COLOR,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(8),
-                                    bottomRight: Radius.circular(8),
+                      child: TextFieldWidget(
+                        controller: addProductController,
+                        title: S.current.add,
+                        hintText: S.current.enterProductName,
+                        validator: createOrderBloc.validateProductName,
+                        primaryColor: AppColors.SECONDARY_COLOR,
+                        secondaryColor: AppColors.PRIMARY_COLOR,
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            if (addProductFormKey.currentState?.validate() == true) {
+                              _productNameController.text = addProductController.text;
+                              createOrderBloc.add(const CreateOrderSelectedProductEvent(productId: null));
+                              context.pop();
+                            }
+                          },
+                          child: SizedBox(
+                            width: 10.w,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  height: 5.h,
+                                  child: VerticalDivider(
+                                    color: AppColors.PRIMARY_COLOR,
+                                    width: 1,
                                   ),
                                 ),
-                                padding: EdgeInsets.zero,
-                                maximumSize: Size(12.w, 4.4.h),
-                                minimumSize: Size(12.w, 4.4.h),
-                              ),
-                              child: Icon(
-                                Icons.add_rounded,
-                                size: 5.w,
-                                color: AppColors.WHITE_COLOR,
-                              ),
+                                Flexible(
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.add_rounded,
+                                      size: Device.screenType == ScreenType.mobile
+                                          ? 5.w
+                                          : Device.aspectRatio > 5
+                                              ? 3.w
+                                              : 5.w,
+                                      color: AppColors.WHITE_COLOR,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

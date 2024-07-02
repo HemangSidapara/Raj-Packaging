@@ -251,6 +251,22 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     return ("", "");
   }
 
+  String productionQuantityCalculatorForBox({
+    required TextEditingController productionQuantityController,
+    required String orderQuantity,
+    required String actualSizeDeckle,
+    required String productionSizeDeckle,
+    required String actualSizeCutting,
+    required String productionSizeCutting,
+  }) {
+    if (orderQuantity.isNotEmpty && productionSizeDeckle.isNotEmpty && actualSizeDeckle.isNotEmpty && productionSizeCutting.isNotEmpty && actualSizeCutting.isNotEmpty) {
+      productionQuantityController.text = (orderQuantity.toDouble() / ((productionSizeDeckle.toDouble() / actualSizeDeckle.toDouble()) * (productionSizeCutting.toDouble() / actualSizeCutting.toDouble()))).truncateToDouble().toStringAsFixed(0);
+      return productionQuantityController.text;
+    }
+
+    return productionQuantityController.text;
+  }
+
   Future<void> getPartiesApiCall(CreateOrderGetPartiesEvent event, Emitter<CreateOrderState> emit) async {
     try {
       add(const CreateOrderGetPartiesLoadingEvent(isLoading: true));

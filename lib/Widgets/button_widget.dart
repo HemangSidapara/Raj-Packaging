@@ -50,11 +50,19 @@ class ButtonWidget extends StatelessWidget {
       child: isLoading
           ? loaderWidget ??
               SizedBox(
-                height: 5.w,
-                width: 5.w,
+                height: Device.screenType == ScreenType.mobile
+                    ? 5.w
+                    : Device.aspectRatio > 5
+                        ? 3.w
+                        : 5.w,
+                width: Device.screenType == ScreenType.mobile
+                    ? 5.w
+                    : Device.aspectRatio > 5
+                        ? 3.w
+                        : 5.w,
                 child: CircularProgressIndicator(
                   color: loaderColor ?? AppColors.SECONDARY_COLOR,
-                  strokeWidth: 1.6,
+                  strokeWidth: Device.screenType == ScreenType.mobile ? 1.6 : 3.5,
                 ),
               )
           : child ??

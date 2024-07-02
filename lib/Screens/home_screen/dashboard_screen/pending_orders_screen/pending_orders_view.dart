@@ -8,6 +8,7 @@ import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/pending_orders_screen/bloc/pending_orders_bloc.dart';
+import 'package:raj_packaging/Widgets/button_widget.dart';
 import 'package:raj_packaging/Widgets/custom_header_widget.dart';
 import 'package:raj_packaging/Widgets/loading_widget.dart';
 import 'package:raj_packaging/Widgets/textfield_widget.dart';
@@ -128,74 +129,100 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: ExpansionTile(
-                                        title: Row(
-                                          children: [
-                                            Text(
-                                              '${index + 1}. ',
-                                              style: TextStyle(
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w700,
-                                                color: AppColors.SECONDARY_COLOR,
-                                              ),
-                                            ),
-                                            SizedBox(width: 2.w),
-                                            Flexible(
-                                              child: Text(
-                                                party.partyName ?? '',
-                                                style: TextStyle(
-                                                  color: AppColors.SECONDARY_COLOR,
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w600,
+                                        title: SizedBox(
+                                          height: Device.screenType == ScreenType.tablet
+                                              ? Device.aspectRatio < 0.5
+                                                  ? 4.h
+                                                  : 6.h
+                                              : null,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Flexible(
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      '${index + 1}. ',
+                                                      style: TextStyle(
+                                                        fontSize: 16.sp,
+                                                        fontWeight: FontWeight.w700,
+                                                        color: AppColors.SECONDARY_COLOR,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 2.w),
+                                                    Flexible(
+                                                      child: Text(
+                                                        party.partyName ?? '',
+                                                        style: TextStyle(
+                                                          color: AppColors.SECONDARY_COLOR,
+                                                          fontSize: 16.sp,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                          ],
+
+                                              ///Edit
+                                              if (Device.screenType == ScreenType.tablet) ...[
+                                                SizedBox(width: 2.w),
+                                                IconButton(
+                                                  onPressed: () async {
+                                                    await showBottomSheetPartyEdit(
+                                                      context: context,
+                                                      partyId: party.partyId ?? "",
+                                                      partyName: party.partyName ?? "",
+                                                      phoneNumber: party.partyPhone ?? "",
+                                                    );
+                                                  },
+                                                  style: IconButton.styleFrom(
+                                                    backgroundColor: AppColors.WARNING_COLOR,
+                                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                    padding: EdgeInsets.zero,
+                                                    elevation: 4,
+                                                    maximumSize: Device.aspectRatio > 0.5 ? Size(4.5.h, 4.5.h) : Size(8.5.w, 8.5.w),
+                                                    minimumSize: Device.aspectRatio > 0.5 ? Size(4.5.h, 4.5.h) : Size(8.5.w, 8.5.w),
+                                                  ),
+                                                  icon: Icon(
+                                                    Icons.edit_rounded,
+                                                    color: AppColors.PRIMARY_COLOR,
+                                                    size: Device.aspectRatio > 0.5 ? 3.w : 5.w,
+                                                  ),
+                                                ),
+                                              ],
+                                            ],
+                                          ),
                                         ),
                                         tilePadding: EdgeInsets.only(
                                           left: 3.w,
-                                          right: 2.w,
+                                          right: Device.screenType == ScreenType.tablet ? 0.5.w : 2.w,
                                         ),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            ///Edit
-                                            IconButton(
-                                              onPressed: () async {},
-                                              style: IconButton.styleFrom(
-                                                backgroundColor: AppColors.WARNING_COLOR,
-                                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                padding: EdgeInsets.zero,
-                                                elevation: 4,
-                                                maximumSize: Size(7.5.w, 7.5.w),
-                                                minimumSize: Size(7.5.w, 7.5.w),
+                                        trailing: Device.screenType == ScreenType.tablet
+                                            ? const SizedBox()
+                                            : IconButton(
+                                                onPressed: () async {
+                                                  await showBottomSheetPartyEdit(
+                                                    context: context,
+                                                    partyId: party.partyId ?? "",
+                                                    partyName: party.partyName ?? "",
+                                                    phoneNumber: party.partyPhone ?? "",
+                                                  );
+                                                },
+                                                style: IconButton.styleFrom(
+                                                  backgroundColor: AppColors.WARNING_COLOR,
+                                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                  padding: EdgeInsets.zero,
+                                                  elevation: 4,
+                                                  maximumSize: Size(7.5.w, 7.5.w),
+                                                  minimumSize: Size(7.5.w, 7.5.w),
+                                                ),
+                                                icon: Icon(
+                                                  Icons.edit_rounded,
+                                                  color: AppColors.PRIMARY_COLOR,
+                                                  size: 4.w,
+                                                ),
                                               ),
-                                              icon: Icon(
-                                                Icons.edit_rounded,
-                                                color: AppColors.PRIMARY_COLOR,
-                                                size: 4.w,
-                                              ),
-                                            ),
-                                            SizedBox(width: 2.w),
-
-                                            ///Delete
-                                            IconButton(
-                                              onPressed: () async {},
-                                              style: IconButton.styleFrom(
-                                                backgroundColor: AppColors.DARK_RED_COLOR,
-                                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                padding: EdgeInsets.zero,
-                                                elevation: 4,
-                                                maximumSize: Size(7.5.w, 7.5.w),
-                                                minimumSize: Size(7.5.w, 7.5.w),
-                                              ),
-                                              icon: Icon(
-                                                Icons.delete_forever_rounded,
-                                                color: AppColors.PRIMARY_COLOR,
-                                                size: 4.w,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                         dense: true,
                                         collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
                                         backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
@@ -288,31 +315,104 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                           children: [
                                                             for (int j = 0; j < (party.productData?[i].orderData?.length ?? 0); j++) ...[
                                                               ExpansionTile(
-                                                                title: Row(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    ///ItemName
-                                                                    Text(
-                                                                      "❖",
-                                                                      style: TextStyle(
-                                                                        fontSize: 16.sp,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        color: AppColors.SECONDARY_COLOR,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(width: 2.w),
-                                                                    Flexible(
-                                                                      child: Text(
-                                                                        DateFormat("yyyy-MM-dd, hh:mm a").format(DateFormat("yyyy-MM-dd, hh:mm:ss").parse("${party.productData?[i].orderData?[j].createdDate}, ${party.productData?[i].orderData?[j].createdTime}").toLocal()),
-                                                                        style: TextStyle(
-                                                                          color: AppColors.BLACK_COLOR,
-                                                                          fontSize: 16.sp,
-                                                                          fontWeight: FontWeight.w600,
+                                                                title: SizedBox(
+                                                                  height: Device.screenType == ScreenType.tablet
+                                                                      ? Device.aspectRatio > 0.5
+                                                                          ? 5.5.h
+                                                                          : 4.5.h
+                                                                      : null,
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      Flexible(
+                                                                        child: Row(
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            ///ItemName
+                                                                            Text(
+                                                                              "❖",
+                                                                              style: TextStyle(
+                                                                                fontSize: 16.sp,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                color: AppColors.SECONDARY_COLOR,
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(width: 2.w),
+                                                                            Flexible(
+                                                                              child: Text(
+                                                                                DateFormat("yyyy-MM-dd, hh:mm a").format(DateFormat("yyyy-MM-dd, hh:mm:ss").parse("${party.productData?[i].orderData?[j].createdDate}, ${party.productData?[i].orderData?[j].createdTime}").toLocal()),
+                                                                                style: TextStyle(
+                                                                                  color: AppColors.BLACK_COLOR,
+                                                                                  fontSize: 16.sp,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ],
+
+                                                                      ///Delete
+                                                                      if (Device.screenType == ScreenType.tablet) ...[
+                                                                        SizedBox(width: 2.w),
+                                                                        IconButton(
+                                                                          onPressed: () async {
+                                                                            await showDeleteDialog(
+                                                                              context: context,
+                                                                              title: S.current.deleteItemText,
+                                                                              onPressed: () async {
+                                                                                if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
+                                                                                  pendingOrdersBloc.add(PendingOrdersDeleteOrderClickEvent(orderId: party.productData?[i].orderData?[j].orderId ?? ""));
+                                                                                }
+                                                                              },
+                                                                            );
+                                                                          },
+                                                                          style: IconButton.styleFrom(
+                                                                            backgroundColor: AppColors.DARK_RED_COLOR,
+                                                                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                            padding: EdgeInsets.zero,
+                                                                            elevation: 4,
+                                                                            maximumSize: Device.aspectRatio > 0.5 ? Size(4.5.h, 4.5.h) : Size(8.5.w, 8.5.w),
+                                                                            minimumSize: Device.aspectRatio > 0.5 ? Size(4.5.h, 4.5.h) : Size(8.5.w, 8.5.w),
+                                                                          ),
+                                                                          icon: FaIcon(
+                                                                            FontAwesomeIcons.solidTrashCan,
+                                                                            color: AppColors.PRIMARY_COLOR,
+                                                                            size: Device.aspectRatio > 0.5 ? 2.5.w : 4.w,
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ],
+                                                                  ),
                                                                 ),
+                                                                trailing: Device.screenType == ScreenType.tablet
+                                                                    ? const SizedBox()
+                                                                    : IconButton(
+                                                                        onPressed: () async {
+                                                                          await showDeleteDialog(
+                                                                            context: context,
+                                                                            title: S.current.deleteItemText,
+                                                                            onPressed: () async {
+                                                                              if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
+                                                                                pendingOrdersBloc.add(PendingOrdersDeleteOrderClickEvent(orderId: party.productData?[i].orderData?[j].orderId ?? ""));
+                                                                              }
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                        style: IconButton.styleFrom(
+                                                                          backgroundColor: AppColors.DARK_RED_COLOR,
+                                                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                          padding: EdgeInsets.zero,
+                                                                          elevation: 4,
+                                                                          maximumSize: Size(7.5.w, 7.5.w),
+                                                                          minimumSize: Size(7.5.w, 7.5.w),
+                                                                        ),
+                                                                        icon: FaIcon(
+                                                                          FontAwesomeIcons.solidTrashCan,
+                                                                          color: AppColors.PRIMARY_COLOR,
+                                                                          size: 4.w,
+                                                                        ),
+                                                                      ),
                                                                 dense: true,
                                                                 collapsedShape: InputBorder.none,
                                                                 shape: InputBorder.none,
@@ -1318,6 +1418,293 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
           ),
         ),
       ),
+    );
+  }
+
+  ///Party Edit Bottom Sheet
+  Future<void> showBottomSheetPartyEdit({
+    required BuildContext context,
+    required String partyId,
+    required String partyName,
+    required String phoneNumber,
+  }) async {
+    final pendingOrdersBloc = context.read<PendingOrdersBloc>();
+    GlobalKey<FormState> editPartyFormKey = GlobalKey<FormState>();
+    TextEditingController editPartyController = TextEditingController(text: partyName);
+    TextEditingController editPhoneNumberController = TextEditingController(text: phoneNumber);
+
+    await showModalBottomSheet(
+      context: context,
+      constraints: BoxConstraints(maxWidth: 100.w, minWidth: 100.w, maxHeight: 90.h, minHeight: 0.h),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      isScrollControlled: true,
+      useRootNavigator: true,
+      clipBehavior: Clip.hardEdge,
+      backgroundColor: AppColors.WHITE_COLOR,
+      builder: (context) {
+        final keyboardPadding = MediaQuery.viewInsetsOf(context).bottom;
+        return GestureDetector(
+          onTap: Utils.unfocus,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(top: 1.h, bottom: keyboardPadding),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ///Back, Title & Save
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: IconButton.styleFrom(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: AppColors.SECONDARY_COLOR,
+                            size: 6.w,
+                          ),
+                        ),
+                        Text(
+                          S.current.editParty,
+                          style: TextStyle(
+                            color: AppColors.SECONDARY_COLOR,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                        BlocProvider.value(
+                          value: pendingOrdersBloc,
+                          child: BlocConsumer<PendingOrdersBloc, PendingOrdersState>(
+                            listener: (context, state) {
+                              if (state is PendingOrdersEditPartySuccessState) {
+                                context.pop();
+                                Utils.handleMessage(message: state.successMessage);
+                                pendingOrdersBloc.add(PendingOrdersGetOrdersEvent());
+                              }
+                              if (state is PendingOrdersEditPartyFailedState) {
+                                Utils.handleMessage(message: state.failedMessage, isError: true);
+                              }
+                            },
+                            builder: (context, state) {
+                              final editPartyBloc = context.read<PendingOrdersBloc>();
+                              return TextButton(
+                                onPressed: () async {
+                                  if (partyId.isNotEmpty) {
+                                    editPartyBloc.add(
+                                      PendingOrdersEditPartyClickEvent(
+                                        isValidate: editPartyFormKey.currentState?.validate() == true,
+                                        partyId: partyId,
+                                        partyName: editPartyController.text.trim(),
+                                        partyPhone: editPhoneNumberController.text.trim(),
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: IconButton.styleFrom(
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: state is PendingOrdersEditPartyLoadingState && state.isLoading
+                                    ? LoadingWidget(
+                                        width: 8.w,
+                                        height: 8.w,
+                                      )
+                                    : Text(
+                                        S.current.save,
+                                        style: TextStyle(
+                                          color: AppColors.DARK_GREEN_COLOR,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Divider(
+                      color: AppColors.HINT_GREY_COLOR,
+                      thickness: 1,
+                    ),
+                  ),
+
+                  ///Edit party
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Form(
+                      key: editPartyFormKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ///Party Name
+                          TextFieldWidget(
+                            controller: editPartyController,
+                            title: S.current.editPartyName,
+                            hintText: S.current.enterPartyName,
+                            validator: pendingOrdersBloc.validatePartyName,
+                            primaryColor: AppColors.SECONDARY_COLOR,
+                            secondaryColor: AppColors.PRIMARY_COLOR,
+                            maxLength: 30,
+                            textInputAction: TextInputAction.next,
+                          ),
+
+                          ///Phone number
+                          TextFieldWidget(
+                            controller: editPhoneNumberController,
+                            title: S.current.editPhoneNumber,
+                            hintText: S.current.enterPhoneNumber,
+                            validator: pendingOrdersBloc.validatePhoneNumber,
+                            primaryColor: AppColors.SECONDARY_COLOR,
+                            secondaryColor: AppColors.PRIMARY_COLOR,
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showDeleteDialog({
+    required BuildContext context,
+    required void Function()? onPressed,
+    required String title,
+  }) async {
+    final pendingOrdersBloc = context.read<PendingOrdersBloc>();
+
+    await showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'string',
+      transitionDuration: const Duration(milliseconds: 400),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 1),
+            end: const Offset(0, 0),
+          ).animate(animation),
+          child: FadeTransition(
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOut,
+            ),
+            child: child,
+          ),
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: AppColors.WHITE_COLOR,
+          surfaceTintColor: AppColors.WHITE_COLOR,
+          contentPadding: EdgeInsets.symmetric(horizontal: 2.w),
+          content: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: AppColors.WHITE_COLOR,
+            ),
+            width: 80.w,
+            clipBehavior: Clip.hardEdge,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 2.h),
+                Icon(
+                  Icons.delete_forever_rounded,
+                  color: AppColors.DARK_RED_COLOR,
+                  size: 8.w,
+                ),
+                SizedBox(height: 2.h),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.SECONDARY_COLOR,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                SizedBox(height: 3.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ///Cancel
+                      ButtonWidget(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        fixedSize: Size(30.w, 5.h),
+                        buttonTitle: S.current.cancel,
+                        buttonColor: AppColors.DARK_GREEN_COLOR,
+                        buttonTitleColor: AppColors.PRIMARY_COLOR,
+                      ),
+
+                      ///Delete
+                      BlocProvider.value(
+                        value: pendingOrdersBloc,
+                        child: BlocConsumer<PendingOrdersBloc, PendingOrdersState>(
+                          listener: (context, state) {
+                            if (state is PendingOrdersDeleteOrderSuccessState) {
+                              context.pop();
+                              Utils.handleMessage(message: state.successMessage);
+                              context.read<PendingOrdersBloc>().add(PendingOrdersGetOrdersEvent());
+                            }
+                            if (state is PendingOrdersDeleteOrderFailedState) {
+                              context.pop();
+                              Utils.handleMessage(message: state.failedMessage, isError: true);
+                            }
+                          },
+                          builder: (context, state) {
+                            return ButtonWidget(
+                              onPressed: onPressed,
+                              isLoading: state is PendingOrdersDeleteOrderLoadingState && state.isLoading,
+                              fixedSize: Size(30.w, 5.h),
+                              buttonTitle: S.current.delete,
+                              buttonColor: AppColors.DARK_RED_COLOR,
+                              loaderColor: AppColors.PRIMARY_COLOR,
+                              buttonTitleColor: AppColors.PRIMARY_COLOR,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 3.h),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

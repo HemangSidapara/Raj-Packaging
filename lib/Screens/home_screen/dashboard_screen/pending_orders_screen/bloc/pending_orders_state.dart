@@ -41,3 +41,57 @@ class PendingOrdersSearchOrderState extends PendingOrdersState {
   @override
   List<Object?> get props => [ordersList];
 }
+
+class PendingOrdersEditPartyLoadingState extends PendingOrdersState {
+  final bool isLoading;
+
+  const PendingOrdersEditPartyLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class PendingOrdersEditPartySuccessState extends PendingOrdersState {
+  final String? successMessage;
+
+  const PendingOrdersEditPartySuccessState({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class PendingOrdersEditPartyFailedState extends PendingOrdersState {
+  final String? failedMessage;
+
+  const PendingOrdersEditPartyFailedState({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}
+
+class PendingOrdersDeleteOrderLoadingState extends PendingOrdersState {
+  final bool isLoading;
+
+  const PendingOrdersDeleteOrderLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class PendingOrdersDeleteOrderSuccessState extends PendingOrdersState {
+  final String? successMessage;
+
+  const PendingOrdersDeleteOrderSuccessState({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class PendingOrdersDeleteOrderFailedState extends PendingOrdersState {
+  final String? failedMessage;
+
+  const PendingOrdersDeleteOrderFailedState({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}
