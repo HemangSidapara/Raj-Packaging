@@ -5,6 +5,7 @@ import 'dart:convert';
 /// Data : [{"partyId":"1","partyName":"ABCD","partyPhone":"1212121212","productData":[{"productId":"1","orderType":"Sheet","boxType":"","deckle":"10","cutting":"10","productName":"Test","ply":"","topPaper":"","paper":"10","flute":"10","l":"","b":"","h":"","productionCutting":"10","productionDeckle":"10","orderData":[{"orderId":"1","orderQuantity":"10","productionQuantity":"10","createdDate":"2024-06-18","createdTime":"18:51:23"}]},{"productId":"2","orderType":"Sheet","boxType":"","deckle":"10","cutting":"10","productName":"Test","ply":"","topPaper":"","paper":"10","flute":"10","l":"","b":"","h":"","productionCutting":"10","productionDeckle":"10","orderData":[{"orderId":"2","orderQuantity":"10","productionQuantity":"10","createdDate":"2024-06-18","createdTime":"18:51:58"},{"orderId":"3","orderQuantity":"10","productionQuantity":"10","createdDate":"2024-06-18","createdTime":"18:52:13"}]}]}]
 
 GetOrdersModel getOrdersModelFromJson(String str) => GetOrdersModel.fromJson(json.decode(str));
+
 String getOrdersModelToJson(GetOrdersModel data) => json.encode(data.toJson());
 
 class GetOrdersModel {
@@ -28,9 +29,11 @@ class GetOrdersModel {
       });
     }
   }
+
   String? _code;
   String? _msg;
   List<Data>? _data;
+
   GetOrdersModel copyWith({
     String? code,
     String? msg,
@@ -41,8 +44,11 @@ class GetOrdersModel {
         msg: msg ?? _msg,
         data: data ?? _data,
       );
+
   String? get code => _code;
+
   String? get msg => _msg;
+
   List<Data>? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -62,6 +68,7 @@ class GetOrdersModel {
 /// productData : [{"productId":"1","orderType":"Sheet","boxType":"","deckle":"10","cutting":"10","productName":"Test","ply":"","topPaper":"","paper":"10","flute":"10","l":"","b":"","h":"","productionCutting":"10","productionDeckle":"10","orderData":[{"orderId":"1","orderQuantity":"10","productionQuantity":"10","createdDate":"2024-06-18","createdTime":"18:51:23"}]},{"productId":"2","orderType":"Sheet","boxType":"","deckle":"10","cutting":"10","productName":"Test","ply":"","topPaper":"","paper":"10","flute":"10","l":"","b":"","h":"","productionCutting":"10","productionDeckle":"10","orderData":[{"orderId":"2","orderQuantity":"10","productionQuantity":"10","createdDate":"2024-06-18","createdTime":"18:51:58"},{"orderId":"3","orderQuantity":"10","productionQuantity":"10","createdDate":"2024-06-18","createdTime":"18:52:13"}]}]
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
 
 class Data {
@@ -88,10 +95,12 @@ class Data {
       });
     }
   }
+
   String? _partyId;
   String? _partyName;
   String? _partyPhone;
   List<ProductData>? _productData;
+
   Data copyWith({
     String? partyId,
     String? partyName,
@@ -104,9 +113,13 @@ class Data {
         partyPhone: partyPhone ?? _partyPhone,
         productData: productData ?? _productData,
       );
+
   String? get partyId => _partyId;
+
   String? get partyName => _partyName;
+
   String? get partyPhone => _partyPhone;
+
   List<ProductData>? get productData => _productData;
 
   Map<String, dynamic> toJson() {
@@ -139,6 +152,7 @@ class Data {
 /// orderData : [{"orderId":"1","orderQuantity":"10","productionQuantity":"10","createdDate":"2024-06-18","createdTime":"18:51:23"}]
 
 ProductData productDataFromJson(String str) => ProductData.fromJson(json.decode(str));
+
 String productDataToJson(ProductData data) => json.encode(data.toJson());
 
 class ProductData {
@@ -156,6 +170,7 @@ class ProductData {
     String? l,
     String? b,
     String? h,
+    String? ups,
     String? productionCutting,
     String? productionDeckle,
     List<OrderData>? orderData,
@@ -173,6 +188,7 @@ class ProductData {
     _l = l;
     _b = b;
     _h = h;
+    _ups = ups;
     _productionCutting = productionCutting;
     _productionDeckle = productionDeckle;
     _orderData = orderData;
@@ -192,6 +208,7 @@ class ProductData {
     _l = json['l'];
     _b = json['b'];
     _h = json['h'];
+    _ups = json['ups'];
     _productionCutting = json['productionCutting'];
     _productionDeckle = json['productionDeckle'];
     if (json['orderData'] != null) {
@@ -201,6 +218,7 @@ class ProductData {
       });
     }
   }
+
   String? _productId;
   String? _orderType;
   String? _boxType;
@@ -214,9 +232,11 @@ class ProductData {
   String? _l;
   String? _b;
   String? _h;
+  String? _ups;
   String? _productionCutting;
   String? _productionDeckle;
   List<OrderData>? _orderData;
+
   ProductData copyWith({
     String? productId,
     String? orderType,
@@ -231,6 +251,7 @@ class ProductData {
     String? l,
     String? b,
     String? h,
+    String? ups,
     String? productionCutting,
     String? productionDeckle,
     List<OrderData>? orderData,
@@ -249,25 +270,44 @@ class ProductData {
         l: l ?? _l,
         b: b ?? _b,
         h: h ?? _h,
+        ups: ups ?? _ups,
         productionCutting: productionCutting ?? _productionCutting,
         productionDeckle: productionDeckle ?? _productionDeckle,
         orderData: orderData ?? _orderData,
       );
+
   String? get productId => _productId;
+
   String? get orderType => _orderType;
+
   String? get boxType => _boxType;
+
   String? get deckle => _deckle;
+
   String? get cutting => _cutting;
+
   String? get productName => _productName;
+
   String? get ply => _ply;
+
   String? get topPaper => _topPaper;
+
   String? get paper => _paper;
+
   String? get flute => _flute;
+
   String? get l => _l;
+
   String? get b => _b;
+
   String? get h => _h;
+
+  String? get ups => _ups;
+
   String? get productionCutting => _productionCutting;
+
   String? get productionDeckle => _productionDeckle;
+
   List<OrderData>? get orderData => _orderData;
 
   Map<String, dynamic> toJson() {
@@ -285,6 +325,7 @@ class ProductData {
     map['l'] = _l;
     map['b'] = _b;
     map['h'] = _h;
+    map['ups'] = _ups;
     map['productionCutting'] = _productionCutting;
     map['productionDeckle'] = _productionDeckle;
     if (_orderData != null) {
@@ -301,6 +342,7 @@ class ProductData {
 /// createdTime : "18:51:23"
 
 OrderData orderDataFromJson(String str) => OrderData.fromJson(json.decode(str));
+
 String orderDataToJson(OrderData data) => json.encode(data.toJson());
 
 class OrderData {
@@ -325,11 +367,13 @@ class OrderData {
     _createdDate = json['createdDate'];
     _createdTime = json['createdTime'];
   }
+
   String? _orderId;
   String? _orderQuantity;
   String? _productionQuantity;
   String? _createdDate;
   String? _createdTime;
+
   OrderData copyWith({
     String? orderId,
     String? orderQuantity,
@@ -344,10 +388,15 @@ class OrderData {
         createdDate: createdDate ?? _createdDate,
         createdTime: createdTime ?? _createdTime,
       );
+
   String? get orderId => _orderId;
+
   String? get orderQuantity => _orderQuantity;
+
   String? get productionQuantity => _productionQuantity;
+
   String? get createdDate => _createdDate;
+
   String? get createdTime => _createdTime;
 
   Map<String, dynamic> toJson() {

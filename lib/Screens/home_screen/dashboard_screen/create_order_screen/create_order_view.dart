@@ -41,6 +41,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
   final TextEditingController _actualSheetSizeBoxRSCCuttingController = TextEditingController();
   final TextEditingController _actualSheetSizeBoxDiePunchDeckleController = TextEditingController();
   final TextEditingController _actualSheetSizeBoxDiePunchCuttingController = TextEditingController();
+  final TextEditingController _upsDiePunchController = TextEditingController();
 
   final TextEditingController _specificationRollPaperController = TextEditingController();
   final TextEditingController _specificationRollFluteController = TextEditingController();
@@ -138,6 +139,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         productionSizeDeckle: createOrderBloc.boxTypeIndex == 1 ? _productionSheetSizeBoxDiePunchDeckleController.text.trim() : _productionSheetSizeBoxRSCDeckleController.text.trim(),
         actualSizeCutting: createOrderBloc.boxTypeIndex == 1 ? _actualSheetSizeBoxDiePunchCuttingController.text.trim() : _actualSheetSizeBoxRSCCuttingController.text.trim(),
         productionSizeCutting: createOrderBloc.boxTypeIndex == 1 ? _productionSheetSizeBoxDiePunchCuttingController.text.trim() : _productionSheetSizeBoxRSCCuttingController.text.trim(),
+        upsForDiePunch: createOrderBloc.boxTypeIndex == 1 ? _upsDiePunchController.text.trim() : null,
       );
     }
   }
@@ -348,11 +350,11 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   SizedBox(height: 1.h),
                                 ],
 
-                                ///Order size or Actual Sheet Size [Deckle x Cutting or L x B x H]
+                                ///Order size or Die Size or Actual Sheet Size [Deckle x Cutting or L x B x H]
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1 ? S.current.actualSheetSize : S.current.orderSize,
+                                    createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1 ? S.current.dieSize : S.current.orderSize,
                                     style: TextStyle(
                                       color: AppColors.PRIMARY_COLOR,
                                       fontSize: 18.sp,
@@ -444,6 +446,26 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   ],
                                 ),
                                 SizedBox(height: 1.h),
+
+                                ///Ups
+                                if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1) ...[
+                                  TextFieldWidget(
+                                    controller: _upsDiePunchController,
+                                    title: S.current.ups,
+                                    hintText: S.current.enterUps,
+                                    validator: createOrderBloc.validateUps,
+                                    textInputAction: TextInputAction.next,
+                                    maxLength: 10,
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) {
+                                      if (value.isNotEmpty) {
+                                        _getProductionQuantity(createOrderBloc);
+                                      }
+                                    },
+                                    isCrossEnable: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0,
+                                  ),
+                                  SizedBox(height: 1.h),
+                                ],
 
                                 ///Specification Type [Ply][Top Paper, Paper, Flute]
                                 Align(
@@ -914,6 +936,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               l: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCLController.text.trim() : null,
                               b: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCBController.text.trim() : null,
                               h: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCHController.text.trim() : null,
+                              ups: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1 ? _upsDiePunchController.text.trim() : null,
                             ),
                           );
                         },
@@ -1947,53 +1970,48 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     if (manualAddTypeEnable)
                       Padding(
                         padding: EdgeInsets.only(bottom: keyboardPadding != 0 ? 13.h : 0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: TextFieldWidget(
-                                controller: addTypeController,
-                                title: S.current.add,
-                                hintText: S.current.enterType,
-                                primaryColor: AppColors.SECONDARY_COLOR,
-                                secondaryColor: AppColors.PRIMARY_COLOR,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  bottomLeft: Radius.circular(8),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 2.w),
-                            Padding(
-                              padding: EdgeInsets.only(top: 3.h),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (addTypeController.text.isNotEmpty) {
-                                    context.pop();
-                                    onPressed?.call(-1, addTypeController.text);
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.SECONDARY_COLOR,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(8),
-                                      bottomRight: Radius.circular(8),
+                        child: TextFieldWidget(
+                          controller: addTypeController,
+                          title: S.current.add,
+                          hintText: S.current.enterType,
+                          primaryColor: AppColors.SECONDARY_COLOR,
+                          secondaryColor: AppColors.PRIMARY_COLOR,
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              if (addTypeController.text.isNotEmpty) {
+                                context.pop();
+                                onPressed?.call(-1, addTypeController.text);
+                              }
+                            },
+                            child: SizedBox(
+                              width: 10.w,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: 5.h,
+                                    child: VerticalDivider(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
                                     ),
                                   ),
-                                  padding: EdgeInsets.zero,
-                                  maximumSize: Size(12.w, 4.4.h),
-                                  minimumSize: Size(12.w, 4.4.h),
-                                ),
-                                child: Icon(
-                                  Icons.add_rounded,
-                                  size: 5.w,
-                                  color: AppColors.WHITE_COLOR,
-                                ),
+                                  Flexible(
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.add_rounded,
+                                        size: Device.screenType == ScreenType.mobile
+                                            ? 5.w
+                                            : Device.aspectRatio > 5
+                                                ? 3.w
+                                                : 5.w,
+                                        color: AppColors.WHITE_COLOR,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     SizedBox(height: 2.h),

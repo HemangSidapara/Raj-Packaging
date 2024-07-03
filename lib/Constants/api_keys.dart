@@ -21,4 +21,5 @@ class ApiKeys {
   static const l = "l";
   static const b = "b";
   static const h = "h";
+  static const ups = "ups";
 }

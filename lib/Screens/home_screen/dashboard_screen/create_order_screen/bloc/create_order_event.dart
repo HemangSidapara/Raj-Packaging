@@ -172,6 +172,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
   final String? l;
   final String? b;
   final String? h;
+  final String? ups;
 
   const CreateOrderButtonClickEvent({
     required this.isValidate,
@@ -195,6 +196,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
     this.l,
     this.b,
     this.h,
+    this.ups,
   });
 
   @override
@@ -220,6 +222,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
         l,
         b,
         h,
+        ups,
       ];
 }
 

@@ -48,6 +48,7 @@ class CreateOrderService {
     String? l,
     String? b,
     String? h,
+    String? ups,
   }) async {
     final params = {
       ApiKeys.partyId: partyId,
@@ -70,6 +71,7 @@ class CreateOrderService {
       ApiKeys.l: l,
       ApiKeys.b: b,
       ApiKeys.h: h,
+      ApiKeys.ups: ups,
     };
     final response = await ApiBaseHelper.postHTTP(
       ApiUrls.createOrderApi,

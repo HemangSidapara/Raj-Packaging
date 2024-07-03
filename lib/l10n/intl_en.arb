@@ -147,5 +147,11 @@
   "editPartyName": "Edit Party Name",
   "editPhoneNumber": "Edit Phone Number",
   "save": "Save",
-  "pleaseEnterValidPhoneNumber": "Please enter valid phone number"
+  "pleaseEnterValidPhoneNumber": "Please enter valid phone number",
+  "dieSize": "Die Size :",
+  "ups": "Ups",
+  "enterUps": "Enter ups",
+  "pleaseEnterUps": "Please enter ups",
+  "productionRollSize": "Production Roll Size (inch) :",
+  "productionRollQuantity": "Production Roll Quantity:"
 }

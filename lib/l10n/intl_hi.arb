@@ -146,5 +146,11 @@
   "editPartyName": "पार्टी का नाम संपादित करें",
   "editPhoneNumber": "फ़ोन नंबर संपादित करें",
   "save": "संचय",
-  "pleaseEnterValidPhoneNumber": "कृपया वैध फ़ोन नंबर दर्ज करें"
+  "pleaseEnterValidPhoneNumber": "कृपया वैध फ़ोन नंबर दर्ज करें",
+  "dieSize": "डाई साइज़ :",
+  "ups": "Ups",
+  "enterUps": "Ups दर्ज करें",
+  "pleaseEnterUps": "कृपया Ups दर्ज करें",
+  "productionRollSize": "उत्पादन रोल साइज (इंच) :",
+  "productionRollQuantity": "उत्पादन रोल मात्रा:"
 }
