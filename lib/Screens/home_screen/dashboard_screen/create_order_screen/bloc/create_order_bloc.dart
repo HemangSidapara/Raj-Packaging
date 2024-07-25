@@ -19,6 +19,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   int orderTypeIndex = 0;
   int plySheetTypeIndex = 0;
   int boxTypeIndex = 0;
+  int jointTypeIndex = -1;
   int plyBoxRSCTypeIndex = 0;
   int plyBoxDiePunchTypeIndex = 0;
 
@@ -90,6 +91,11 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     on<CreateOrderBoxTypeEvent>((event, emit) {
       boxTypeIndex = event.boxTypeIndex;
       emit(CreateOrderBoxTypeState(boxTypeIndex: event.boxTypeIndex));
+    });
+
+    on<CreateOrderJointTypeEvent>((event, emit) {
+      jointTypeIndex = event.jointTypeIndex;
+      emit(CreateOrderJointTypeState(jointTypeIndex: event.jointTypeIndex));
     });
 
     on<CreateOrderPlyBoxRSCTypeEvent>((event, emit) {
@@ -340,6 +346,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
           b: event.b,
           h: event.h,
           ups: event.ups,
+          jointType: event.jointType,
         );
 
         if (response.isSuccess) {

@@ -464,6 +464,30 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                               ),
                                                                               SizedBox(height: 0.8.h),
 
+                                                                              ///Joint Type
+                                                                              Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                    S.current.jointType,
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 15.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(width: 2.w),
+                                                                                  Text(
+                                                                                    party.productData?[i].joint != null && party.productData?[i].joint?.isNotEmpty == true ? (party.productData?[i].joint == "Glue Joint" ? S.current.glueJoint : S.current.pinJoint) : "-",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 16.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              SizedBox(height: 0.8.h),
+
                                                                               ///Order size [inch]
                                                                               if (party.productData?[i].boxType != "Die Punch") ...[
                                                                                 Text(

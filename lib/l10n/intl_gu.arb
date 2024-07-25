@@ -153,5 +153,8 @@
   "enterUps": "Ups દાખલ કરો",
   "pleaseEnterUps": "કૃપા કરીને Ups દાખલ કરો",
   "productionRollSize": "ઉત્પાદન રોલ સાઈઝ (ઇંચ) :",
-  "productionRollQuantity": "ઉત્પાદન રોલ જથ્થો:"
+  "productionRollQuantity": "ઉત્પાદન રોલ જથ્થો :",
+  "jointType": "સંયુક્ત પ્રકાર :",
+  "pinJoint": "પિન સંયુક્ત",
+  "glueJoint": "ગુંદર સંયુક્ત"
 }

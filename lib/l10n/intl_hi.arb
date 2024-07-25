@@ -152,5 +152,8 @@
   "enterUps": "Ups दर्ज करें",
   "pleaseEnterUps": "कृपया Ups दर्ज करें",
   "productionRollSize": "उत्पादन रोल साइज (इंच) :",
-  "productionRollQuantity": "उत्पादन रोल मात्रा:"
+  "productionRollQuantity": "उत्पादन रोल मात्रा :",
+  "jointType": "जोड़ प्रकार :",
+  "pinJoint": "पिन जोड़",
+  "glueJoint": "गोंद जोड़"
 }

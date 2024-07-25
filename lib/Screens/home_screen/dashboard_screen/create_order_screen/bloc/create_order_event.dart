@@ -132,6 +132,15 @@ class CreateOrderBoxTypeEvent extends CreateOrderEvent {
   List<Object?> get props => [boxTypeIndex];
 }
 
+class CreateOrderJointTypeEvent extends CreateOrderEvent {
+  final int jointTypeIndex;
+
+  const CreateOrderJointTypeEvent({required this.jointTypeIndex});
+
+  @override
+  List<Object?> get props => [jointTypeIndex];
+}
+
 class CreateOrderPlyBoxRSCTypeEvent extends CreateOrderEvent {
   final int plyBoxRSCTypeIndex;
 
@@ -173,6 +182,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
   final String? b;
   final String? h;
   final String? ups;
+  final String? jointType;
 
   const CreateOrderButtonClickEvent({
     required this.isValidate,
@@ -197,6 +207,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
     this.b,
     this.h,
     this.ups,
+    this.jointType,
   });
 
   @override
@@ -223,6 +234,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
         b,
         h,
         ups,
+        jointType,
       ];
 }
 

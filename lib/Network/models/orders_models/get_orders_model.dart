@@ -171,6 +171,7 @@ class ProductData {
     String? b,
     String? h,
     String? ups,
+    String? joint,
     String? productionCutting,
     String? productionDeckle,
     List<OrderData>? orderData,
@@ -192,6 +193,7 @@ class ProductData {
     _productionCutting = productionCutting;
     _productionDeckle = productionDeckle;
     _orderData = orderData;
+    _joint = joint;
   }
 
   ProductData.fromJson(dynamic json) {
@@ -209,6 +211,7 @@ class ProductData {
     _b = json['b'];
     _h = json['h'];
     _ups = json['ups'];
+    _joint = json['joint'];
     _productionCutting = json['productionCutting'];
     _productionDeckle = json['productionDeckle'];
     if (json['orderData'] != null) {
@@ -233,6 +236,7 @@ class ProductData {
   String? _b;
   String? _h;
   String? _ups;
+  String? _joint;
   String? _productionCutting;
   String? _productionDeckle;
   List<OrderData>? _orderData;
@@ -252,6 +256,7 @@ class ProductData {
     String? b,
     String? h,
     String? ups,
+    String? joint,
     String? productionCutting,
     String? productionDeckle,
     List<OrderData>? orderData,
@@ -271,6 +276,7 @@ class ProductData {
         b: b ?? _b,
         h: h ?? _h,
         ups: ups ?? _ups,
+        joint: joint ?? _joint,
         productionCutting: productionCutting ?? _productionCutting,
         productionDeckle: productionDeckle ?? _productionDeckle,
         orderData: orderData ?? _orderData,
@@ -304,6 +310,8 @@ class ProductData {
 
   String? get ups => _ups;
 
+  String? get joint => _joint;
+
   String? get productionCutting => _productionCutting;
 
   String? get productionDeckle => _productionDeckle;
@@ -326,6 +334,7 @@ class ProductData {
     map['b'] = _b;
     map['h'] = _h;
     map['ups'] = _ups;
+    map['joint'] = _joint;
     map['productionCutting'] = _productionCutting;
     map['productionDeckle'] = _productionDeckle;
     if (_orderData != null) {

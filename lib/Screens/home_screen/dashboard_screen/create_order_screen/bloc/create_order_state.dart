@@ -106,6 +106,15 @@ class CreateOrderBoxTypeState extends CreateOrderState {
   List<Object?> get props => [boxTypeIndex];
 }
 
+class CreateOrderJointTypeState extends CreateOrderState {
+  final int jointTypeIndex;
+
+  const CreateOrderJointTypeState({required this.jointTypeIndex});
+
+  @override
+  List<Object?> get props => [jointTypeIndex];
+}
+
 class CreateOrderPlyBoxRSCTypeState extends CreateOrderState {
   final int plyBoxRSCTypeIndex;
 

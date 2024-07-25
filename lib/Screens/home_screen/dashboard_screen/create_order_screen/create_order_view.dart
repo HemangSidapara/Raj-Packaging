@@ -81,6 +81,11 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     "Die Punch",
   ];
 
+  final List<String> jointTypeList = [
+    "Pin Joint",
+    "Glue Joint",
+  ];
+
   final List<String> paperAndFluteTypesForRollList = [
     "100 gsm",
     "150 gsm",
@@ -339,12 +344,40 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      ///Roll
+                                      ///RSC
                                       BoxTypeWidget(title: S.current.rsc, index: 0),
                                       SizedBox(width: 2.w),
 
-                                      ///Sheet
+                                      ///Die Punch
                                       BoxTypeWidget(title: S.current.diePunch, index: 1),
+                                    ],
+                                  ),
+                                  SizedBox(height: 1.h),
+                                ],
+
+                                ///Joint Type[Pin Joint, Glue Joint]
+                                if (createOrderBloc.orderTypeIndex == 2) ...[
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      S.current.jointType,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 1.3.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ///Pin Joint
+                                      JointTypeWidget(title: S.current.pinJoint, index: 0),
+                                      SizedBox(width: 2.w),
+
+                                      ///Glue Joint
+                                      JointTypeWidget(title: S.current.glueJoint, index: 1),
                                     ],
                                   ),
                                   SizedBox(height: 1.h),
@@ -937,6 +970,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               b: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCBController.text.trim() : null,
                               h: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCHController.text.trim() : null,
                               ups: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1 ? _upsDiePunchController.text.trim() : null,
+                              jointType: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.jointTypeIndex != -1 ? jointTypeList[createOrderBloc.jointTypeIndex] : null,
                             ),
                           );
                         },
@@ -1855,6 +1889,61 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                   ),
                   child: AnimatedOpacity(
                     opacity: createOrderBloc.boxTypeIndex == index ? 1 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Icon(
+                      FontAwesomeIcons.check,
+                      color: AppColors.SECONDARY_COLOR,
+                      size: 4.w,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 2.w),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ///Box Type
+  Widget JointTypeWidget({
+    required String title,
+    required int index,
+  }) {
+    return BlocBuilder<CreateOrderBloc, CreateOrderState>(
+      buildWhen: (previous, current) => current is CreateOrderTypeState,
+      builder: (context, state) {
+        final createOrderBloc = context.read<CreateOrderBloc>();
+        return InkWell(
+          onTap: () {
+            createOrderBloc.add(CreateOrderJointTypeEvent(jointTypeIndex: index));
+          },
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 15.w, minHeight: 2.5.h),
+            child: Row(
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  padding: EdgeInsets.all(0.5.w),
+                  decoration: BoxDecoration(
+                    color: createOrderBloc.jointTypeIndex == index ? AppColors.PRIMARY_COLOR : AppColors.SECONDARY_COLOR,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: AppColors.PRIMARY_COLOR,
+                      width: 1,
+                    ),
+                  ),
+                  child: AnimatedOpacity(
+                    opacity: createOrderBloc.jointTypeIndex == index ? 1 : 0,
                     duration: const Duration(milliseconds: 300),
                     child: Icon(
                       FontAwesomeIcons.check,

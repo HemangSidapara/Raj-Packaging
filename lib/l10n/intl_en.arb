@@ -153,5 +153,8 @@
   "enterUps": "Enter ups",
   "pleaseEnterUps": "Please enter ups",
   "productionRollSize": "Production Roll Size (inch) :",
-  "productionRollQuantity": "Production Roll Quantity:"
+  "productionRollQuantity": "Production Roll Quantity :",
+  "jointType": "Joint Type :",
+  "pinJoint": "Pin Joint",
+  "glueJoint": "Glue Joint"
 }
