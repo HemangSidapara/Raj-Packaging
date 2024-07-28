@@ -352,8 +352,41 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                         ),
                                                                       ),
 
-                                                                      ///Delete
+                                                                      ///Create Job & Delete
                                                                       if (Device.screenType == ScreenType.tablet) ...[
+                                                                        SizedBox(width: 2.w),
+                                                                        IconButton(
+                                                                          onPressed: () async {
+                                                                            await showConfirmDialog(
+                                                                              context: context,
+                                                                              title: S.current.confirmItemText,
+                                                                              onPressed: () async {
+                                                                                if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
+                                                                                  pendingOrdersBloc.add(
+                                                                                    PendingOrdersCreateJobClickEvent(
+                                                                                      partyId: party.partyId ?? "",
+                                                                                      productId: party.productData?[i].productId ?? "",
+                                                                                      orderId: party.productData?[i].orderData?[j].orderId ?? "",
+                                                                                    ),
+                                                                                  );
+                                                                                }
+                                                                              },
+                                                                            );
+                                                                          },
+                                                                          style: IconButton.styleFrom(
+                                                                            backgroundColor: AppColors.DARK_GREEN_COLOR,
+                                                                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                            padding: EdgeInsets.zero,
+                                                                            elevation: 4,
+                                                                            maximumSize: Size(7.5.w, 7.5.w),
+                                                                            minimumSize: Size(7.5.w, 7.5.w),
+                                                                          ),
+                                                                          icon: FaIcon(
+                                                                            FontAwesomeIcons.arrowsSpin,
+                                                                            color: AppColors.PRIMARY_COLOR,
+                                                                            size: 4.w,
+                                                                          ),
+                                                                        ),
                                                                         SizedBox(width: 2.w),
                                                                         IconButton(
                                                                           onPressed: () async {
@@ -387,31 +420,72 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                 ),
                                                                 trailing: Device.screenType == ScreenType.tablet
                                                                     ? const SizedBox()
-                                                                    : IconButton(
-                                                                        onPressed: () async {
-                                                                          await showDeleteDialog(
-                                                                            context: context,
-                                                                            title: S.current.deleteItemText,
+                                                                    : Row(
+                                                                        mainAxisSize: MainAxisSize.min,
+                                                                        children: [
+                                                                          ///Create Job
+                                                                          IconButton(
                                                                             onPressed: () async {
-                                                                              if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
-                                                                                pendingOrdersBloc.add(PendingOrdersDeleteOrderClickEvent(orderId: party.productData?[i].orderData?[j].orderId ?? ""));
-                                                                              }
+                                                                              await showConfirmDialog(
+                                                                                context: context,
+                                                                                title: S.current.confirmItemText,
+                                                                                onPressed: () async {
+                                                                                  if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
+                                                                                    pendingOrdersBloc.add(
+                                                                                      PendingOrdersCreateJobClickEvent(
+                                                                                        partyId: party.partyId ?? "",
+                                                                                        productId: party.productData?[i].productId ?? "",
+                                                                                        orderId: party.productData?[i].orderData?[j].orderId ?? "",
+                                                                                      ),
+                                                                                    );
+                                                                                  }
+                                                                                },
+                                                                              );
                                                                             },
-                                                                          );
-                                                                        },
-                                                                        style: IconButton.styleFrom(
-                                                                          backgroundColor: AppColors.DARK_RED_COLOR,
-                                                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                                          padding: EdgeInsets.zero,
-                                                                          elevation: 4,
-                                                                          maximumSize: Size(7.5.w, 7.5.w),
-                                                                          minimumSize: Size(7.5.w, 7.5.w),
-                                                                        ),
-                                                                        icon: FaIcon(
-                                                                          FontAwesomeIcons.solidTrashCan,
-                                                                          color: AppColors.PRIMARY_COLOR,
-                                                                          size: 4.w,
-                                                                        ),
+                                                                            style: IconButton.styleFrom(
+                                                                              backgroundColor: AppColors.DARK_GREEN_COLOR,
+                                                                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                              padding: EdgeInsets.zero,
+                                                                              elevation: 4,
+                                                                              maximumSize: Size(7.5.w, 7.5.w),
+                                                                              minimumSize: Size(7.5.w, 7.5.w),
+                                                                            ),
+                                                                            icon: FaIcon(
+                                                                              FontAwesomeIcons.arrowsSpin,
+                                                                              color: AppColors.PRIMARY_COLOR,
+                                                                              size: 4.w,
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 2.w),
+
+                                                                          ///Delete
+                                                                          IconButton(
+                                                                            onPressed: () async {
+                                                                              await showDeleteDialog(
+                                                                                context: context,
+                                                                                title: S.current.deleteItemText,
+                                                                                onPressed: () async {
+                                                                                  if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
+                                                                                    pendingOrdersBloc.add(PendingOrdersDeleteOrderClickEvent(orderId: party.productData?[i].orderData?[j].orderId ?? ""));
+                                                                                  }
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                            style: IconButton.styleFrom(
+                                                                              backgroundColor: AppColors.DARK_RED_COLOR,
+                                                                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                              padding: EdgeInsets.zero,
+                                                                              elevation: 4,
+                                                                              maximumSize: Size(7.5.w, 7.5.w),
+                                                                              minimumSize: Size(7.5.w, 7.5.w),
+                                                                            ),
+                                                                            icon: FaIcon(
+                                                                              FontAwesomeIcons.solidTrashCan,
+                                                                              color: AppColors.PRIMARY_COLOR,
+                                                                              size: 4.w,
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
                                                                 dense: true,
                                                                 collapsedShape: InputBorder.none,
@@ -1822,6 +1896,123 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                               fixedSize: Size(30.w, 5.h),
                               buttonTitle: S.current.delete,
                               buttonColor: AppColors.DARK_RED_COLOR,
+                              loaderColor: AppColors.PRIMARY_COLOR,
+                              buttonTitleColor: AppColors.PRIMARY_COLOR,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 3.h),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showConfirmDialog({
+    required BuildContext context,
+    required void Function()? onPressed,
+    required String title,
+  }) async {
+    final pendingOrdersBloc = context.read<PendingOrdersBloc>();
+
+    await showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'string',
+      transitionDuration: const Duration(milliseconds: 400),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 1),
+            end: const Offset(0, 0),
+          ).animate(animation),
+          child: FadeTransition(
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOut,
+            ),
+            child: child,
+          ),
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: AppColors.WHITE_COLOR,
+          surfaceTintColor: AppColors.WHITE_COLOR,
+          contentPadding: EdgeInsets.symmetric(horizontal: 2.w),
+          content: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: AppColors.WHITE_COLOR,
+            ),
+            width: 80.w,
+            clipBehavior: Clip.hardEdge,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 2.h),
+                Icon(
+                  Icons.done_all,
+                  color: AppColors.DARK_GREEN_COLOR,
+                  size: 8.w,
+                ),
+                SizedBox(height: 2.h),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.SECONDARY_COLOR,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                SizedBox(height: 3.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ///Cancel
+                      ButtonWidget(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        fixedSize: Size(30.w, 5.h),
+                        buttonTitle: S.current.cancel,
+                        buttonColor: AppColors.SECONDARY_COLOR,
+                        buttonTitleColor: AppColors.PRIMARY_COLOR,
+                      ),
+
+                      ///Confirm
+                      BlocProvider.value(
+                        value: pendingOrdersBloc,
+                        child: BlocConsumer<PendingOrdersBloc, PendingOrdersState>(
+                          listener: (context, state) {
+                            if (state is PendingOrdersCreateJobSuccessState) {
+                              context.pop();
+                              Utils.handleMessage(message: state.successMessage);
+                              context.read<PendingOrdersBloc>().add(PendingOrdersGetOrdersEvent());
+                            }
+                            if (state is PendingOrdersCreateJobFailedState) {
+                              context.pop();
+                              Utils.handleMessage(message: state.failedMessage, isError: true);
+                            }
+                          },
+                          builder: (context, state) {
+                            return ButtonWidget(
+                              onPressed: onPressed,
+                              isLoading: state is PendingOrdersCreateJobLoadingState && state.isLoading,
+                              fixedSize: Size(30.w, 5.h),
+                              buttonTitle: S.current.confirm,
+                              buttonColor: AppColors.DARK_GREEN_COLOR,
                               loaderColor: AppColors.PRIMARY_COLOR,
                               buttonTitleColor: AppColors.PRIMARY_COLOR,
                             );

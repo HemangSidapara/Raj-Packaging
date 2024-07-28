@@ -23,4 +23,13 @@ class AppAssets {
   static const String viewCyclesIcon = "assets/icons/view_cycles_icon.png";
   static const String challanIcon = "assets/icons/challan_icon.png";
   static const String pendingIcon = "assets/icons/pending_icon.png";
+  static const String inJobIcon = "assets/icons/in_job_icon.png";
+  static const String paperCuttingIcon = "assets/icons/paper_cutting_icon.png";
+  static const String pestingIcon = "assets/icons/pesting_icon.png";
+  static const String corrugationIcon = "assets/icons/corrugation_icon.png";
+  static const String slittingScoringIcon = "assets/icons/slitting_scoring_icon.png";
+  static const String slittingInLineIcon = "assets/icons/slitting_in_line_icon.png";
+  static const String flexoPrintingIcon = "assets/icons/flexo_printing_icon.png";
+  static const String jointIcon = "assets/icons/joint_icon.png";
+  static const String punchingIcon = "assets/icons/punching_icon.png";
 }

@@ -53,6 +53,22 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       emit(PendingOrdersEditPartyFailedState(failedMessage: event.failedMessage));
     });
 
+    on<PendingOrdersCreateJobClickEvent>((event, emit) async {
+      await checkCreateJob(event, emit);
+    });
+
+    on<PendingOrdersCreateJobLoadingEvent>((event, emit) async {
+      emit(PendingOrdersCreateJobLoadingState(isLoading: event.isLoading));
+    });
+
+    on<PendingOrdersCreateJobSuccessEvent>((event, emit) async {
+      emit(PendingOrdersCreateJobSuccessState(successMessage: event.successMessage));
+    });
+
+    on<PendingOrdersCreateJobFailedEvent>((event, emit) async {
+      emit(PendingOrdersCreateJobFailedState(failedMessage: event.failedMessage));
+    });
+
     on<PendingOrdersDeleteOrderClickEvent>((event, emit) async {
       await checkDeleteOrder(event, emit);
     });
@@ -134,6 +150,25 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       }
     } finally {
       add(const PendingOrdersEditPartyLoadingEvent(isLoading: false));
+    }
+  }
+
+  Future<void> checkCreateJob(PendingOrdersCreateJobClickEvent event, Emitter<PendingOrdersState> emit) async {
+    try {
+      add(const PendingOrdersCreateJobLoadingEvent(isLoading: true));
+      final response = await PendingOrdersService.createJobService(
+        partyId: event.partyId,
+        productId: event.productId,
+        orderId: event.orderId,
+      );
+
+      if (response.isSuccess) {
+        add(PendingOrdersCreateJobSuccessEvent(successMessage: response.message));
+      } else {
+        add(PendingOrdersCreateJobFailedEvent(failedMessage: response.message));
+      }
+    } finally {
+      add(const PendingOrdersCreateJobLoadingEvent(isLoading: false));
     }
   }
 

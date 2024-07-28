@@ -8,4 +8,7 @@ class ApiUrls {
   static const String getOrdersApi = '${_apiPath}getOrders.php';
   static const String editPartyApi = '${_apiPath}editParty.php';
   static const String deleteOrderApi = '${_apiPath}deleteOrder.php?orderId=';
+  static const String createJobApi = '${_apiPath}createJob.php';
+  static const String getJobApi = '${_apiPath}getJobs.php';
+  static const String completeJobApi = '${_apiPath}completeJob.php?jobId=';
 }

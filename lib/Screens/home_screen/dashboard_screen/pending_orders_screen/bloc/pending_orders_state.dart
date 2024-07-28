@@ -69,6 +69,33 @@ class PendingOrdersEditPartyFailedState extends PendingOrdersState {
   List<Object?> get props => [failedMessage];
 }
 
+class PendingOrdersCreateJobLoadingState extends PendingOrdersState {
+  final bool isLoading;
+
+  const PendingOrdersCreateJobLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class PendingOrdersCreateJobSuccessState extends PendingOrdersState {
+  final String? successMessage;
+
+  const PendingOrdersCreateJobSuccessState({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class PendingOrdersCreateJobFailedState extends PendingOrdersState {
+  final String? failedMessage;
+
+  const PendingOrdersCreateJobFailedState({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}
+
 class PendingOrdersDeleteOrderLoadingState extends PendingOrdersState {
   final bool isLoading;
 

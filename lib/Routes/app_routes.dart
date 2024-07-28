@@ -7,5 +7,6 @@ class Routes {
   static const homeScreen = '/home';
   static String createOrderScreen = '${homeScreen.replaceAll("/", "")}/createOrderScreen';
   static String pendingOrdersScreen = '${homeScreen.replaceAll("/", "")}/pendingOrdersScreen';
+  static String inJobScreen = '${homeScreen.replaceAll("/", "")}/inJobScreen';
   static String challanScreen = '${homeScreen.replaceAll("/", "")}/challanScreen';
 }

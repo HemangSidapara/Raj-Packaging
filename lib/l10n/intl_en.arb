@@ -137,7 +137,7 @@
   "enterHSize": "Enter H size",
   "pleaseEnterLSize": "Please enter L size",
   "pleaseEnterBSize": "Please enter B size",
-  "pleas+eEnterHSize": "Please enter H size",
+  "pleaseEnterHSize": "Please enter H size",
   "boxes": "Boxes",
   "productionSheetSize": "Production Sheet Size :",
   "productionSheetQuantity": "Production Sheet Quantity",
@@ -156,5 +156,9 @@
   "productionRollQuantity": "Production Roll Quantity :",
   "jointType": "Joint Type :",
   "pinJoint": "Pin Joint",
-  "glueJoint": "Glue Joint"
+  "glueJoint": "Glue Joint",
+  "inJob": "In Job",
+  "confirm": "Confirm",
+  "confirmItemText": "Are you sure? You want to start job?",
+  "nextStartJobConfirmText": "Are you sure? You want to complete \"Job Name\" job?"
 }

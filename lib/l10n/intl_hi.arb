@@ -155,5 +155,9 @@
   "productionRollQuantity": "उत्पादन रोल मात्रा :",
   "jointType": "जोड़ प्रकार :",
   "pinJoint": "पिन जोड़",
-  "glueJoint": "गोंद जोड़"
+  "glueJoint": "गोंद जोड़",
+  "inJob": "इन जॉब",
+  "confirm": "पुष्टि करना",
+  "confirmItemText": "क्या आपको यकीन है? क्या आप जॉब शुरू करना चाहते हैं?",
+  "nextStartJobConfirmText": "क्या आपको यकीन है? आप \"Job Name\" कार्य पूरा करना चाहते हैं?"
 }

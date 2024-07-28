@@ -17,16 +17,19 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   final List<String> _contentRouteList = [
     Routes.pendingOrdersScreen,
+    Routes.inJobScreen,
     Routes.challanScreen,
   ];
 
   final List<String> _contentList = [
     S.current.pendingOrders,
+    S.current.inJob,
     S.current.challan,
   ];
 
   final List<String> _contentIconList = [
     AppAssets.pendingIcon,
+    AppAssets.inJobIcon,
     AppAssets.challanIcon,
   ];
 

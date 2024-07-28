@@ -156,5 +156,9 @@
   "productionRollQuantity": "ઉત્પાદન રોલ જથ્થો :",
   "jointType": "સંયુક્ત પ્રકાર :",
   "pinJoint": "પિન સંયુક્ત",
-  "glueJoint": "ગુંદર સંયુક્ત"
+  "glueJoint": "ગુંદર સંયુક્ત",
+  "inJob": "ઈન જોબ",
+  "confirm": "પુષ્ટિ કરો",
+  "confirmItemText": "શું તમને ખાતરી છે? તમે જોબ શરૂ કરવા માંગો છો?",
+  "nextStartJobConfirmText": "શું તમને ખાતરી છે? શું તમે \"Job Name\" જોબ પૂર્ણ કરવા માંગો છો?"
 }

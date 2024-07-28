@@ -96,6 +96,44 @@ class PendingOrdersEditPartyFailedEvent extends PendingOrdersEvent {
   List<Object?> get props => [failedMessage];
 }
 
+class PendingOrdersCreateJobClickEvent extends PendingOrdersEvent {
+  final String partyId;
+  final String productId;
+  final String orderId;
+
+  const PendingOrdersCreateJobClickEvent({required this.partyId, required this.orderId, required this.productId});
+
+  @override
+  List<Object?> get props => [partyId, productId, orderId];
+}
+
+class PendingOrdersCreateJobLoadingEvent extends PendingOrdersEvent {
+  final bool isLoading;
+
+  const PendingOrdersCreateJobLoadingEvent({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class PendingOrdersCreateJobSuccessEvent extends PendingOrdersEvent {
+  final String? successMessage;
+
+  const PendingOrdersCreateJobSuccessEvent({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class PendingOrdersCreateJobFailedEvent extends PendingOrdersEvent {
+  final String? failedMessage;
+
+  const PendingOrdersCreateJobFailedEvent({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}
+
 class PendingOrdersDeleteOrderClickEvent extends PendingOrdersEvent {
   final String orderId;
 
