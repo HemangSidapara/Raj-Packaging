@@ -174,6 +174,7 @@ class ProductData {
     String? joint,
     String? productionCutting,
     String? productionDeckle,
+    String? notes,
     List<OrderData>? orderData,
   }) {
     _productId = productId;

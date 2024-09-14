@@ -27,7 +27,7 @@ class CreateOrderService {
   }
 
   ///Create Order Service
-  static Future<ResponseModel> loginService({
+  static Future<ResponseModel> createOrderService({
     String? partyId,
     String? productId,
     required String partyName,
@@ -50,6 +50,7 @@ class CreateOrderService {
     String? h,
     String? ups,
     String? jointType,
+    String? notes,
   }) async {
     final params = {
       ApiKeys.partyId: partyId,
@@ -74,6 +75,7 @@ class CreateOrderService {
       ApiKeys.h: h,
       ApiKeys.ups: ups,
       ApiKeys.joint: jointType,
+      ApiKeys.notes: notes,
     };
     final response = await ApiBaseHelper.postHTTP(
       ApiUrls.createOrderApi,

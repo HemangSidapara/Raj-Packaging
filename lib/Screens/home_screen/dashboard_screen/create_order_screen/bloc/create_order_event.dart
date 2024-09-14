@@ -52,7 +52,8 @@ class CreateOrderEditPartyClickEvent extends CreateOrderEvent {
   });
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         isValidate,
         partyId,
         partyName,
@@ -183,6 +184,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
   final String? h;
   final String? ups;
   final String? jointType;
+  final String? notes;
 
   const CreateOrderButtonClickEvent({
     required this.isValidate,
@@ -208,10 +210,12 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
     this.h,
     this.ups,
     this.jointType,
+    this.notes,
   });
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         isValidate,
         partyId,
         productId,
@@ -235,6 +239,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
         h,
         ups,
         jointType,
+        notes,
       ];
 }
 

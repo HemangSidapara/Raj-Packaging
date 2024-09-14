@@ -24,4 +24,5 @@ class ApiKeys {
   static const ups = "ups";
   static const joint = "joint";
   static const orderId = "orderId";
+  static const notes = "notes";
 }

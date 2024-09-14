@@ -9,6 +9,7 @@ import 'package:raj_packaging/Utils/app_extensions.dart';
 import 'package:raj_packaging/generated/l10n.dart';
 
 part 'create_order_event.dart';
+
 part 'create_order_state.dart';
 
 class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
@@ -57,7 +58,9 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     on<CreateOrderSelectedPartyEvent>((event, emit) {
       selectedPartyId = event.partyId;
       productList.clear();
-      productList.addAll(partyList.firstWhereOrNull((element) => element.partyId == event.partyId)?.productData ?? []);
+      productList.addAll(partyList
+          .firstWhereOrNull((element) => element.partyId == event.partyId)
+          ?.productData ?? []);
       emit(CreateOrderSelectedPartyState(productList: productList, partyId: event.partyId));
     });
 
@@ -324,7 +327,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     try {
       add(const CreateOrderLoadingEvent(isLoading: true));
       if (event.isValidate) {
-        final response = await CreateOrderService.loginService(
+        final response = await CreateOrderService.createOrderService(
           partyId: event.partyId,
           productId: event.productId,
           partyName: event.partyName,
@@ -347,6 +350,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
           h: event.h,
           ups: event.ups,
           jointType: event.jointType,
+          notes: event.notes,
         );
 
         if (response.isSuccess) {

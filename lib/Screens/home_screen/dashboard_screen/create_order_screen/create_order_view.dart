@@ -69,6 +69,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
   final TextEditingController _productionSheetSizeBoxDiePunchCuttingController = TextEditingController();
 
   final TextEditingController _productionQuantityController = TextEditingController();
+  final TextEditingController _notesController = TextEditingController();
 
   final List<String> orderTypeList = [
     "Roll",
@@ -874,6 +875,16 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   textInputAction: TextInputAction.next,
                                   maxLength: 10,
                                   keyboardType: TextInputType.number,
+                                ),
+                                SizedBox(height: 1.h),
+
+                                ///Notes
+                                TextFieldWidget(
+                                  controller: _notesController,
+                                  title: S.current.notes,
+                                  hintText: S.current.enterNotes,
+                                  textInputAction: TextInputAction.next,
+                                  maxLength: 200,
                                 ),
                               ],
                             );

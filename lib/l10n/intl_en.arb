@@ -160,5 +160,7 @@
   "inJob": "In Job",
   "confirm": "Confirm",
   "confirmItemText": "Are you sure? You want to start job?",
-  "nextStartJobConfirmText": "Are you sure? You want to complete \"Job Name\" job?"
+  "nextStartJobConfirmText": "Are you sure? You want to complete \"Job Name\" job?",
+  "notes": "Notes",
+  "enterNotes": "Enter notes"
 }
