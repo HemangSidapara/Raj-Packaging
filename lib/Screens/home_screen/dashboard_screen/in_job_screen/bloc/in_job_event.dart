@@ -50,39 +50,3 @@ class InJobSearchOrderEvent extends InJobEvent {
   @override
   List<Object?> get props => [ordersList];
 }
-
-class InJobCompleteJobClickEvent extends InJobEvent {
-  final String jobId;
-
-  const InJobCompleteJobClickEvent({required this.jobId});
-
-  @override
-  List<Object?> get props => [jobId];
-}
-
-class InJobCompleteJobLoadingEvent extends InJobEvent {
-  final bool isLoading;
-
-  const InJobCompleteJobLoadingEvent({required this.isLoading});
-
-  @override
-  List<Object?> get props => [isLoading];
-}
-
-class InJobCompleteJobSuccessEvent extends InJobEvent {
-  final String? successMessage;
-
-  const InJobCompleteJobSuccessEvent({required this.successMessage});
-
-  @override
-  List<Object?> get props => [successMessage];
-}
-
-class InJobCompleteJobFailedEvent extends InJobEvent {
-  final String? failedMessage;
-
-  const InJobCompleteJobFailedEvent({required this.failedMessage});
-
-  @override
-  List<Object?> get props => [failedMessage];
-}

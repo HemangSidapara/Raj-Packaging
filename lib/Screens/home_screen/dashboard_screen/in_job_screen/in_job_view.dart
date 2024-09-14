@@ -331,24 +331,18 @@ class _InJobViewState extends State<InJobView> {
                                                                                 activeStepBorderColor: AppColors.DARK_RED_COLOR,
                                                                                 finishedStepBorderColor: AppColors.DARK_GREEN_COLOR,
                                                                                 finishedStepBackgroundColor: AppColors.DARK_GREEN_COLOR,
-                                                                                enableStepTapping: true,
+                                                                                enableStepTapping: false,
                                                                                 onStepReached: (index) async {
                                                                                   final currentActiveStep = inJobBloc.activeStepList
                                                                                       .firstWhereOrNull((element) => element.keys.firstOrNull == party.productData?[i].orderData?[j].orderId)
                                                                                       ?.values
                                                                                       .first ?? 0;
-                                                                                  if(index == currentActiveStep){
+                                                                                  if (index == currentActiveStep) {
                                                                                     await showConfirmDialog(
                                                                                       context: context,
                                                                                       title: S.current.nextStartJobConfirmText.replaceAll("Job Name", party.productData?[i].orderData?[j].jobData?[index].jobName ?? ""),
                                                                                       onPressed: () async {
-                                                                                        if (party.productData?[i].orderData?[j].jobData?[index].jobId?.isNotEmpty == true) {
-                                                                                          inJobBloc.add(
-                                                                                            InJobCompleteJobClickEvent(
-                                                                                              jobId: party.productData?[i].orderData?[j].jobData?[index].jobId ?? "",
-                                                                                            ),
-                                                                                          );
-                                                                                        }
+
                                                                                       },
                                                                                     );
                                                                                   }
@@ -538,20 +532,12 @@ class _InJobViewState extends State<InJobView> {
                         value: inJobBloc,
                         child: BlocConsumer<InJobBloc, InJobState>(
                           listener: (context, state) {
-                            if (state is InJobCompleteJobSuccessState) {
-                              context.pop();
-                              Utils.handleMessage(message: state.successMessage);
-                              context.read<InJobBloc>().add(const InJobGetJobsEvent(isLoading: false));
-                            }
-                            if (state is InJobCompleteJobFailedState) {
-                              context.pop();
-                              Utils.handleMessage(message: state.failedMessage, isError: true);
-                            }
+
                           },
                           builder: (context, state) {
                             return ButtonWidget(
                               onPressed: onPressed,
-                              isLoading: state is InJobCompleteJobLoadingState && state.isLoading,
+                              isLoading: false,
                               fixedSize: Size(30.w, 5.h),
                               buttonTitle: S.current.confirm,
                               buttonColor: AppColors.DARK_GREEN_COLOR,

@@ -24,24 +24,4 @@ class InJobService {
     );
     return response;
   }
-
-  ///Complete Job
-  static Future<ResponseModel> completeJobService({required String jobId}) async {
-    final response = await ApiBaseHelper.getHTTP(
-      ApiUrls.completeJobApi + jobId,
-      showProgress: false,
-      onError: (dioExceptions) {
-        Utils.handleMessage(message: dioExceptions.message, isError: true);
-      },
-      onSuccess: (res) {
-        if (res.isSuccess) {
-          debugPrint("completeJobApi Success ::: ${res.message}");
-        } else {
-          debugPrint("completeJobApi Error ::: ${res.message}");
-          Utils.handleMessage(message: res.message, isError: true);
-        }
-      },
-    );
-    return response;
-  }
 }

@@ -161,5 +161,6 @@
   "confirmItemText": "क्या आपको यकीन है? क्या आप जॉब शुरू करना चाहते हैं?",
   "nextStartJobConfirmText": "क्या आपको यकीन है? आप \"Job Name\" कार्य पूरा करना चाहते हैं?",
   "notes": "नोट्स",
-  "enterNotes": "नोट्स दर्ज करें"
+  "enterNotes": "नोट्स दर्ज करें",
+  "jobData": "जॉब का डेटा"
 }

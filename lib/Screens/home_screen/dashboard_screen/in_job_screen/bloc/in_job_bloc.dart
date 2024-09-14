@@ -14,7 +14,7 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
 
   InJobBloc() : super(InJobInitial()) {
     on<InJobStartedEvent>((event, emit) {
-      add(InJobGetJobsEvent());
+      add(const InJobGetJobsEvent());
     });
 
     on<InJobGetJobsEvent>((event, emit) async {
@@ -35,22 +35,6 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
 
     on<InJobSearchOrderEvent>((event, emit) {
       emit(InJobSearchOrderState(ordersList: event.ordersList));
-    });
-
-    on<InJobCompleteJobClickEvent>((event, emit) async {
-      await completeJobApiCall(event, emit);
-    });
-
-    on<InJobCompleteJobLoadingEvent>((event, emit) async {
-      emit(InJobCompleteJobLoadingState(isLoading: event.isLoading));
-    });
-
-    on<InJobCompleteJobSuccessEvent>((event, emit) async {
-      emit(InJobCompleteJobSuccessState(successMessage: event.successMessage));
-    });
-
-    on<InJobCompleteJobFailedEvent>((event, emit) async {
-      emit(InJobCompleteJobFailedState(failedMessage: event.failedMessage));
     });
   }
 
@@ -107,20 +91,5 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
       searchedOrdersList.addAll(ordersList);
     }
     add(InJobSearchOrderEvent(ordersList: searchedOrdersList));
-  }
-
-  Future<void> completeJobApiCall(InJobCompleteJobClickEvent event, Emitter<InJobState> emit) async {
-    try {
-      add(const InJobCompleteJobLoadingEvent(isLoading: true));
-      final response = await InJobService.completeJobService(jobId: event.jobId);
-
-      if (response.isSuccess) {
-        add(InJobCompleteJobSuccessEvent(successMessage: response.message));
-      } else {
-        add(InJobCompleteJobFailedEvent(failedMessage: response.message));
-      }
-    } finally {
-      add(const InJobCompleteJobLoadingEvent(isLoading: false));
-    }
   }
 }

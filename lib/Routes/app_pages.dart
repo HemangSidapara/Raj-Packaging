@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/challan_screen/challan_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/create_order_screen/create_order_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/in_job_screen/in_job_view.dart';
+import 'package:raj_packaging/Screens/home_screen/dashboard_screen/job_data_screen/job_data_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_view.dart';
 import 'package:raj_packaging/Screens/home_screen/home_view.dart';
 import 'package:raj_packaging/Screens/sign_in_screen/sign_in_view.dart';
@@ -164,6 +165,32 @@ class AppPages {
                 key: state.pageKey,
                 name: Routes.challanScreen,
                 child: const ChallanView(),
+                transitionDuration: transitionDuration,
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1.0, 0.0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+
+          ///Job Data
+          GoRoute(
+            path: Routes.jobDataScreen,
+            name: Routes.jobDataScreen,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                name: Routes.jobDataScreen,
+                child: const JobDataView(),
                 transitionDuration: transitionDuration,
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
