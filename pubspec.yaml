@@ -2,7 +2,7 @@ name: raj_packaging
 description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   bloc: ^8.1.4
-  flutter_bloc: ^8.1.5
+  flutter_bloc: ^8.1.6
   equatable: ^2.0.5
   dio: ^5.4.3+1
   responsive_sizer: ^3.3.1

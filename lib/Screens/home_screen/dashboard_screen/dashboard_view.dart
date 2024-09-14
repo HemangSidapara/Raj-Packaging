@@ -33,7 +33,7 @@ class _DashboardViewState extends State<DashboardView> {
     AppAssets.pendingIcon,
     AppAssets.inJobIcon,
     AppAssets.challanIcon,
-    AppAssets.inJobIcon,
+    AppAssets.jobDataIcon,
   ];
 
   @override

@@ -10,7 +10,7 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
   List<get_job_data.Tabs> jobsList = <get_job_data.Tabs>[];
 
   JobDataBloc() : super(JobDataInitial()) {
-    on<JobDataEvent>((event, emit) {
+    on<JobDataStartedEvent>((event, emit) {
       add(const JobDataGetJobsEvent());
     });
 
@@ -32,6 +32,18 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
 
     on<JobDataCompleteJobClickEvent>((event, emit) async {
       await completeJobApiCall(event, emit);
+    });
+
+    on<JobDataCompleteJobLoadingEvent>((event, emit) async {
+      emit(JobDataCompleteJobLoadingState(isLoading: event.isLoading));
+    });
+
+    on<JobDataCompleteJobSuccessEvent>((event, emit) async {
+      emit(JobDataCompleteJobSuccessState(successMessage: event.successMessage));
+    });
+
+    on<JobDataCompleteJobFailedEvent>((event, emit) async {
+      emit(JobDataCompleteJobFailedState(failedMessage: event.failedMessage));
     });
   }
 

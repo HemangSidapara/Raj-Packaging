@@ -32,4 +32,5 @@ class AppAssets {
   static const String flexoPrintingIcon = "assets/icons/flexo_printing_icon.png";
   static const String jointIcon = "assets/icons/joint_icon.png";
   static const String punchingIcon = "assets/icons/punching_icon.png";
+  static const String jobDataIcon = "assets/icons/job_data_icon.png";
 }

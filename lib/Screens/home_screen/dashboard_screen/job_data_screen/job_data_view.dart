@@ -18,7 +18,7 @@ class JobDataView extends StatefulWidget {
   State<JobDataView> createState() => _JobDataViewState();
 }
 
-class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin {
+class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   @override
@@ -45,8 +45,8 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 7.w),
                       child: CustomHeaderWidget(
-                        title: S.current.inJob,
-                        titleIcon: AppAssets.inJobIcon,
+                        title: S.current.jobData,
+                        titleIcon: AppAssets.jobDataIcon,
                         onBackPressed: () {
                           context.pop();
                         },
@@ -64,24 +64,31 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                       )
                     else if (jobDataBloc.jobsList.isEmpty)
                       Expanded(
-                        child: Text(
-                          S.current.noDataFound,
-                          style: TextStyle(
-                            color: AppColors.SECONDARY_COLOR,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
+                        child: Center(
+                          child: Text(
+                            S.current.noDataFound,
+                            style: TextStyle(
+                              color: AppColors.PRIMARY_COLOR,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       )
                     else ...[
                       TabBar(
                         controller: tabController,
+                        isScrollable: true,
+                        dividerColor: AppColors.TRANSPARENT,
+                        labelPadding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
+                        indicatorSize: TabBarIndicatorSize.label,
+                        indicatorColor: AppColors.PRIMARY_COLOR.withOpacity(0.5),
                         tabs: [
                           for (int i = 0; i < 5; i++)
                             Text(
                               jobDataBloc.jobsList.first.toJson().keys.toList()[i],
                               style: TextStyle(
-                                color: AppColors.SECONDARY_COLOR,
+                                color: AppColors.DARK_GREEN_COLOR.withOpacity(0.8),
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -94,51 +101,72 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                           controller: tabController,
                           children: [
                             for (int i = 0; i < 5; i++)
-                              ListView.separated(
-                                itemCount: jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]].length,
-                                itemBuilder: (context, index) {
-                                  return Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]][index]["description"],
-                                          style: TextStyle(
-                                            color: AppColors.SECONDARY_COLOR,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w600,
+                              if (jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]].isEmpty)
+                                Center(
+                                  child: Text(
+                                    S.current.noDataFound,
+                                    style: TextStyle(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16.sp,
+                                    ),
+                                  ),
+                                )
+                              else
+                                ListView.separated(
+                                  itemCount: jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]].length,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                                  itemBuilder: (context, index) {
+                                    return Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]][index]["description"],
+                                            style: TextStyle(
+                                              color: AppColors.PRIMARY_COLOR,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(width: 2.w),
-                                      IconButton(
-                                        onPressed: () async {
-                                          await showConfirmDialog(
-                                            context: context,
-                                            title: S.current.nextStartJobConfirmText.replaceAll("Job Name", jobDataBloc.jobsList.first.toJson().keys.toList()[i]),
-                                            onPressed: () async {},
-                                          );
-                                        },
-                                        style: IconButton.styleFrom(
-                                          backgroundColor: AppColors.DARK_GREEN_COLOR,
-                                          maximumSize: Size(8.w, 8.w),
-                                          minimumSize: Size(8.w, 8.w),
+                                        SizedBox(width: 2.w),
+                                        IconButton(
+                                          onPressed: () async {
+                                            await showConfirmDialog(
+                                              context: context,
+                                              title: S.current.nextStartJobConfirmText.replaceAll("Job Name", jobDataBloc.jobsList.first.toJson().keys.toList()[i]),
+                                              onPressed: () async {
+                                                jobDataBloc.add(
+                                                  JobDataCompleteJobClickEvent(
+                                                    jobId: jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]][index]["jobId"] ?? "",
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                          style: IconButton.styleFrom(
+                                            backgroundColor: AppColors.DARK_GREEN_COLOR,
+                                            maximumSize: Size(8.w, 8.w),
+                                            minimumSize: Size(8.w, 8.w),
+                                            padding: EdgeInsets.zero,
+                                          ),
+                                          icon: Icon(
+                                            Icons.done_rounded,
+                                            color: AppColors.WHITE_COLOR,
+                                            size: 5.w,
+                                          ),
                                         ),
-                                        icon: Icon(
-                                          Icons.done_rounded,
-                                          color: AppColors.WHITE_COLOR,
-                                          size: 5.w,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return Divider(
-                                    color: AppColors.HINT_GREY_COLOR,
-                                    thickness: 1,
-                                  );
-                                },
-                              )
+                                      ],
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return Divider(
+                                      color: AppColors.HINT_GREY_COLOR,
+                                      thickness: 1.2,
+                                    );
+                                  },
+                                )
                           ],
                         ),
                       )
@@ -164,7 +192,7 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
       context: context,
       barrierDismissible: true,
       barrierLabel: 'string',
-      transitionDuration: const Duration(milliseconds: 400),
+      transitionDuration: const Duration(milliseconds: 375),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: Tween(
