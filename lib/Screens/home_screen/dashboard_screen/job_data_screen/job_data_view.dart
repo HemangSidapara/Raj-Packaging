@@ -122,7 +122,7 @@ class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStat
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]][index]["description"],
+                                            jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]][index]["description"]?.toString().replaceAll("\\n", "\n") ?? "",
                                             style: TextStyle(
                                               color: AppColors.PRIMARY_COLOR,
                                               fontSize: 16.sp,
