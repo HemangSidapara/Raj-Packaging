@@ -28,7 +28,7 @@ class JobDataGetJobsLoadingEvent extends JobDataEvent {
 }
 
 class JobDataGetJobsSuccessEvent extends JobDataEvent {
-  final List<get_job_data.Tabs> jobsList;
+  final Map<String, dynamic> jobsList;
   final String? successMessage;
 
   const JobDataGetJobsSuccessEvent({required this.jobsList, required this.successMessage});

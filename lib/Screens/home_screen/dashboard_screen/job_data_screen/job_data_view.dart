@@ -18,19 +18,22 @@ class JobDataView extends StatefulWidget {
   State<JobDataView> createState() => _JobDataViewState();
 }
 
-class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStateMixin {
+class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin {
   late TabController tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(length: 5, vsync: this);
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => JobDataBloc()..add(JobDataStartedEvent()),
+      create: (context) {
+        return JobDataBloc()
+          ..add(JobDataStartedEvent())
+          ..on((event, emit) {
+            if (event is JobDataGetJobsSuccessEvent) {
+              final tabsList = event.jobsList.keys.toList();
+              tabController = TabController(length: tabsList.length, vsync: this);
+            }
+          });
+      },
       child: GestureDetector(
         onTap: () => Utils.unfocus(),
         child: Scaffold(
@@ -39,6 +42,7 @@ class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStat
             child: BlocBuilder<JobDataBloc, JobDataState>(
               builder: (context, state) {
                 final jobDataBloc = context.read<JobDataBloc>();
+                final tabsList = jobDataBloc.jobsList.keys.toList();
                 return Column(
                   children: [
                     ///Header
@@ -84,9 +88,9 @@ class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStat
                         indicatorSize: TabBarIndicatorSize.label,
                         indicatorColor: AppColors.PRIMARY_COLOR.withOpacity(0.5),
                         tabs: [
-                          for (int i = 0; i < 5; i++)
+                          for (int i = 0; i < tabsList.length; i++)
                             Text(
-                              jobDataBloc.jobsList.first.toJson().keys.toList()[i],
+                              tabsList[i],
                               style: TextStyle(
                                 color: AppColors.DARK_GREEN_COLOR.withOpacity(0.8),
                                 fontSize: 16.sp,
@@ -100,8 +104,8 @@ class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStat
                         child: TabBarView(
                           controller: tabController,
                           children: [
-                            for (int i = 0; i < 5; i++)
-                              if (jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]].isEmpty)
+                            for (int i = 0; i < tabsList.length; i++)
+                              if (jobDataBloc.jobsList[tabsList[i]].isEmpty)
                                 Center(
                                   child: Text(
                                     S.current.noDataFound,
@@ -114,7 +118,7 @@ class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStat
                                 )
                               else
                                 ListView.separated(
-                                  itemCount: jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]].length,
+                                  itemCount: jobDataBloc.jobsList[tabsList[i]].length,
                                   shrinkWrap: true,
                                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                                   itemBuilder: (context, index) {
@@ -122,7 +126,7 @@ class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStat
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]][index]["description"]?.toString().replaceAll("\\n", "\n") ?? "",
+                                            jobDataBloc.jobsList[tabsList[i]][index]["description"]?.toString().replaceAll("\\n", "\n") ?? "",
                                             style: TextStyle(
                                               color: AppColors.PRIMARY_COLOR,
                                               fontSize: 16.sp,
@@ -135,11 +139,11 @@ class _JobDataViewState extends State<JobDataView> with SingleTickerProviderStat
                                           onPressed: () async {
                                             await showConfirmDialog(
                                               context: context,
-                                              title: S.current.nextStartJobConfirmText.replaceAll("Job Name", jobDataBloc.jobsList.first.toJson().keys.toList()[i]),
+                                              title: S.current.nextStartJobConfirmText.replaceAll("Job Name", tabsList[i]),
                                               onPressed: () async {
                                                 jobDataBloc.add(
                                                   JobDataCompleteJobClickEvent(
-                                                    jobId: jobDataBloc.jobsList.first.toJson()[jobDataBloc.jobsList.first.toJson().keys.toList()[i]][index]["jobId"] ?? "",
+                                                    jobId: jobDataBloc.jobsList[tabsList[i]][index]["jobId"] ?? "",
                                                   ),
                                                 );
                                               },

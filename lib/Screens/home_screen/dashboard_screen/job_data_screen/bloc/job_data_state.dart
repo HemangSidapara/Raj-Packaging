@@ -19,7 +19,7 @@ class JobDataGetJobsLoadingState extends JobDataState {
 }
 
 class JobDataGetJobsSuccessState extends JobDataState {
-  final List<get_job_data.Tabs> jobsList;
+  final Map<String, dynamic> jobsList;
   final String? successMessage;
 
   const JobDataGetJobsSuccessState({required this.jobsList, required this.successMessage});

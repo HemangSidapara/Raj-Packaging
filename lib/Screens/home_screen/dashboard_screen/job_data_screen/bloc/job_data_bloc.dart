@@ -1,13 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:raj_packaging/Network/models/jobs_models/get_job_data_model.dart' as get_job_data;
 import 'package:raj_packaging/Network/services/job_data_services/job_data_service.dart';
 
 part 'job_data_event.dart';
 part 'job_data_state.dart';
 
 class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
-  List<get_job_data.Tabs> jobsList = <get_job_data.Tabs>[];
+  Map<String, dynamic> jobsList = {};
 
   JobDataBloc() : super(JobDataInitial()) {
     on<JobDataStartedEvent>((event, emit) {
@@ -53,10 +52,9 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
       final response = await JobDataService.getJobDataService();
 
       if (response.isSuccess) {
-        get_job_data.GetJobDataModel getJobDataModel = get_job_data.GetJobDataModel.fromJson(response.response?.data);
         jobsList.clear();
-        jobsList.addAll(getJobDataModel.tabs ?? []);
-        add(JobDataGetJobsSuccessEvent(jobsList: getJobDataModel.tabs ?? [], successMessage: response.message));
+        jobsList = (response.response?.data['Tabs'] as List<dynamic>).firstOrNull ?? {};
+        add(JobDataGetJobsSuccessEvent(jobsList: jobsList, successMessage: response.message));
       } else {
         add(JobDataGetJobsFailedEvent());
       }
