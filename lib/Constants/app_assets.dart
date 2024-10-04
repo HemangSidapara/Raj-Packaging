@@ -33,4 +33,5 @@ class AppAssets {
   static const String jointIcon = "assets/icons/joint_icon.png";
   static const String punchingIcon = "assets/icons/punching_icon.png";
   static const String jobDataIcon = "assets/icons/job_data_icon.png";
+  static const String recycleBinIcon = "assets/icons/recycle_bin_icon.png";
 }

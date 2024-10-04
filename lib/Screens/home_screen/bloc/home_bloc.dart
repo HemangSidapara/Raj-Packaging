@@ -24,6 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<String> listOfImages = [
     AppAssets.homeIcon,
+    AppAssets.recycleBinIcon,
     AppAssets.settingsIcon,
   ];
 

@@ -90,6 +90,7 @@ class _HomeViewState extends State<HomeView> {
   }) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
+        print(state);
         return InkWell(
           onTap: () async {
             context.read<HomeBloc>().add(HomeChangeBottomIndexEvent(bottomIndex: index));

@@ -6,6 +6,26 @@ import 'package:raj_packaging/Network/api_base_helper.dart';
 import 'package:raj_packaging/Network/response_model.dart';
 
 class PendingOrdersService {
+  ///Get Orders
+  static Future<ResponseModel> getOrdersService() async {
+    final response = await ApiBaseHelper.getHTTP(
+      ApiUrls.getOrdersApi,
+      showProgress: false,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      onSuccess: (res) {
+        if (res.isSuccess) {
+          debugPrint("getOrdersApi Success ::: ${res.message}");
+        } else {
+          debugPrint("getOrdersApi Error ::: ${res.message}");
+          Utils.handleMessage(message: res.message, isError: true);
+        }
+      },
+    );
+    return response;
+  }
+
   ///Delete Order Service
   static Future<ResponseModel> deleteOrderService({
     required String orderId,

@@ -105,7 +105,7 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
   Future<void> getOrdersApiCall(PendingOrdersGetOrdersEvent event, Emitter<PendingOrdersState> emit) async {
     try {
       add(const PendingOrdersGetOrdersLoadingEvent(isLoading: true));
-      final response = await CreateOrderService.getPartiesService();
+      final response = await PendingOrdersService.getOrdersService();
 
       if (response.isSuccess) {
         get_orders.GetOrdersModel getOrdersModel = get_orders.GetOrdersModel.fromJson(response.response?.data);

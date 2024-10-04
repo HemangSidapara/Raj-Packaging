@@ -9,16 +9,16 @@ class CreateOrderService {
   ///Get Parties
   static Future<ResponseModel> getPartiesService() async {
     final response = await ApiBaseHelper.getHTTP(
-      ApiUrls.getOrdersApi,
+      ApiUrls.getPartiesApi,
       showProgress: false,
       onError: (dioExceptions) {
         Utils.handleMessage(message: dioExceptions.message, isError: true);
       },
       onSuccess: (res) {
         if (res.isSuccess) {
-          debugPrint("getOrdersApi Success ::: ${res.message}");
+          debugPrint("getPartiesApi Success ::: ${res.message}");
         } else {
-          debugPrint("getOrdersApi Error ::: ${res.message}");
+          debugPrint("getPartiesApi Error ::: ${res.message}");
           Utils.handleMessage(message: res.message, isError: true);
         }
       },
