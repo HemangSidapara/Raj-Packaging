@@ -13,6 +13,7 @@ import 'package:raj_packaging/Network/services/auth_services/auth_services.dart'
 import 'package:raj_packaging/Network/services/utils_services/get_package_info_service.dart';
 import 'package:raj_packaging/Network/services/utils_services/install_apk_service.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/dashboard_view.dart';
+import 'package:raj_packaging/Screens/home_screen/recycle_bin_screen/recycle_bin_view.dart';
 import 'package:raj_packaging/Screens/home_screen/settings_screen/settings_view.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
 
@@ -22,6 +23,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   PageController pageController = PageController(initialPage: 0);
 
+  int bottomIndex = 0;
   List<String> listOfImages = [
     AppAssets.homeIcon,
     AppAssets.recycleBinIcon,
@@ -30,6 +32,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<Widget> bottomItemWidgetList = [
     const DashboardView(),
+    const RecycleBinView(),
     const SettingsView(),
   ];
 
@@ -73,6 +76,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> onChangeBottomIndex(HomeChangeBottomIndexEvent event, Emitter<HomeState> emit) async {
     emit(HomeChangeBottomIndexState(bottomIndex: event.bottomIndex));
+    bottomIndex = event.bottomIndex;
     AuthServices.getLatestVersionService().then((response) async {
       if (response.isSuccess) {
         GetLatestVersionModel versionModel = GetLatestVersionModel.fromJson(response.response?.data);

@@ -90,7 +90,7 @@ class _HomeViewState extends State<HomeView> {
   }) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        print(state);
+        final homeBloc = context.read<HomeBloc>();
         return InkWell(
           onTap: () async {
             context.read<HomeBloc>().add(HomeChangeBottomIndexEvent(bottomIndex: index));
@@ -103,8 +103,8 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Image.asset(
                   iconName,
-                  width: 8.w,
-                  color: state is HomeChangeBottomIndexState && state.bottomIndex == index ? AppColors.TERTIARY_COLOR : AppColors.WHITE_COLOR,
+                  width: index==1?6.5.w:8.w,
+                  color: homeBloc.bottomIndex == index ? AppColors.TERTIARY_COLOR : AppColors.WHITE_COLOR,
                 )
               ],
             ),

@@ -6,6 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class CustomHeaderWidget extends StatelessWidget {
   final String title;
   final String titleIcon;
+  final Color? titleIconColor;
   final double? titleIconSize;
   final void Function()? onBackPressed;
 
@@ -15,6 +16,7 @@ class CustomHeaderWidget extends StatelessWidget {
     required this.titleIcon,
     this.onBackPressed,
     this.titleIconSize,
+    this.titleIconColor,
   });
 
   @override
@@ -38,6 +40,7 @@ class CustomHeaderWidget extends StatelessWidget {
             icon: Image.asset(
               AppAssets.backIcon,
               width: 8.w,
+              color: titleIconColor,
             ),
           ),
           SizedBox(width: 2.w),
