@@ -7,7 +7,6 @@ part 'image_picker_state.dart';
 class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   ImagePickerBloc() : super(ImagePickerInitial()) {
     on<ImagePickerEvent>((event, emit) {
-      // TODO: implement event handler
     });
   }
 }

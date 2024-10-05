@@ -162,5 +162,10 @@
   "nextStartJobConfirmText": "क्या आपको यकीन है? आप \"Job Name\" कार्य पूरा करना चाहते हैं?",
   "notes": "नोट्स",
   "enterNotes": "नोट्स दर्ज करें",
-  "jobData": "जॉब का डेटा"
+  "jobData": "जॉब का डेटा",
+  "recycleBin": "रीसायकल बिन",
+  "completed": "समाप्त",
+  "editQuantity": "मात्रा संपादित करें",
+  "archive": "पुरालेख",
+  "archiveOrderText": "क्या आपको यकीन है? क्या आप इस आदेश को संग्रहित करना चाहते हैं?"
 }

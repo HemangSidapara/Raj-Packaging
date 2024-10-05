@@ -163,5 +163,10 @@
   "nextStartJobConfirmText": "Are you sure? You want to complete \"Job Name\" job?",
   "notes": "Notes",
   "enterNotes": "Enter notes",
-  "jobData": "Job Data"
+  "jobData": "Job Data",
+  "recycleBin": "Recycle Bin",
+  "completed": "Completed",
+  "editQuantity": "Edit Quantity",
+  "archive": "Archive",
+  "archiveOrderText": "Are you sure? You want to archive this order?"
 }

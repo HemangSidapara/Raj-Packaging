@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:raj_packaging/Constants/api_keys.dart';
 import 'package:raj_packaging/Constants/api_urls.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
@@ -16,9 +16,13 @@ class CreateOrderService {
       },
       onSuccess: (res) {
         if (res.isSuccess) {
-          debugPrint("getPartiesApi Success ::: ${res.message}");
+          if (kDebugMode) {
+            print("getPartiesApi Success ::: ${res.message}");
+          }
         } else {
-          debugPrint("getPartiesApi Error ::: ${res.message}");
+          if (kDebugMode) {
+            print("getPartiesApi Error ::: ${res.message}");
+          }
           Utils.handleMessage(message: res.message, isError: true);
         }
       },
@@ -86,9 +90,13 @@ class CreateOrderService {
       },
       onSuccess: (res) async {
         if (res.isSuccess) {
-          debugPrint("createOrderApi success :: ${res.message}");
+          if (kDebugMode) {
+            print("createOrderApi success :: ${res.message}");
+          }
         } else {
-          debugPrint("createOrderApi error :: ${res.message}");
+          if (kDebugMode) {
+            print("createOrderApi error :: ${res.message}");
+          }
           Utils.handleMessage(message: res.message, isError: true);
         }
       },
@@ -117,9 +125,13 @@ class CreateOrderService {
       },
       onSuccess: (res) async {
         if (res.isSuccess) {
-          debugPrint("editPartyApi success :: ${res.message}");
+          if (kDebugMode) {
+            print("editPartyApi success :: ${res.message}");
+          }
         } else {
-          debugPrint("editPartyApi error :: ${res.message}");
+          if (kDebugMode) {
+            print("editPartyApi error :: ${res.message}");
+          }
         }
       },
     );

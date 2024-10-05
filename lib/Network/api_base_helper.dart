@@ -228,7 +228,7 @@ class ApiBaseHelper {
         return ResponseModel(statusCode: e.response!.statusCode, response: e.response);
       default:
         onError(DioExceptions.fromDioError(e));
-        throw DioExceptions.fromDioError(e).message!;
+        return ResponseModel(statusCode: e.response?.statusCode, response: e.response);
     }
   }
 }

@@ -18,21 +18,21 @@ class _DashboardViewState extends State<DashboardView> {
   final List<String> _contentRouteList = [
     Routes.pendingOrdersScreen,
     Routes.inJobScreen,
-    Routes.challanScreen,
+    Routes.completedScreen,
     Routes.jobDataScreen,
   ];
 
   final List<String> _contentList = [
     S.current.pendingOrders,
     S.current.inJob,
-    S.current.challan,
+    S.current.completed,
     S.current.jobData,
   ];
 
   final List<String> _contentIconList = [
     AppAssets.pendingIcon,
     AppAssets.inJobIcon,
-    AppAssets.challanIcon,
+    AppAssets.completedIcon,
     AppAssets.jobDataIcon,
   ];
 

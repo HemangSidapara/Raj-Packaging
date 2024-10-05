@@ -163,5 +163,10 @@
   "nextStartJobConfirmText": "શું તમને ખાતરી છે? શું તમે \"Job Name\" જોબ પૂર્ણ કરવા માંગો છો?",
   "notes": "નોંધો",
   "enterNotes": "નોંધો દાખલ કરો",
-  "jobData": "જોબ ડેટા"
+  "jobData": "જોબ ડેટા",
+  "recycleBin": "રિસાયકલ બિન",
+  "completed": "પૂર્ણ",
+  "editQuantity": "જથ્થો સંપાદિત કરો",
+  "archive": "આર્કાઇવ",
+  "archiveOrderText": "શું તમને ખાતરી છે? તમે આ ઓર્ડરને આર્કાઇવ કરવા માંગો છો?"
 }

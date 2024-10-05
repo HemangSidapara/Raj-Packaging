@@ -40,7 +40,6 @@ class CustomHeaderWidget extends StatelessWidget {
             icon: Image.asset(
               AppAssets.backIcon,
               width: 8.w,
-              color: titleIconColor,
             ),
           ),
           SizedBox(width: 2.w),
@@ -57,6 +56,7 @@ class CustomHeaderWidget extends StatelessWidget {
         Image.asset(
           titleIcon,
           width: titleIconSize ?? 12.w,
+          color: titleIconColor,
         ),
       ],
     );

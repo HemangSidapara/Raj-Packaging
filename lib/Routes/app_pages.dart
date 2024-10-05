@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:raj_packaging/Screens/home_screen/dashboard_screen/challan_screen/challan_view.dart';
+import 'package:raj_packaging/Screens/home_screen/dashboard_screen/completed_screen/completed_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/create_order_screen/create_order_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/in_job_screen/in_job_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/job_data_screen/job_data_view.dart';
@@ -156,15 +156,15 @@ class AppPages {
             },
           ),
 
-          ///Challan
+          ///Completed
           GoRoute(
-            path: Routes.challanScreen,
-            name: Routes.challanScreen,
+            path: Routes.completedScreen,
+            name: Routes.completedScreen,
             pageBuilder: (context, state) {
               return CustomTransitionPage(
                 key: state.pageKey,
-                name: Routes.challanScreen,
-                child: const ChallanView(),
+                name: Routes.completedScreen,
+                child: const CompletedView(),
                 transitionDuration: transitionDuration,
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   return SlideTransition(

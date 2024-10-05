@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
@@ -83,8 +84,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         String newAPKUrl = versionModel.data?.firstOrNull?.appUrl ?? '';
         String newAPKVersion = versionModel.data?.firstOrNull?.appVersion ?? '';
         final currentVersion = (await GetPackageInfoService.instance.getInfo()).version;
-        debugPrint('currentVersion :: $currentVersion');
-        debugPrint('newVersion :: $newAPKVersion');
+        if (kDebugMode) {
+          print('currentVersion :: $currentVersion');
+          print('newVersion :: $newAPKVersion');
+        }
         add(HomeUpdateAvailableEvent(
           isLatestVersionAvailable: Utils.isUpdateAvailable(currentVersion, versionModel.data?.firstOrNull?.appVersion ?? currentVersion),
           newAPKVersion: newAPKVersion,
@@ -117,7 +120,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             downloadPath,
             onReceiveProgress: (counter, total) {
               if (total != -1) {
-                debugPrint("Downloaded % :: ${(counter / total * 100).toStringAsFixed(0)}%");
+                if (kDebugMode) {
+                  print("Downloaded % :: ${(counter / total * 100).toStringAsFixed(0)}%");
+                }
                 setDownloadedProgress((counter / total * 100).toStringAsFixed(0).toInt());
               }
             },

@@ -5,11 +5,11 @@ import 'package:raj_packaging/Constants/app_utils.dart';
 import 'package:raj_packaging/Network/api_base_helper.dart';
 import 'package:raj_packaging/Network/response_model.dart';
 
-class PendingOrdersService {
-  ///Get Orders
-  static Future<ResponseModel> getOrdersService() async {
+class CompletedOrderService {
+  /// Get Completed Orders
+  static Future<ResponseModel> getCompletedOrderService() async {
     final response = await ApiBaseHelper.getHTTP(
-      ApiUrls.getOrdersApi,
+      ApiUrls.getCompletedOrdersApi,
       showProgress: false,
       onError: (dioExceptions) {
         Utils.handleMessage(message: dioExceptions.message, isError: true);
@@ -17,75 +17,68 @@ class PendingOrdersService {
       onSuccess: (res) {
         if (res.isSuccess) {
           if (kDebugMode) {
-            print("getOrdersApi Success ::: ${res.message}");
+            print("getCompletedOrdersApi success :: ${res.message}");
           }
         } else {
           if (kDebugMode) {
-            print("getOrdersApi Error ::: ${res.message}");
+            print("getCompletedOrdersApi error :: ${res.message}");
           }
-          Utils.handleMessage(message: res.message, isError: true);
         }
       },
     );
     return response;
   }
 
-  ///Delete Order Service
-  static Future<ResponseModel> deleteOrderService({
+  /// Edit Quantity
+  static Future<ResponseModel> editQuantityService({
     required String orderId,
-  }) async {
-    final response = await ApiBaseHelper.deleteHTTP(
-      ApiUrls.deleteOrderApi + orderId,
-      showProgress: false,
-      onError: (dioExceptions) {
-        Utils.handleMessage(message: dioExceptions.message, isError: true);
-      },
-      onSuccess: (res) async {
-        if (res.isSuccess) {
-          if (kDebugMode) {
-            print("deleteOrderApi success :: ${res.message}");
-          }
-        } else {
-          if (kDebugMode) {
-            print("deleteOrderApi error :: ${res.message}");
-          }
-        }
-      },
-    );
-
-    return response;
-  }
-
-  ///Create Job Service
-  static Future<ResponseModel> createJobService({
-    required String partyId,
-    required String productId,
-    required String orderId,
+    required String orderQuantity,
   }) async {
     final response = await ApiBaseHelper.postHTTP(
-      ApiUrls.createJobApi,
+      ApiUrls.editOrderQuantityApi,
       showProgress: false,
       params: {
-        ApiKeys.partyId: partyId,
-        ApiKeys.productId: productId,
         ApiKeys.orderId: orderId,
+        ApiKeys.orderQuantity: orderQuantity,
       },
       onError: (dioExceptions) {
         Utils.handleMessage(message: dioExceptions.message, isError: true);
       },
-      onSuccess: (res) async {
+      onSuccess: (res) {
         if (res.isSuccess) {
           if (kDebugMode) {
-            print("createJobApi success :: ${res.message}");
+            print("editOrderQuantityApi success :: ${res.message}");
           }
         } else {
           if (kDebugMode) {
-            print("createJobApi error :: ${res.message}");
+            print("editOrderQuantityApi error :: ${res.message}");
           }
         }
       },
     );
+    return response;
+  }
 
+  /// Archive Order
+  static Future<ResponseModel> archiveOrderService({required String orderId}) async {
+    final response = await ApiBaseHelper.getHTTP(
+      "${ApiUrls.archiveOrdersApi}$orderId",
+      showProgress: false,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      onSuccess: (res) {
+        if (res.isSuccess) {
+          if (kDebugMode) {
+            print("archiveOrdersApi success :: ${res.message}");
+          }
+        } else {
+          if (kDebugMode) {
+            print("archiveOrdersApi error :: ${res.message}");
+          }
+        }
+      },
+    );
     return response;
   }
 }

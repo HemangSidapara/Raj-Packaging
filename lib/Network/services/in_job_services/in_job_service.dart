@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:raj_packaging/Constants/api_urls.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
 import 'package:raj_packaging/Network/api_base_helper.dart';
@@ -15,9 +15,13 @@ class InJobService {
       },
       onSuccess: (res) {
         if (res.isSuccess) {
-          debugPrint("getJobApi Success ::: ${res.message}");
+          if (kDebugMode) {
+            print("getJobApi Success ::: ${res.message}");
+          }
         } else {
-          debugPrint("getJobApi Error ::: ${res.message}");
+          if (kDebugMode) {
+            print("getJobApi Error ::: ${res.message}");
+          }
           Utils.handleMessage(message: res.message, isError: true);
         }
       },

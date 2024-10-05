@@ -13,4 +13,7 @@ class ApiUrls {
   static const String completeJobApi = '${_apiPath}completeJob.php?jobId=';
   static const String getJobDataApi = '${_apiPath}getJobData.php';
   static const String getPartiesApi = '${_apiPath}getParties.php';
+  static const String archiveOrdersApi = '${_apiPath}archiveOrders.php?orderId=';
+  static const String getCompletedOrdersApi = '${_apiPath}getCompletedOrders.php';
+  static const String editOrderQuantityApi = '${_apiPath}editOrderQuantity.php';
 }

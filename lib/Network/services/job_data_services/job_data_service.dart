@@ -39,9 +39,13 @@ class JobDataService {
       },
       onSuccess: (res) {
         if (res.isSuccess) {
-          debugPrint("completeJobApi Success ::: ${res.message}");
+          if (kDebugMode) {
+            print("completeJobApi Success ::: ${res.message}");
+          }
         } else {
-          debugPrint("completeJobApi Error ::: ${res.message}");
+          if (kDebugMode) {
+            print("completeJobApi Error ::: ${res.message}");
+          }
           Utils.handleMessage(message: res.message, isError: true);
         }
       },

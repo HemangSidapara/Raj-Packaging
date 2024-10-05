@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
@@ -60,8 +60,12 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       newAPKUrlStream.listen((event) async {
         _currentVersion = (await GetPackageInfoService.instance.getInfo()).version;
         add(SplashGetCurrentVersionEvent());
-        debugPrint('currentVersion :: $_currentVersion');
-        debugPrint('newVersion :: $_newAPKVersion');
+        if (kDebugMode) {
+          print('currentVersion :: $_currentVersion');
+        }
+        if (kDebugMode) {
+          print('newVersion :: $_newAPKVersion');
+        }
         stopwatch.stop();
         if (event?.isNotEmpty == true && _newAPKVersion.isNotEmpty) {
           if (Utils.isUpdateAvailable(_currentVersion, _newAPKVersion)) {
@@ -123,7 +127,9 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         statusBarBrightness: Brightness.light,
       ),
     );
-    debugPrint("token value ::: ${getData(AppConstance.authorizationToken)}");
+    if (kDebugMode) {
+      print("token value ::: ${getData(AppConstance.authorizationToken)}");
+    }
     if (getData(AppConstance.authorizationToken) == null) {
       add(SplashUnauthorizedEvent());
     } else {
@@ -162,7 +168,9 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
           downloadPath,
           onReceiveProgress: (counter, total) {
             if (total != -1) {
-              debugPrint("Downloaded % :: ${(counter / total * 100).toStringAsFixed(0)}%");
+              if (kDebugMode) {
+                print("Downloaded % :: ${(counter / total * 100).toStringAsFixed(0)}%");
+              }
               setDownloadedProgress((counter / total * 100).toStringAsFixed(0).toInt());
             }
           },
