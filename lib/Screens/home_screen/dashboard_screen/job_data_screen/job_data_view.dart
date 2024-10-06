@@ -118,7 +118,7 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                           controller: tabController,
                           children: [
                             for (int i = 0; i < tabsList.length; i++)
-                              if (jobDataBloc.jobsList[tabsList[i]].isEmpty)
+                              if (jobDataBloc.jobsList[tabsList[i]]?.isEmpty == true)
                                 Center(
                                   child: Text(
                                     S.current.noDataFound,
@@ -131,7 +131,7 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                                 )
                               else
                                 ListView.separated(
-                                  itemCount: jobDataBloc.jobsList[tabsList[i]].length,
+                                  itemCount: jobDataBloc.jobsList[tabsList[i]]?.length ?? 0,
                                   shrinkWrap: true,
                                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                                   itemBuilder: (context, index) {

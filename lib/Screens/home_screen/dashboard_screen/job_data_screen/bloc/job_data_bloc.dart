@@ -28,7 +28,7 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
     });
 
     on<JobDataGetJobsFailedEvent>((event, emit) async {
-      emit(JobDataGetJobsFailedState(jobsList: event.jobsList));
+      emit(JobDataGetJobsFailedState());
     });
 
     on<JobDataCompleteJobClickEvent>((event, emit) async {
@@ -54,9 +54,9 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
       final response = await JobDataService.getJobDataService();
 
       if (response.isSuccess) {
-        setData(AppConstance.localJobDataStored, response.response?.data);
         jobsList.clear();
         jobsList = (response.response?.data['Tabs'] as List<dynamic>).firstOrNull ?? {};
+        setData(AppConstance.localJobDataStored, response.response?.data);
         add(JobDataGetJobsSuccessEvent(jobsList: jobsList, successMessage: response.message));
       } else {
         jobsList.clear();
