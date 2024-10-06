@@ -35,8 +35,13 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
           ..add(JobDataStartedEvent())
           ..on((event, emit) {
             if (event is JobDataGetJobsSuccessEvent) {
-              int oldTabIndex = tabController.index;
               final tabsList = event.jobsList.keys.toList();
+              int oldTabIndex = tabController.index;
+              tabController = TabController(length: tabsList.length, vsync: this);
+              tabController.animateTo(oldTabIndex);
+            } else if (event is JobDataGetJobsFailedEvent) {
+              final tabsList = event.jobsList.keys.toList();
+              int oldTabIndex = tabController.index;
               tabController = TabController(length: tabsList.length, vsync: this);
               tabController.animateTo(oldTabIndex);
             }
@@ -53,7 +58,6 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                 final tabsList = jobDataBloc.jobsList.keys.toList();
                 return Column(
                   children: [
-
                     ///Header
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 7.w),
@@ -75,117 +79,115 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                           child: LoadingWidget(),
                         ),
                       )
-                    else
-                      if (jobDataBloc.jobsList.isEmpty)
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              S.current.noDataFound,
+                    else if (jobDataBloc.jobsList.isEmpty)
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            S.current.noDataFound,
+                            style: TextStyle(
+                              color: AppColors.PRIMARY_COLOR,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      )
+                    else ...[
+                      TabBar(
+                        controller: tabController,
+                        isScrollable: true,
+                        dividerColor: AppColors.TRANSPARENT,
+                        labelPadding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
+                        indicatorSize: TabBarIndicatorSize.label,
+                        indicatorColor: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                        tabs: [
+                          for (int i = 0; i < tabsList.length; i++)
+                            Text(
+                              tabsList[i],
                               style: TextStyle(
-                                color: AppColors.PRIMARY_COLOR,
+                                color: AppColors.DARK_GREEN_COLOR.withOpacity(0.8),
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ),
-                        )
-                      else
-                        ...[
-                          TabBar(
-                            controller: tabController,
-                            isScrollable: true,
-                            dividerColor: AppColors.TRANSPARENT,
-                            labelPadding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
-                            indicatorSize: TabBarIndicatorSize.label,
-                            indicatorColor: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                            tabs: [
-                              for (int i = 0; i < tabsList.length; i++)
-                                Text(
-                                  tabsList[i],
-                                  style: TextStyle(
-                                    color: AppColors.DARK_GREEN_COLOR.withOpacity(0.8),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
+                        ],
+                      ),
+                      SizedBox(height: 1.h),
+                      Expanded(
+                        child: TabBarView(
+                          controller: tabController,
+                          children: [
+                            for (int i = 0; i < tabsList.length; i++)
+                              if (jobDataBloc.jobsList[tabsList[i]].isEmpty)
+                                Center(
+                                  child: Text(
+                                    S.current.noDataFound,
+                                    style: TextStyle(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16.sp,
+                                    ),
                                   ),
-                                ),
-                            ],
-                          ),
-                          SizedBox(height: 1.h),
-                          Expanded(
-                            child: TabBarView(
-                              controller: tabController,
-                              children: [
-                                for (int i = 0; i < tabsList.length; i++)
-                                  if (jobDataBloc.jobsList[tabsList[i]].isEmpty)
-                                    Center(
-                                      child: Text(
-                                        S.current.noDataFound,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16.sp,
-                                        ),
-                                      ),
-                                    )
-                                  else
-                                    ListView.separated(
-                                      itemCount: jobDataBloc.jobsList[tabsList[i]].length,
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                                      itemBuilder: (context, index) {
-                                        return Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                jobDataBloc.jobsList[tabsList[i]][index]["description"]?.toString().replaceAll("\\n", "\n") ?? "",
-                                                style: TextStyle(
-                                                  color: AppColors.PRIMARY_COLOR,
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
+                                )
+                              else
+                                ListView.separated(
+                                  itemCount: jobDataBloc.jobsList[tabsList[i]].length,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                                  itemBuilder: (context, index) {
+                                    return Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            jobDataBloc.jobsList[tabsList[i]][index]["description"]?.toString().replaceAll("\\n", "\n") ?? "",
+                                            style: TextStyle(
+                                              color: AppColors.PRIMARY_COLOR,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600,
                                             ),
-                                            SizedBox(width: 2.w),
-                                            IconButton(
+                                          ),
+                                        ),
+                                        SizedBox(width: 2.w),
+                                        IconButton(
+                                          onPressed: () async {
+                                            await showConfirmDialog(
+                                              context: context,
+                                              title: S.current.nextStartJobConfirmText.replaceAll("Job Name", tabsList[i]),
                                               onPressed: () async {
-                                                await showConfirmDialog(
-                                                  context: context,
-                                                  title: S.current.nextStartJobConfirmText.replaceAll("Job Name", tabsList[i]),
-                                                  onPressed: () async {
-                                                    jobDataBloc.add(
-                                                      JobDataCompleteJobClickEvent(
-                                                        jobId: jobDataBloc.jobsList[tabsList[i]][index]["jobId"] ?? "",
-                                                      ),
-                                                    );
-                                                  },
+                                                jobDataBloc.add(
+                                                  JobDataCompleteJobClickEvent(
+                                                    jobId: jobDataBloc.jobsList[tabsList[i]][index]["jobId"] ?? "",
+                                                  ),
                                                 );
                                               },
-                                              style: IconButton.styleFrom(
-                                                backgroundColor: AppColors.DARK_GREEN_COLOR,
-                                                maximumSize: Size(8.w, 8.w),
-                                                minimumSize: Size(8.w, 8.w),
-                                                padding: EdgeInsets.zero,
-                                              ),
-                                              icon: Icon(
-                                                Icons.done_rounded,
-                                                color: AppColors.WHITE_COLOR,
-                                                size: 5.w,
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                      separatorBuilder: (context, index) {
-                                        return Divider(
-                                          color: AppColors.HINT_GREY_COLOR,
-                                          thickness: 1.2,
-                                        );
-                                      },
-                                    )
-                              ],
-                            ),
-                          )
-                        ],
+                                            );
+                                          },
+                                          style: IconButton.styleFrom(
+                                            backgroundColor: AppColors.DARK_GREEN_COLOR,
+                                            maximumSize: Size(8.w, 8.w),
+                                            minimumSize: Size(8.w, 8.w),
+                                            padding: EdgeInsets.zero,
+                                          ),
+                                          icon: Icon(
+                                            Icons.done_rounded,
+                                            color: AppColors.WHITE_COLOR,
+                                            size: 5.w,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return Divider(
+                                      color: AppColors.HINT_GREY_COLOR,
+                                      thickness: 1.2,
+                                    );
+                                  },
+                                )
+                          ],
+                        ),
+                      )
+                    ],
                   ],
                 );
               },
@@ -262,7 +264,6 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       ///Cancel
                       ButtonWidget(
                         onPressed: () {

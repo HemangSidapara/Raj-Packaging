@@ -38,8 +38,12 @@ class JobDataGetJobsSuccessEvent extends JobDataEvent {
 }
 
 class JobDataGetJobsFailedEvent extends JobDataEvent {
+  final Map<String, dynamic> jobsList;
+
+  const JobDataGetJobsFailedEvent({required this.jobsList});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [jobsList];
 }
 
 class JobDataCompleteJobClickEvent extends JobDataEvent {

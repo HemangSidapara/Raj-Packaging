@@ -14,6 +14,8 @@ double? getDouble(String key) => getStorage.read(key);
 
 dynamic getData(String key) => getStorage.read(key);
 
+List<T> getList<T>(String key) => ((getStorage.read(key) ?? []) as List<T>);
+
 Future<void> removeData(String key) async => await getStorage.remove(key);
 
 Future<void> clearData() async => await getStorage.erase();

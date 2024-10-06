@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Network/models/completed_models/get_completed_orders_model.dart' as get_completed;
 import 'package:raj_packaging/Network/services/completed_order_services/completed_order_service.dart';
 import 'package:raj_packaging/generated/l10n.dart';
@@ -87,8 +89,14 @@ class CompletedBloc extends Bloc<CompletedEvent, CompletedState> {
         searchedOrdersList.clear();
         ordersList.addAll(getOrdersModel.data ?? []);
         searchedOrdersList.addAll(getOrdersModel.data ?? []);
+        setData(AppConstance.localCompletedOrderStored, getOrdersModel.toJson());
         add(CompletedGetOrdersSuccessEvent(ordersList: getOrdersModel.data ?? [], successMessage: response.message));
       } else {
+        get_completed.GetCompletedOrdersModel getOrdersModel = get_completed.GetCompletedOrdersModel.fromJson(getData(AppConstance.localCompletedOrderStored));
+        ordersList.clear();
+        searchedOrdersList.clear();
+        ordersList.addAll(getOrdersModel.data ?? []);
+        searchedOrdersList.addAll(getOrdersModel.data ?? []);
         add(CompletedGetOrdersFailedEvent());
       }
     } finally {

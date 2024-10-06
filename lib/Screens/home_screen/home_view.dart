@@ -33,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: true,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         await showExitDialog(context);
       },
       child: BlocProvider(
@@ -103,7 +103,7 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Image.asset(
                   iconName,
-                  width: index==1?6.5.w:8.w,
+                  width: index == 1 ? 6.5.w : 8.w,
                   color: homeBloc.bottomIndex == index ? AppColors.TERTIARY_COLOR : AppColors.WHITE_COLOR,
                 )
               ],

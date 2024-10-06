@@ -171,13 +171,11 @@ class _DashboardViewState extends State<DashboardView> {
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Image.asset(
-                                    _contentIconList[index],
-                                    width: 14.w,
-                                  ),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Image.asset(
+                                  _contentIconList[index],
+                                  width: index == 2 ? 13.w : 14.w,
                                 ),
                               ),
                             ],

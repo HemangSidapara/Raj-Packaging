@@ -2,7 +2,7 @@ name: raj_packaging
 description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
-version: 1.0.5+6
+version: 1.0.6+7
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -34,7 +34,6 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   collection: ^1.19.0
   easy_stepper: ^0.8.5+1
-  intl_utils: ^2.8.7
 
 dependency_overrides:
   collection: ^1.18.0

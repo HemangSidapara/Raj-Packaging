@@ -29,8 +29,12 @@ class JobDataGetJobsSuccessState extends JobDataState {
 }
 
 class JobDataGetJobsFailedState extends JobDataState {
+  final Map<String, dynamic> jobsList;
+
+  const JobDataGetJobsFailedState({required this.jobsList});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [jobsList];
 }
 
 class JobDataCompleteJobLoadingState extends JobDataState {

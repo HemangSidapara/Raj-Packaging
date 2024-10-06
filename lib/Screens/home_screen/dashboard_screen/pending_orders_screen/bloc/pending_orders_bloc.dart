@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Network/models/orders_models/get_orders_model.dart' as get_orders;
 import 'package:raj_packaging/Network/services/create_order_services/create_order_service.dart';
 import 'package:raj_packaging/Network/services/pending_orders_services/pending_orders_service.dart';
@@ -113,8 +115,14 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
         searchedOrdersList.clear();
         ordersList.addAll(getOrdersModel.data ?? []);
         searchedOrdersList.addAll(getOrdersModel.data ?? []);
+        setData(AppConstance.localPendingOrdersStored, getOrdersModel.toJson());
         add(PendingOrdersGetOrdersSuccessEvent(ordersList: getOrdersModel.data ?? [], successMessage: response.message));
       } else {
+        get_orders.GetOrdersModel getOrdersModel = get_orders.GetOrdersModel.fromJson(response.response?.data);
+        ordersList.clear();
+        searchedOrdersList.clear();
+        ordersList.addAll(getOrdersModel.data ?? []);
+        searchedOrdersList.addAll(getOrdersModel.data ?? []);
         add(PendingOrdersGetOrdersFailedEvent());
       }
     } finally {

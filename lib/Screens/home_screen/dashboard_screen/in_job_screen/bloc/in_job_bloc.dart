@@ -1,9 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Network/models/jobs_models/get_job_model.dart' as get_jobs;
 import 'package:raj_packaging/Network/services/in_job_services/in_job_service.dart';
 
 part 'in_job_event.dart';
+
 part 'in_job_state.dart';
 
 class InJobBloc extends Bloc<InJobEvent, InJobState> {
@@ -45,28 +48,40 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
 
       if (response.isSuccess) {
         get_jobs.GetJobModel getJobModel = get_jobs.GetJobModel.fromJson(response.response?.data);
-        ordersList.clear();
-        searchedOrdersList.clear();
-        activeStepList.clear();
-        ordersList.addAll(getJobModel.data ?? []);
-        searchedOrdersList.addAll(getJobModel.data ?? []);
-        if (getJobModel.data != null) {
-          for (int i = 0; i < getJobModel.data!.length; i++) {
-            if (getJobModel.data?[i].productData != null) {
-              for (int j = 0; j < getJobModel.data![i].productData!.length; j++) {
-                if (getJobModel.data?[i].productData?[j].orderData != null) {
-                  for (int k = 0; k < getJobModel.data![i].productData![j].orderData!.length; k++) {
-                    if (getJobModel.data?[i].productData?[j].orderData?[k] != null) {
-                      for (int l = 0; l < getJobModel.data![i].productData![j].orderData![k].jobData!.length; l++) {
-                        if (getJobModel.data![i].productData![j].orderData![k].jobData![l].status == "Pending") {
-                          activeStepList.add(
-                            {
-                              getJobModel.data![i].productData![j].orderData![k].orderId!: l,
-                            },
-                          );
-                          break;
-                        }
-                      }
+        setData(AppConstance.localJobsStored, getJobModel.toJson());
+        dataAssignToList(getJobModel: getJobModel);
+        add(InJobGetJobsSuccessEvent(ordersList: getJobModel.data ?? [], successMessage: response.message));
+      } else {
+        get_jobs.GetJobModel getJobModel = get_jobs.GetJobModel.fromJson(getData(AppConstance.localJobsStored));
+        dataAssignToList(getJobModel: getJobModel);
+        add(InJobGetJobsFailedEvent());
+      }
+    } finally {
+      add(const InJobGetJobsLoadingEvent(isLoading: false));
+    }
+  }
+
+  Future<void> dataAssignToList({required get_jobs.GetJobModel getJobModel}) async {
+    ordersList.clear();
+    searchedOrdersList.clear();
+    activeStepList.clear();
+    ordersList.addAll(getJobModel.data ?? []);
+    searchedOrdersList.addAll(getJobModel.data ?? []);
+    if (getJobModel.data != null) {
+      for (int i = 0; i < getJobModel.data!.length; i++) {
+        if (getJobModel.data?[i].productData != null) {
+          for (int j = 0; j < getJobModel.data![i].productData!.length; j++) {
+            if (getJobModel.data?[i].productData?[j].orderData != null) {
+              for (int k = 0; k < getJobModel.data![i].productData![j].orderData!.length; k++) {
+                if (getJobModel.data?[i].productData?[j].orderData?[k] != null) {
+                  for (int l = 0; l < getJobModel.data![i].productData![j].orderData![k].jobData!.length; l++) {
+                    if (getJobModel.data![i].productData![j].orderData![k].jobData![l].status == "Pending") {
+                      activeStepList.add(
+                        {
+                          getJobModel.data![i].productData![j].orderData![k].orderId!: l,
+                        },
+                      );
+                      break;
                     }
                   }
                 }
@@ -74,12 +89,7 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
             }
           }
         }
-        add(InJobGetJobsSuccessEvent(ordersList: getJobModel.data ?? [], successMessage: response.message));
-      } else {
-        add(InJobGetJobsFailedEvent());
       }
-    } finally {
-      add(const InJobGetJobsLoadingEvent(isLoading: false));
     }
   }
 

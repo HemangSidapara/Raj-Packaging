@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Network/services/job_data_services/job_data_service.dart';
 
 part 'job_data_event.dart';
@@ -26,7 +28,7 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
     });
 
     on<JobDataGetJobsFailedEvent>((event, emit) async {
-      emit(JobDataGetJobsFailedState());
+      emit(JobDataGetJobsFailedState(jobsList: event.jobsList));
     });
 
     on<JobDataCompleteJobClickEvent>((event, emit) async {
@@ -52,11 +54,14 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
       final response = await JobDataService.getJobDataService();
 
       if (response.isSuccess) {
+        setData(AppConstance.localJobDataStored, response.response?.data);
         jobsList.clear();
         jobsList = (response.response?.data['Tabs'] as List<dynamic>).firstOrNull ?? {};
         add(JobDataGetJobsSuccessEvent(jobsList: jobsList, successMessage: response.message));
       } else {
-        add(JobDataGetJobsFailedEvent());
+        jobsList.clear();
+        jobsList = (getData(AppConstance.localJobDataStored)['Tabs'] as List<dynamic>).firstOrNull ?? {};
+        add(JobDataGetJobsFailedEvent(jobsList: jobsList));
       }
     } finally {
       add(const JobDataGetJobsLoadingEvent(isLoading: false));

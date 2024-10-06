@@ -3,13 +3,14 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Network/models/orders_models/get_orders_model.dart' as get_orders;
 import 'package:raj_packaging/Network/services/create_order_services/create_order_service.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
 import 'package:raj_packaging/generated/l10n.dart';
 
 part 'create_order_event.dart';
-
 part 'create_order_state.dart';
 
 class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
@@ -58,9 +59,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     on<CreateOrderSelectedPartyEvent>((event, emit) {
       selectedPartyId = event.partyId;
       productList.clear();
-      productList.addAll(partyList
-          .firstWhereOrNull((element) => element.partyId == event.partyId)
-          ?.productData ?? []);
+      productList.addAll(partyList.firstWhereOrNull((element) => element.partyId == event.partyId)?.productData ?? []);
       emit(CreateOrderSelectedPartyState(productList: productList, partyId: event.partyId));
     });
 
@@ -293,8 +292,11 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
         get_orders.GetOrdersModel getOrdersModel = get_orders.GetOrdersModel.fromJson(response.response?.data);
         partyList.clear();
         partyList.addAll(getOrdersModel.data ?? []);
+        setData(AppConstance.localPartiesStored, getOrdersModel.toJson());
         add(CreateOrderGetPartiesSuccessEvent(partyList: getOrdersModel.data ?? [], successMessage: response.message));
       } else {
+        partyList.clear();
+        partyList.addAll(get_orders.GetOrdersModel.fromJson(getData(AppConstance.localPartiesStored)).data ?? []);
         add(CreateOrderGetPartiesFailedEvent());
       }
     } finally {
