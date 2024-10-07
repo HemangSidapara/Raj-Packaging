@@ -982,6 +982,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               h: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 ? _orderSizeBoxRSCHController.text.trim() : null,
                               ups: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1 ? _upsDiePunchController.text.trim() : null,
                               jointType: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.jointTypeIndex != -1 ? jointTypeList[createOrderBloc.jointTypeIndex] : null,
+                              notes: _notesController.text.trim(),
                             ),
                           );
                         },
