@@ -168,5 +168,6 @@
   "completed": "Completed",
   "editQuantity": "Edit Quantity",
   "archive": "Archive",
-  "archiveOrderText": "Are you sure? You want to archive this order?"
+  "archiveOrderText": "Are you sure? You want to archive this order?",
+  "searchProduct": "Search product"
 }

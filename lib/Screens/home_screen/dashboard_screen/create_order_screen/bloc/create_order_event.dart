@@ -52,8 +52,7 @@ class CreateOrderEditPartyClickEvent extends CreateOrderEvent {
   });
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         isValidate,
         partyId,
         partyName,
@@ -214,8 +213,7 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
   });
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         isValidate,
         partyId,
         productId,
@@ -264,4 +262,22 @@ class CreateOrderSuccessEvent extends CreateOrderEvent {
 class CreateOrderFailedEvent extends CreateOrderEvent {
   @override
   List<Object?> get props => [];
+}
+
+class SearchPartyEvent extends CreateOrderEvent {
+  final List<get_orders.Data> partyList;
+
+  const SearchPartyEvent({required this.partyList});
+
+  @override
+  List<Object?> get props => [partyList];
+}
+
+class SearchProductEvent extends CreateOrderEvent {
+  final List<get_orders.ProductData> productList;
+
+  const SearchProductEvent({required this.productList});
+
+  @override
+  List<Object?> get props => [productList];
 }

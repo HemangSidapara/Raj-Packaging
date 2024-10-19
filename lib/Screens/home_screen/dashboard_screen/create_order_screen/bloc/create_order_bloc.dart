@@ -25,9 +25,11 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   int plyBoxRSCTypeIndex = 0;
   int plyBoxDiePunchTypeIndex = 0;
 
+  List<get_orders.Data> defaultPartyList = <get_orders.Data>[];
   List<get_orders.Data> partyList = <get_orders.Data>[];
   String? selectedPartyId;
   bool isPartyEditEnable = false;
+  List<get_orders.ProductData> defaultProductList = <get_orders.ProductData>[];
   List<get_orders.ProductData> productList = <get_orders.ProductData>[];
   String? selectedProductId;
 
@@ -58,7 +60,9 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
 
     on<CreateOrderSelectedPartyEvent>((event, emit) {
       selectedPartyId = event.partyId;
+      defaultProductList.clear();
       productList.clear();
+      defaultProductList.addAll(partyList.firstWhereOrNull((element) => element.partyId == event.partyId)?.productData ?? []);
       productList.addAll(partyList.firstWhereOrNull((element) => element.partyId == event.partyId)?.productData ?? []);
       emit(CreateOrderSelectedPartyState(productList: productList, partyId: event.partyId));
     });
@@ -124,6 +128,18 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
 
     on<CreateOrderFailedEvent>((event, emit) async {
       emit(CreateOrderFailedState());
+    });
+
+    on<SearchPartyEvent>((event, emit) async {
+      partyList.clear();
+      partyList.addAll(event.partyList);
+      emit(SearchPartyState(partyList: event.partyList));
+    });
+
+    on<SearchProductEvent>((event, emit) async {
+      productList.clear();
+      productList.addAll(event.productList);
+      emit(SearchProductState(productList: event.productList));
     });
   }
 
@@ -290,12 +306,16 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
 
       if (response.isSuccess) {
         get_orders.GetOrdersModel getOrdersModel = get_orders.GetOrdersModel.fromJson(response.response?.data);
+        defaultPartyList.clear();
         partyList.clear();
+        defaultPartyList.addAll(getOrdersModel.data ?? []);
         partyList.addAll(getOrdersModel.data ?? []);
         setData(AppConstance.localPartiesStored, getOrdersModel.toJson());
         add(CreateOrderGetPartiesSuccessEvent(partyList: getOrdersModel.data ?? [], successMessage: response.message));
       } else {
+        defaultPartyList.clear();
         partyList.clear();
+        defaultPartyList.addAll(get_orders.GetOrdersModel.fromJson(getData(AppConstance.localPartiesStored)).data ?? []);
         partyList.addAll(get_orders.GetOrdersModel.fromJson(getData(AppConstance.localPartiesStored)).data ?? []);
         add(CreateOrderGetPartiesFailedEvent());
       }

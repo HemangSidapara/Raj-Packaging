@@ -155,3 +155,21 @@ class CreateOrderFailedState extends CreateOrderState {
   @override
   List<Object?> get props => [];
 }
+
+class SearchPartyState extends CreateOrderState {
+  final List<get_orders.Data> partyList;
+
+  const SearchPartyState({required this.partyList});
+
+  @override
+  List<Object?> get props => [partyList];
+}
+
+class SearchProductState extends CreateOrderState {
+  final List<get_orders.ProductData> productList;
+
+  const SearchProductState({required this.productList});
+
+  @override
+  List<Object?> get props => [productList];
+}
