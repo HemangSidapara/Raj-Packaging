@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:raj_packaging/Constants/app_constance.dart';
 import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Network/models/orders_models/get_orders_model.dart' as get_orders;
+import 'package:raj_packaging/Network/models/orders_models/get_paper_flute_model.dart' as get_paper_flute;
 import 'package:raj_packaging/Network/services/create_order_services/create_order_service.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
 import 'package:raj_packaging/generated/l10n.dart';
@@ -33,13 +34,44 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   List<get_orders.ProductData> productList = <get_orders.ProductData>[];
   String? selectedProductId;
 
+  get_paper_flute.Data paperFluteList = get_paper_flute.Data();
+
   CreateOrderBloc() : super(CreateOrderInitial()) {
     on<CreateOrderStartedEvent>((event, emit) {
       add(CreateOrderGetPartiesEvent());
+      add(CreateOrderGetPaperFluteEvent());
     });
 
     on<CreateOrderGetPartiesEvent>((event, emit) async {
       await getPartiesApiCall(event, emit);
+    });
+
+    on<CreateOrderGetPartiesLoadingEvent>((event, emit) async {
+      emit(CreateOrderGetPartiesLoadingState(isLoading: event.isLoading));
+    });
+
+    on<CreateOrderGetPartiesSuccessEvent>((event, emit) async {
+      emit(CreateOrderGetPartiesSuccessState(partyList: event.partyList, successMessage: event.successMessage));
+    });
+
+    on<CreateOrderGetPartiesFailedEvent>((event, emit) async {
+      emit(CreateOrderGetPartiesFailedState());
+    });
+
+    on<CreateOrderGetPaperFluteEvent>((event, emit) async {
+      await getPaperFluteApiCall(event, emit);
+    });
+
+    on<CreateOrderGetPaperFluteLoadingEvent>((event, emit) async {
+      emit(CreateOrderGetPaperFluteLoadingState(isLoading: event.isLoading));
+    });
+
+    on<CreateOrderGetPaperFluteSuccessEvent>((event, emit) async {
+      emit(CreateOrderGetPaperFluteSuccessState(paperFluteList: event.paperFluteList, successMessage: event.successMessage));
+    });
+
+    on<CreateOrderGetPaperFluteFailedEvent>((event, emit) async {
+      emit(CreateOrderGetPaperFluteFailedState());
     });
 
     on<CreateOrderEditPartyClickEvent>((event, emit) async {
@@ -70,18 +102,6 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     on<CreateOrderSelectedProductEvent>((event, emit) {
       selectedProductId = event.productId;
       emit(CreateOrderSelectedProductState(productId: event.productId));
-    });
-
-    on<CreateOrderGetPartiesLoadingEvent>((event, emit) async {
-      emit(CreateOrderGetPartiesLoadingState(isLoading: event.isLoading));
-    });
-
-    on<CreateOrderGetPartiesSuccessEvent>((event, emit) async {
-      emit(CreateOrderGetPartiesSuccessState(partyList: event.partyList, successMessage: event.successMessage));
-    });
-
-    on<CreateOrderGetPartiesFailedEvent>((event, emit) async {
-      emit(CreateOrderGetPartiesFailedState());
     });
 
     on<CreateOrderTypeEvent>((event, emit) {
@@ -140,6 +160,22 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
       productList.clear();
       productList.addAll(event.productList);
       emit(SearchProductState(productList: event.productList));
+    });
+
+    on<CreateOrderEditProductClickEvent>((event, emit) async {
+      await checkEditProduct(event, emit);
+    });
+
+    on<CreateOrderEditProductLoadingEvent>((event, emit) async {
+      emit(CreateOrderEditProductLoadingState(isLoading: event.isLoading));
+    });
+
+    on<CreateOrderEditProductSuccessEvent>((event, emit) async {
+      emit(CreateOrderEditProductSuccessState(successMessage: event.successMessage));
+    });
+
+    on<CreateOrderEditProductFailedEvent>((event, emit) async {
+      emit(CreateOrderEditProductFailedState(failedMessage: event.failedMessage));
     });
   }
 
@@ -324,6 +360,23 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     }
   }
 
+  Future<void> getPaperFluteApiCall(CreateOrderGetPaperFluteEvent event, Emitter<CreateOrderState> emit) async {
+    try {
+      add(const CreateOrderGetPaperFluteLoadingEvent(isLoading: true));
+      final response = await CreateOrderService.getPaperFluteService();
+
+      if (response.isSuccess) {
+        get_paper_flute.GetPaperFluteModel getPaperFluteModel = get_paper_flute.GetPaperFluteModel.fromJson(response.response?.data);
+        paperFluteList = getPaperFluteModel.data ?? get_paper_flute.Data();
+        add(CreateOrderGetPaperFluteSuccessEvent(paperFluteList: getPaperFluteModel.data ?? get_paper_flute.Data(), successMessage: response.message));
+      } else {
+        add(CreateOrderGetPaperFluteFailedEvent());
+      }
+    } finally {
+      add(const CreateOrderGetPaperFluteLoadingEvent(isLoading: false));
+    }
+  }
+
   Future<void> checkEditParty(CreateOrderEditPartyClickEvent event, Emitter<CreateOrderState> emit) async {
     try {
       add(const CreateOrderEditPartyLoadingEvent(isLoading: true));
@@ -342,6 +395,26 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
       }
     } finally {
       add(const CreateOrderEditPartyLoadingEvent(isLoading: false));
+    }
+  }
+
+  Future<void> checkEditProduct(CreateOrderEditProductClickEvent event, Emitter<CreateOrderState> emit) async {
+    try {
+      add(const CreateOrderEditProductLoadingEvent(isLoading: true));
+      if (event.isValidate) {
+        final response = await CreateOrderService.editProductService(
+          productId: event.productId,
+          productName: event.productName,
+        );
+
+        if (response.isSuccess) {
+          add(CreateOrderEditProductSuccessEvent(successMessage: response.message));
+        } else {
+          add(CreateOrderEditProductFailedEvent(failedMessage: response.message));
+        }
+      }
+    } finally {
+      add(const CreateOrderEditProductLoadingEvent(isLoading: false));
     }
   }
 

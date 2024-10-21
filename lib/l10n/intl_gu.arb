@@ -169,5 +169,7 @@
   "editQuantity": "જથ્થો સંપાદિત કરો",
   "archive": "આર્કાઇવ",
   "archiveOrderText": "શું તમને ખાતરી છે? તમે આ ઓર્ડરને આર્કાઇવ કરવા માંગો છો?",
-  "searchProduct": "ઉત્પાદન શોધો"
+  "searchProduct": "ઉત્પાદન શોધો",
+  "editProduct": "ઉત્પાદન સંપાદિત કરો",
+  "editProductName": "ઉત્પાદન નામ સંપાદિત કરો"
 }

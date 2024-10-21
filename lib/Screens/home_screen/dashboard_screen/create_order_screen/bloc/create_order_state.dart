@@ -173,3 +173,54 @@ class SearchProductState extends CreateOrderState {
   @override
   List<Object?> get props => [productList];
 }
+
+class CreateOrderEditProductLoadingState extends CreateOrderState {
+  final bool isLoading;
+
+  const CreateOrderEditProductLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class CreateOrderEditProductSuccessState extends CreateOrderState {
+  final String? successMessage;
+
+  const CreateOrderEditProductSuccessState({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class CreateOrderEditProductFailedState extends CreateOrderState {
+  final String? failedMessage;
+
+  const CreateOrderEditProductFailedState({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}
+
+class CreateOrderGetPaperFluteLoadingState extends CreateOrderState {
+  final bool isLoading;
+
+  const CreateOrderGetPaperFluteLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class CreateOrderGetPaperFluteSuccessState extends CreateOrderState {
+  final get_paper_flute.Data paperFluteList;
+  final String? successMessage;
+
+  const CreateOrderGetPaperFluteSuccessState({required this.paperFluteList, required this.successMessage});
+
+  @override
+  List<Object?> get props => [paperFluteList, successMessage];
+}
+
+class CreateOrderGetPaperFluteFailedState extends CreateOrderState {
+  @override
+  List<Object?> get props => [];
+}

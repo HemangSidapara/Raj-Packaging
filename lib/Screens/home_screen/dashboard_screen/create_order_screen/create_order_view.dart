@@ -111,14 +111,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     "11",
   ];
 
-  final List<String> topPaperPaperAndFluteTypesForSheetAndBoxList = [
-    "100 gsm",
-    "150 gsm",
-    "180 gsm",
-    "230 gsm",
-    "250 gsm",
-    "Plastic",
-  ];
+  // final List<String> topPaperPaperAndFluteTypesForSheetAndBoxList = [
+  //   "100 gsm",
+  //   "150 gsm",
+  //   "180 gsm",
+  //   "230 gsm",
+  //   "250 gsm",
+  //   "Plastic",
+  // ];
 
   ///Get Production Quantity
   void _getProductionQuantity(CreateOrderBloc createOrderBloc) {
@@ -591,7 +591,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           onTap: () async {
                                             await showBottomSheetSpecificationType(
                                               context: context,
-                                              typeList: topPaperPaperAndFluteTypesForSheetAndBoxList,
+                                              typeList: createOrderBloc.paperFluteList.topPaper ?? [],
                                               selectedType: createOrderBloc.orderTypeIndex == 2
                                                   ? createOrderBloc.boxTypeIndex == 1
                                                       ? _specificationBoxDiePunchTopPaperController.text
@@ -641,7 +641,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                         onTap: () async {
                                           await showBottomSheetSpecificationType(
                                             context: context,
-                                            typeList: createOrderBloc.orderTypeIndex != 0 ? topPaperPaperAndFluteTypesForSheetAndBoxList : paperAndFluteTypesForRollList,
+                                            typeList: createOrderBloc.orderTypeIndex != 0 ? (createOrderBloc.paperFluteList.paper ?? []) : paperAndFluteTypesForRollList,
                                             selectedType: createOrderBloc.orderTypeIndex == 2
                                                 ? createOrderBloc.boxTypeIndex == 1
                                                     ? _specificationBoxDiePunchPaperController.text
@@ -694,7 +694,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                         onTap: () async {
                                           await showBottomSheetSpecificationType(
                                             context: context,
-                                            typeList: createOrderBloc.orderTypeIndex != 0 ? topPaperPaperAndFluteTypesForSheetAndBoxList : paperAndFluteTypesForRollList,
+                                            typeList: createOrderBloc.orderTypeIndex != 0 ? (createOrderBloc.paperFluteList.flute ?? []) : paperAndFluteTypesForRollList,
                                             selectedType: createOrderBloc.orderTypeIndex == 2
                                                 ? createOrderBloc.boxTypeIndex == 1
                                                     ? _specificationBoxDiePunchFluteController.text
@@ -1738,37 +1738,56 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Flexible(
-                                                      child: Text(
-                                                        product.productName ?? "",
-                                                        style: TextStyle(
-                                                          color: AppColors.BLACK_COLOR,
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 16.sp,
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding: EdgeInsets.only(right: 2.w),
+                                                        child: Text(
+                                                          product.productName ?? "",
+                                                          style: TextStyle(
+                                                            color: AppColors.BLACK_COLOR,
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 16.sp,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                    SizedBox(width: 2.w),
-                                                    AnimatedContainer(
-                                                      duration: const Duration(milliseconds: 300),
-                                                      decoration: BoxDecoration(
-                                                        color: selectedProductId == product.productId ? AppColors.DARK_GREEN_COLOR : AppColors.WHITE_COLOR,
-                                                        border: Border.all(
-                                                          color: selectedProductId == product.productId ? AppColors.DARK_GREEN_COLOR : AppColors.GREY_COLOR,
-                                                          width: 1,
+                                                    Row(
+                                                      children: [
+                                                        ///Edit Product
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            context.pop();
+                                                            await showBottomSheetProductEdit(context: context, productId: product.productId ?? "");
+                                                          },
+                                                          child: FaIcon(
+                                                            FontAwesomeIcons.penToSquare,
+                                                            color: AppColors.WARNING_COLOR,
+                                                            size: 5.w,
+                                                          ),
                                                         ),
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      padding: EdgeInsets.all(1.w),
-                                                      child: AnimatedOpacity(
-                                                        opacity: selectedProductId == product.productId ? 1 : 0,
-                                                        duration: const Duration(milliseconds: 300),
-                                                        child: Icon(
-                                                          Icons.check_rounded,
-                                                          color: AppColors.WHITE_COLOR,
-                                                          size: 3.w,
+                                                        SizedBox(width: 4.w),
+                                                        AnimatedContainer(
+                                                          duration: const Duration(milliseconds: 300),
+                                                          decoration: BoxDecoration(
+                                                            color: selectedProductId == product.productId ? AppColors.DARK_GREEN_COLOR : AppColors.WHITE_COLOR,
+                                                            border: Border.all(
+                                                              color: selectedProductId == product.productId ? AppColors.DARK_GREEN_COLOR : AppColors.GREY_COLOR,
+                                                              width: 1,
+                                                            ),
+                                                            shape: BoxShape.circle,
+                                                          ),
+                                                          padding: EdgeInsets.all(1.w),
+                                                          child: AnimatedOpacity(
+                                                            opacity: selectedProductId == product.productId ? 1 : 0,
+                                                            duration: const Duration(milliseconds: 300),
+                                                            child: Icon(
+                                                              Icons.check_rounded,
+                                                              color: AppColors.WHITE_COLOR,
+                                                              size: 3.w,
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
+                                                      ],
                                                     ),
                                                   ],
                                                 ),
@@ -1802,6 +1821,157 @@ class _CreateOrderViewState extends State<CreateOrderView> {
       createOrderBloc.productList.clear();
       createOrderBloc.productList.addAll(createOrderBloc.defaultProductList);
     });
+  }
+
+  ///Product Edit Bottom Sheet
+  Future<void> showBottomSheetProductEdit({required BuildContext context, required String productId}) async {
+    final createOrderBloc = context.read<CreateOrderBloc>();
+
+    GlobalKey<FormState> editProductFormKey = GlobalKey<FormState>();
+    TextEditingController editProductController = TextEditingController(text: createOrderBloc.productList.firstWhereOrNull((element) => element.productId == productId)?.productName ?? "");
+
+    await showModalBottomSheet(
+      context: context,
+      constraints: BoxConstraints(maxWidth: 100.w, minWidth: 100.w, maxHeight: 90.h, minHeight: 0.h),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      isScrollControlled: true,
+      useRootNavigator: true,
+      clipBehavior: Clip.hardEdge,
+      backgroundColor: AppColors.WHITE_COLOR,
+      builder: (context) {
+        final keyboardPadding = MediaQuery.viewInsetsOf(context).bottom;
+        return GestureDetector(
+          onTap: Utils.unfocus,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(top: 1.h, bottom: keyboardPadding),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ///Back, Title & Save
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: IconButton.styleFrom(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: AppColors.SECONDARY_COLOR,
+                            size: 6.w,
+                          ),
+                        ),
+                        Text(
+                          S.current.editProduct,
+                          style: TextStyle(
+                            color: AppColors.SECONDARY_COLOR,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                        BlocProvider.value(
+                          value: createOrderBloc,
+                          child: BlocConsumer<CreateOrderBloc, CreateOrderState>(
+                            listener: (context, state) {
+                              if (state is CreateOrderEditProductSuccessState) {
+                                context.pop();
+                                Utils.handleMessage(message: state.successMessage);
+                                createOrderBloc.add(CreateOrderGetPartiesEvent());
+                              }
+                              if (state is CreateOrderGetPartiesSuccessState) {
+                                createOrderBloc.defaultProductList.clear();
+                                createOrderBloc.productList.clear();
+                                createOrderBloc.defaultProductList.addAll(createOrderBloc.partyList.firstWhereOrNull((element) => element.partyId == createOrderBloc.selectedPartyId)?.productData ?? []);
+                                createOrderBloc.productList.addAll(createOrderBloc.partyList.firstWhereOrNull((element) => element.partyId == createOrderBloc.selectedPartyId)?.productData ?? []);
+                              }
+                              if (state is CreateOrderEditProductFailedState) {
+                                Utils.handleMessage(message: state.failedMessage, isError: true);
+                              }
+                            },
+                            builder: (context, state) {
+                              final editPartyBloc = context.read<CreateOrderBloc>();
+                              return TextButton(
+                                onPressed: () async {
+                                  if (createOrderBloc.selectedPartyId != null) {
+                                    editPartyBloc.add(
+                                      CreateOrderEditProductClickEvent(
+                                        isValidate: editProductFormKey.currentState?.validate() == true,
+                                        productId: productId,
+                                        productName: editProductController.text.trim(),
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: IconButton.styleFrom(
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: state is CreateOrderEditProductLoadingState && state.isLoading
+                                    ? LoadingWidget(
+                                        width: 8.w,
+                                        height: 8.w,
+                                      )
+                                    : Text(
+                                        S.current.save,
+                                        style: TextStyle(
+                                          color: AppColors.DARK_GREEN_COLOR,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Divider(
+                      color: AppColors.HINT_GREY_COLOR,
+                      thickness: 1,
+                    ),
+                  ),
+
+                  ///Edit product
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Form(
+                      key: editProductFormKey,
+                      child: TextFieldWidget(
+                        controller: editProductController,
+                        title: S.current.editProductName,
+                        hintText: S.current.enterProductName,
+                        validator: createOrderBloc.validateProductName,
+                        primaryColor: AppColors.SECONDARY_COLOR,
+                        secondaryColor: AppColors.PRIMARY_COLOR,
+                        maxLength: 30,
+                        textInputAction: TextInputAction.next,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   ///Roll Setup

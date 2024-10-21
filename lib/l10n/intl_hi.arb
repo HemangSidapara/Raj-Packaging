@@ -168,5 +168,7 @@
   "editQuantity": "मात्रा संपादित करें",
   "archive": "पुरालेख",
   "archiveOrderText": "क्या आपको यकीन है? क्या आप इस आदेश को संग्रहित करना चाहते हैं?",
-  "searchProduct": "उत्पाद खोजें"
+  "searchProduct": "उत्पाद खोजें",
+  "editProduct": "उत्पाद संपादित करें",
+  "editProductName": "उत्पाद का नाम संपादित करें"
 }

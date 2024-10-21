@@ -138,4 +138,60 @@ class CreateOrderService {
 
     return response;
   }
+
+  ///Edit Product Service
+  static Future<ResponseModel> editProductService({
+    required String productId,
+    required String productName,
+  }) async {
+    final params = {
+      ApiKeys.productId: productId,
+      ApiKeys.productName: productName,
+    };
+    final response = await ApiBaseHelper.postHTTP(
+      ApiUrls.editProductApi,
+      params: params,
+      showProgress: false,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      onSuccess: (res) async {
+        if (res.isSuccess) {
+          if (kDebugMode) {
+            print("editProductApi success :: ${res.message}");
+          }
+        } else {
+          if (kDebugMode) {
+            print("editProductApi error :: ${res.message}");
+          }
+        }
+      },
+    );
+
+    return response;
+  }
+
+  ///Get Paper-Flute
+  static Future<ResponseModel> getPaperFluteService() async {
+    final response = await ApiBaseHelper.getHTTP(
+      ApiUrls.getPaperFluteApi,
+      showProgress: false,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      onSuccess: (res) {
+        if (res.isSuccess) {
+          if (kDebugMode) {
+            print("getPaperFluteApi Success ::: ${res.message}");
+          }
+        } else {
+          if (kDebugMode) {
+            print("getPaperFluteApi Error ::: ${res.message}");
+          }
+          Utils.handleMessage(message: res.message, isError: true);
+        }
+      },
+    );
+    return response;
+  }
 }

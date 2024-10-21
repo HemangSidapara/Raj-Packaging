@@ -169,5 +169,7 @@
   "editQuantity": "Edit Quantity",
   "archive": "Archive",
   "archiveOrderText": "Are you sure? You want to archive this order?",
-  "searchProduct": "Search product"
+  "searchProduct": "Search product",
+  "editProduct": "Edit product",
+  "editProductName": "Edit product name"
 }

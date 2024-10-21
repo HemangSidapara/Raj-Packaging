@@ -281,3 +281,78 @@ class SearchProductEvent extends CreateOrderEvent {
   @override
   List<Object?> get props => [productList];
 }
+
+class CreateOrderEditProductClickEvent extends CreateOrderEvent {
+  final bool isValidate;
+  final String productId;
+  final String productName;
+
+  const CreateOrderEditProductClickEvent({
+    required this.isValidate,
+    required this.productId,
+    required this.productName,
+  });
+
+  @override
+  List<Object?> get props => [
+        isValidate,
+        productId,
+        productName,
+      ];
+}
+
+class CreateOrderEditProductLoadingEvent extends CreateOrderEvent {
+  final bool isLoading;
+
+  const CreateOrderEditProductLoadingEvent({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class CreateOrderEditProductSuccessEvent extends CreateOrderEvent {
+  final String? successMessage;
+
+  const CreateOrderEditProductSuccessEvent({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class CreateOrderEditProductFailedEvent extends CreateOrderEvent {
+  final String? failedMessage;
+
+  const CreateOrderEditProductFailedEvent({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}
+
+class CreateOrderGetPaperFluteEvent extends CreateOrderEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class CreateOrderGetPaperFluteLoadingEvent extends CreateOrderEvent {
+  final bool isLoading;
+
+  const CreateOrderGetPaperFluteLoadingEvent({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class CreateOrderGetPaperFluteSuccessEvent extends CreateOrderEvent {
+  final get_paper_flute.Data paperFluteList;
+  final String? successMessage;
+
+  const CreateOrderGetPaperFluteSuccessEvent({required this.paperFluteList, this.successMessage});
+
+  @override
+  List<Object?> get props => [paperFluteList, successMessage];
+}
+
+class CreateOrderGetPaperFluteFailedEvent extends CreateOrderEvent {
+  @override
+  List<Object?> get props => [];
+}

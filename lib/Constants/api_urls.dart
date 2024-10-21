@@ -16,4 +16,6 @@ class ApiUrls {
   static const String archiveOrdersApi = '${_apiPath}archiveOrders.php?orderId=';
   static const String getCompletedOrdersApi = '${_apiPath}getCompletedOrders.php';
   static const String editOrderQuantityApi = '${_apiPath}editOrderQuantity.php';
+  static const String editProductApi = '${_apiPath}editProduct.php';
+  static const String getPaperFluteApi = '${_apiPath}getPaperFlute.php';
 }
