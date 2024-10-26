@@ -47,3 +47,8 @@ class HomeDownloadAndInstallInProgressEvent extends HomeEvent {
   @override
   List<Object?> get props => [isUpdateLoading, downloadedProgress];
 }
+
+class HomeCheckTokenEvent extends HomeEvent {
+  @override
+  List<Object?> get props => [];
+}

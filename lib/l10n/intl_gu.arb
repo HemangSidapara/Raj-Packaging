@@ -171,5 +171,6 @@
   "archiveOrderText": "શું તમને ખાતરી છે? તમે આ ઓર્ડરને આર્કાઇવ કરવા માંગો છો?",
   "searchProduct": "ઉત્પાદન શોધો",
   "editProduct": "ઉત્પાદન સંપાદિત કરો",
-  "editProductName": "ઉત્પાદન નામ સંપાદિત કરો"
+  "editProductName": "ઉત્પાદન નામ સંપાદિત કરો",
+  "sessionExpired": "સત્ર સમાપ્ત થયું"
 }

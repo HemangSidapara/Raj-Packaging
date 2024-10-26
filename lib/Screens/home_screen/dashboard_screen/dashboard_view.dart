@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Routes/app_pages.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/hand_shaken_animation.dart';
 import 'package:raj_packaging/generated/l10n.dart';
@@ -51,7 +53,7 @@ class _DashboardViewState extends State<DashboardView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      S.current.hello,
+                      "${S.current.hello}${getData(AppConstance.userName) != null ? "${getData(AppConstance.userName)} " : ""}",
                       style: TextStyle(
                         color: AppColors.PRIMARY_COLOR.withOpacity(0.8),
                         fontSize: 22.sp,

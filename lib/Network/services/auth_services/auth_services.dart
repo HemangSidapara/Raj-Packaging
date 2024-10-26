@@ -56,6 +56,7 @@ class AuthServices {
           LoginModel loginModel = LoginModel.fromJson(res.response?.data);
           await setData(AppConstance.authorizationToken, loginModel.token);
           await setData(AppConstance.role, loginModel.role);
+          await setData(AppConstance.userName, loginModel.userName);
           if (kDebugMode) {
             print("loginApi success :: ${loginModel.msg}");
           }
@@ -65,6 +66,30 @@ class AuthServices {
             print("loginApi error :: ${res.message}");
           }
           Utils.handleMessage(message: res.message, isError: true);
+        }
+      },
+    );
+
+    return response;
+  }
+
+  ///Token Service
+  static Future<ResponseModel> checkTokenService() async {
+    final response = await ApiBaseHelper.getHTTP(
+      ApiUrls.checkTokenApi,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      showProgress: false,
+      onSuccess: (res) async {
+        if (res.isSuccess) {
+          if (kDebugMode) {
+            print("checkTokenApi success :: ${res.message}");
+          }
+        } else {
+          if (kDebugMode) {
+            print("checkTokenApi error :: ${res.message}");
+          }
         }
       },
     );

@@ -42,3 +42,23 @@ class HomeUpdateProgressState extends HomeState {
   @override
   List<Object?> get props => [isUpdateLoading, downloadedProgress];
 }
+
+class HomeCheckTokenSuccessState extends HomeState {
+  final int statusCode;
+  final String message;
+
+  const HomeCheckTokenSuccessState({required this.statusCode, required this.message});
+
+  @override
+  List<Object?> get props => [statusCode, message];
+}
+
+class HomeCheckTokenFailedState extends HomeState {
+  final int statusCode;
+  final String message;
+
+  const HomeCheckTokenFailedState({required this.statusCode, required this.message});
+
+  @override
+  List<Object?> get props => [statusCode, message];
+}

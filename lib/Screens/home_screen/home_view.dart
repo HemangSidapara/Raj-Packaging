@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
+import 'package:raj_packaging/Constants/app_utils.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
+import 'package:raj_packaging/Routes/app_pages.dart';
 import 'package:raj_packaging/Screens/home_screen/bloc/home_bloc.dart';
 import 'package:raj_packaging/generated/l10n.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -53,6 +56,13 @@ class _HomeViewState extends State<HomeView> {
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 final items = context.read<HomeBloc>().bottomItemWidgetList;
+                if (state is HomeCheckTokenFailedState && state.statusCode == 498) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.goNamed(Routes.signInScreen);
+                    Utils.handleMessage(message: S.current.sessionExpired, isError: true);
+                    clearData();
+                  });
+                }
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

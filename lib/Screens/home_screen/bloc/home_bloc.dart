@@ -52,6 +52,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     on<HomeStartedEvent>((event, emit) {
       emit(const HomeChangeBottomIndexState(bottomIndex: 0));
+      add(HomeCheckTokenEvent());
+    });
+
+    on<HomeCheckTokenEvent>((event, emit) async {
+      await checkTokenApiCall(event, emit);
     });
 
     on<HomeChangeBottomIndexEvent>((event, emit) async {
@@ -98,6 +103,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event.bottomIndex == 0) {
     } else if (event.bottomIndex == 1) {}
     pageController.jumpToPage(event.bottomIndex);
+  }
+
+  Future<void> checkTokenApiCall(HomeCheckTokenEvent event, Emitter<HomeState> emit) async {
+    final response = await AuthServices.checkTokenService();
+
+    if (response.isSuccess) {
+      emit(HomeCheckTokenSuccessState(message: response.message ?? "", statusCode: response.statusCode ?? 200));
+    } else {
+      emit(HomeCheckTokenFailedState(message: response.message ?? "", statusCode: response.statusCode ?? 404));
+    }
   }
 
   /// Download and install
