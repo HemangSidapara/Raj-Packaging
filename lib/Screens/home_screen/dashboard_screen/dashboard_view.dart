@@ -18,22 +18,22 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView> {
   final List<String> _contentRouteList = [
-    Routes.pendingOrdersScreen,
-    Routes.inJobScreen,
+    if(getData(AppConstance.role) == AppConstance.admin)Routes.pendingOrdersScreen,
+    if(getData(AppConstance.role) == AppConstance.admin)Routes.inJobScreen,
     Routes.completedScreen,
     Routes.jobDataScreen,
   ];
 
   final List<String> _contentList = [
-    S.current.pendingOrders,
-    S.current.inJob,
+    if(getData(AppConstance.role) == AppConstance.admin)S.current.pendingOrders,
+    if(getData(AppConstance.role) == AppConstance.admin)S.current.inJob,
     S.current.completed,
     S.current.jobData,
   ];
 
   final List<String> _contentIconList = [
-    AppAssets.pendingIcon,
-    AppAssets.inJobIcon,
+    if(getData(AppConstance.role) == AppConstant.admin)AppAssets.pendingIcon,
+    if(getData(AppConstance.role) == AppConstant.admin)AppAssets.inJobIcon,
     AppAssets.completedIcon,
     AppAssets.jobDataIcon,
   ];
@@ -73,8 +73,9 @@ class _DashboardViewState extends State<DashboardView> {
           Expanded(
             child: CustomScrollView(
               slivers: [
+
                 ///Create Order
-                SliverToBoxAdapter(
+                if(getData(AppConstance.role) == AppConstance.admin)...[SliverToBoxAdapter(
                   child: ElevatedButton(
                     onPressed: () async {
                       context.goNamed(Routes.createOrderScreen);
@@ -124,9 +125,10 @@ class _DashboardViewState extends State<DashboardView> {
                     ),
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: SizedBox(height: 2.h),
-                ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: 2.h),
+                  ),
+                ],
 
                 ///Order Details
                 SliverPadding(

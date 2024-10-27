@@ -30,4 +30,6 @@ class AppConstance {
   static const String localCompletedOrderStored = 'localCompletedOrderStored';
   static const String localJobDataStored = 'localJobDataStored';
   static const String userName = 'userName';
+  static const String admin = 'Admin';
+  static const String employee = 'Employee';
 }
