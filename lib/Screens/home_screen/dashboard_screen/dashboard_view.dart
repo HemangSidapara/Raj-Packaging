@@ -18,22 +18,22 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView> {
   final List<String> _contentRouteList = [
-    if(getData(AppConstance.role) == AppConstance.admin)Routes.pendingOrdersScreen,
-    if(getData(AppConstance.role) == AppConstance.admin)Routes.inJobScreen,
+    if (getData(AppConstance.role) == AppConstance.admin) Routes.pendingOrdersScreen,
+    if (getData(AppConstance.role) == AppConstance.admin) Routes.inJobScreen,
     Routes.completedScreen,
     Routes.jobDataScreen,
   ];
 
   final List<String> _contentList = [
-    if(getData(AppConstance.role) == AppConstance.admin)S.current.pendingOrders,
-    if(getData(AppConstance.role) == AppConstance.admin)S.current.inJob,
+    if (getData(AppConstance.role) == AppConstance.admin) S.current.pendingOrders,
+    if (getData(AppConstance.role) == AppConstance.admin) S.current.inJob,
     S.current.completed,
     S.current.jobData,
   ];
 
   final List<String> _contentIconList = [
-    if(getData(AppConstance.role) == AppConstant.admin)AppAssets.pendingIcon,
-    if(getData(AppConstance.role) == AppConstant.admin)AppAssets.inJobIcon,
+    if (getData(AppConstance.role) == AppConstance.admin) AppAssets.pendingIcon,
+    if (getData(AppConstance.role) == AppConstance.admin) AppAssets.inJobIcon,
     AppAssets.completedIcon,
     AppAssets.jobDataIcon,
   ];
@@ -73,58 +73,58 @@ class _DashboardViewState extends State<DashboardView> {
           Expanded(
             child: CustomScrollView(
               slivers: [
-
                 ///Create Order
-                if(getData(AppConstance.role) == AppConstance.admin)...[SliverToBoxAdapter(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      context.goNamed(Routes.createOrderScreen);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                if (getData(AppConstance.role) == AppConstance.admin) ...[
+                  SliverToBoxAdapter(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        context.goNamed(Routes.createOrderScreen);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.LIGHT_SECONDARY_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 65.w,
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  AppAssets.createOrderImage,
-                                  width: 18.w,
-                                ),
-                                SizedBox(width: 3.w),
-                                Text(
-                                  S.current.createOrder,
-                                  style: TextStyle(
-                                    color: AppColors.SECONDARY_COLOR,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18.sp,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.LIGHT_SECONDARY_COLOR,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 65.w,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    AppAssets.createOrderImage,
+                                    width: 18.w,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(width: 3.w),
+                                  Text(
+                                    S.current.createOrder,
+                                    style: TextStyle(
+                                      color: AppColors.SECONDARY_COLOR,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Image.asset(
-                            AppAssets.frontIcon,
-                            width: 9.w,
-                          ),
-                        ],
+                            Image.asset(
+                              AppAssets.frontIcon,
+                              width: 9.w,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
                   SliverToBoxAdapter(
                     child: SizedBox(height: 2.h),
                   ),

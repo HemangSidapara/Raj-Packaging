@@ -309,6 +309,8 @@ class _InJobViewState extends State<InJobView> {
                                                                       height: 2,
                                                                     ),
                                                                     SizedBox(height: 0.5.h),
+
+                                                                    ///Product Details
                                                                     Padding(
                                                                       padding: EdgeInsets.symmetric(horizontal: 5.w),
                                                                       child: AnimationLimiter(
@@ -321,6 +323,8 @@ class _InJobViewState extends State<InJobView> {
                                                                                   child: FadeInAnimation(child: child),
                                                                                 ),
                                                                             children: [
+
+                                                                              ///Status
                                                                               EasyStepper(
                                                                                 activeStep: inJobBloc.activeStepList
                                                                                     .firstWhereOrNull((element) => element.keys.firstOrNull == party.productData?[i].orderData?[j].orderId)
@@ -405,6 +409,1084 @@ class _InJobViewState extends State<InJobView> {
                                                                                   ],
                                                                                 ],
                                                                               ),
+
+                                                                              ///Box's Details
+                                                                              if (party.productData?[i].orderType == "Box") ...[
+
+                                                                                ///Box Type
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      S.current.boxType,
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 15.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(width: 2.w),
+                                                                                    Text(
+                                                                                      party.productData?[i].boxType == "Die Punch" ? S.current.diePunch : S.current.rsc,
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(height: 0.8.h),
+
+                                                                                ///Joint Type
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      S.current.jointType,
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 15.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(width: 2.w),
+                                                                                    Text(
+                                                                                      party.productData?[i].joint != null && party.productData?[i].joint?.isNotEmpty == true ? (party.productData?[i].joint == "Glue Joint" ? S.current.glueJoint : S.current.pinJoint) : "-",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(height: 0.8.h),
+
+                                                                                ///Order size [inch]
+                                                                                if (party.productData?[i].boxType != "Die Punch") ...[
+                                                                                  Text(
+                                                                                    "${S.current.orderSize.replaceAll(" :", "")} (${S.current.inch}) :",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 16.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Divider(
+                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    thickness: 0.8,
+                                                                                    height: 1,
+                                                                                  ),
+                                                                                  SizedBox(height: 0.5.h),
+
+                                                                                  ///L, B & H
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        width: 23.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.l}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].l ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 2.w),
+                                                                                      SizedBox(
+                                                                                        width: 23.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.b}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].b ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 2.w),
+                                                                                      SizedBox(
+                                                                                        width: 23.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.h}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].h ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 0.8.h),
+                                                                                ],
+
+                                                                                ///Die size [inch] & Ups
+                                                                                if (party.productData?[i].boxType == "Die Punch") ...[
+
+                                                                                  ///Die size [inch]
+                                                                                  Text(
+                                                                                    "${S.current.dieSize} (${S.current.inch}) :",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 16.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Divider(
+                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    thickness: 0.8,
+                                                                                    height: 1,
+                                                                                  ),
+                                                                                  SizedBox(height: 0.5.h),
+
+                                                                                  ///Deckle & Cutting
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.deckle}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].deckle ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 2.w),
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.cutting}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].cutting ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 0.5.h),
+
+                                                                                  ///Ups
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Text(
+                                                                                        "${S.current.ups}: ",
+                                                                                        style: TextStyle(
+                                                                                          color: AppColors.BLACK_COLOR,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 15.sp,
+                                                                                        ),
+                                                                                      ),
+                                                                                      Text(
+                                                                                        party.productData?[i].ups ?? "",
+                                                                                        style: TextStyle(
+                                                                                          color: AppColors.BLACK_COLOR,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 16.sp,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 0.8.h),
+                                                                                ],
+
+                                                                                ///Specification
+                                                                                Text(
+                                                                                  S.current.specification,
+                                                                                  style: TextStyle(
+                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 16.sp,
+                                                                                  ),
+                                                                                ),
+                                                                                Divider(
+                                                                                  color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                  thickness: 0.8,
+                                                                                  height: 1,
+                                                                                ),
+                                                                                SizedBox(height: 0.5.h),
+
+                                                                                ///Ply & Top Paper
+                                                                                Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    SizedBox(
+                                                                                      width: 35.w,
+                                                                                      child: Row(
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            "${S.current.ply}: ",
+                                                                                            style: TextStyle(
+                                                                                              color: AppColors.BLACK_COLOR,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 15.sp,
+                                                                                            ),
+                                                                                          ),
+                                                                                          Text(
+                                                                                            party.productData?[i].ply ?? "",
+                                                                                            style: TextStyle(
+                                                                                              color: AppColors.BLACK_COLOR,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 16.sp,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(width: 2.w),
+                                                                                    if (party.productData?[i].ply != "2") ...[
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Text.rich(
+                                                                                          TextSpan(
+                                                                                              text: "${S.current.topPaper}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                              children: [
+                                                                                                TextSpan(
+                                                                                                  text: party.productData?[i].topPaper ?? "",
+                                                                                                  style: TextStyle(
+                                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    fontSize: 16.sp,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ]),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ],
+                                                                                ),
+
+                                                                                ///Paper & Flute
+                                                                                Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: [
+                                                                                    SizedBox(
+                                                                                      width: 35.w,
+                                                                                      child: Text.rich(
+                                                                                        TextSpan(
+                                                                                            text: "${S.current.paper}: ",
+                                                                                            style: TextStyle(
+                                                                                              color: AppColors.BLACK_COLOR,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 15.sp,
+                                                                                            ),
+                                                                                            children: [
+                                                                                              TextSpan(
+                                                                                                text: party.productData?[i].paper ?? "",
+                                                                                                style: TextStyle(
+                                                                                                  color: AppColors.BLACK_COLOR,
+                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  fontSize: 16.sp,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ]),
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(width: 2.w),
+                                                                                    SizedBox(
+                                                                                      width: 35.w,
+                                                                                      child: Text.rich(
+                                                                                        TextSpan(
+                                                                                            text: "${S.current.flute}: ",
+                                                                                            style: TextStyle(
+                                                                                              color: AppColors.BLACK_COLOR,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 15.sp,
+                                                                                            ),
+                                                                                            children: [
+                                                                                              TextSpan(
+                                                                                                text: party.productData?[i].flute ?? "",
+                                                                                                style: TextStyle(
+                                                                                                  color: AppColors.BLACK_COLOR,
+                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  fontSize: 16.sp,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ]),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(height: 0.8.h),
+
+                                                                                ///Actual sheet size [inch]
+                                                                                if (party.productData?[i].boxType != "Die Punch") ...[
+                                                                                  Text(
+                                                                                    "${S.current.actualSheetSize.replaceAll(" :", "")} (${S.current.inch}) :",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 16.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Divider(
+                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    thickness: 0.8,
+                                                                                    height: 1,
+                                                                                  ),
+                                                                                  SizedBox(height: 0.5.h),
+
+                                                                                  ///Deckle & Cutting
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.deckle}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].deckle ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 2.w),
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.cutting}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].cutting ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 0.8.h),
+                                                                                ],
+
+                                                                                ///Order Quantity
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      "${S.current.orderQuantity}: ",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 15.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      party.productData?[i].orderData?[j].orderQuantity ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(height: 0.8.h),
+
+                                                                                ///Production sheet size [inch]
+                                                                                Text(
+                                                                                  "${S.current.productionSheetSize.replaceAll(" :", "")} (${S.current.inch}) :",
+                                                                                  style: TextStyle(
+                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 16.sp,
+                                                                                  ),
+                                                                                ),
+                                                                                Divider(
+                                                                                  color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                  thickness: 0.8,
+                                                                                  height: 1,
+                                                                                ),
+                                                                                SizedBox(height: 0.5.h),
+
+                                                                                ///Deckle & Cutting
+                                                                                Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: [
+                                                                                    SizedBox(
+                                                                                      width: 35.w,
+                                                                                      child: Row(
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            "${S.current.deckle}: ",
+                                                                                            style: TextStyle(
+                                                                                              color: AppColors.BLACK_COLOR,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 15.sp,
+                                                                                            ),
+                                                                                          ),
+                                                                                          Text(
+                                                                                            party.productData?[i].productionDeckle ?? "",
+                                                                                            style: TextStyle(
+                                                                                              color: AppColors.BLACK_COLOR,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 16.sp,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(width: 2.w),
+                                                                                    SizedBox(
+                                                                                      width: 35.w,
+                                                                                      child: Row(
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            "${S.current.cutting}: ",
+                                                                                            style: TextStyle(
+                                                                                              color: AppColors.BLACK_COLOR,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 15.sp,
+                                                                                            ),
+                                                                                          ),
+                                                                                          Text(
+                                                                                            party.productData?[i].productionCutting ?? "",
+                                                                                            style: TextStyle(
+                                                                                              color: AppColors.BLACK_COLOR,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 16.sp,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(height: 0.8.h),
+
+                                                                                ///Production Quantity
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      "${S.current.productionSheetQuantity}: ",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 15.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      party.productData?[i].orderData?[j].productionQuantity ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(height: 1.5.h),
+                                                                              ]
+
+                                                                              ///Sheet
+                                                                              else
+                                                                                if (party.productData?[i].orderType == "Sheet") ...[
+
+                                                                                  ///Order size [inch]
+                                                                                  Text(
+                                                                                    "${S.current.orderSize.replaceAll(" :", "")} (${S.current.inch}) :",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 16.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Divider(
+                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    thickness: 0.8,
+                                                                                    height: 1,
+                                                                                  ),
+                                                                                  SizedBox(height: 0.5.h),
+
+                                                                                  ///Deckle & Cutting
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.deckle}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].deckle ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 2.w),
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.cutting}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].cutting ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 0.8.h),
+
+                                                                                  ///Specification
+                                                                                  Text(
+                                                                                    S.current.specification,
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 16.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Divider(
+                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    thickness: 0.8,
+                                                                                    height: 1,
+                                                                                  ),
+                                                                                  SizedBox(height: 0.5.h),
+
+                                                                                  ///Ply & Top Paper
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.ply}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].ply ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 2.w),
+                                                                                      if (party.productData?[i].ply != "2") ...[
+                                                                                        SizedBox(
+                                                                                          width: 35.w,
+                                                                                          child: Text.rich(
+                                                                                            TextSpan(
+                                                                                                text: "${S.current.topPaper}: ",
+                                                                                                style: TextStyle(
+                                                                                                  color: AppColors.BLACK_COLOR,
+                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  fontSize: 15.sp,
+                                                                                                ),
+                                                                                                children: [
+                                                                                                  TextSpan(
+                                                                                                    text: party.productData?[i].topPaper ?? "",
+                                                                                                    style: TextStyle(
+                                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                      fontSize: 16.sp,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ]),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ],
+                                                                                  ),
+
+                                                                                  ///Paper & Flute
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Text.rich(
+                                                                                          TextSpan(
+                                                                                              text: "${S.current.paper}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                              children: [
+                                                                                                TextSpan(
+                                                                                                  text: party.productData?[i].paper ?? "",
+                                                                                                  style: TextStyle(
+                                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    fontSize: 16.sp,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ]),
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 2.w),
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Text.rich(
+                                                                                          TextSpan(
+                                                                                              text: "${S.current.flute}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                              children: [
+                                                                                                TextSpan(
+                                                                                                  text: party.productData?[i].flute ?? "",
+                                                                                                  style: TextStyle(
+                                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    fontSize: 16.sp,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ]),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 0.8.h),
+
+                                                                                  ///Order Quantity
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Text(
+                                                                                        "${S.current.orderQuantity}: ",
+                                                                                        style: TextStyle(
+                                                                                          color: AppColors.BLACK_COLOR,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 15.sp,
+                                                                                        ),
+                                                                                      ),
+                                                                                      Text(
+                                                                                        party.productData?[i].orderData?[j].orderQuantity ?? "",
+                                                                                        style: TextStyle(
+                                                                                          color: AppColors.BLACK_COLOR,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 16.sp,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 0.8.h),
+
+                                                                                  ///Production sheet size [inch]
+                                                                                  Text(
+                                                                                    "${S.current.productionSheetSize.replaceAll(" :", "")} (${S.current.inch}) :",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 16.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Divider(
+                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    thickness: 0.8,
+                                                                                    height: 1,
+                                                                                  ),
+                                                                                  SizedBox(height: 0.5.h),
+
+                                                                                  ///Deckle & Cutting
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.deckle}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].productionDeckle ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 2.w),
+                                                                                      SizedBox(
+                                                                                        width: 35.w,
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "${S.current.cutting}: ",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 15.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              party.productData?[i].productionCutting ?? "",
+                                                                                              style: TextStyle(
+                                                                                                color: AppColors.BLACK_COLOR,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 16.sp,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 0.8.h),
+
+                                                                                  ///Production Sheet Quantity
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Text(
+                                                                                        "${S.current.productionSheetQuantity}: ",
+                                                                                        style: TextStyle(
+                                                                                          color: AppColors.BLACK_COLOR,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 15.sp,
+                                                                                        ),
+                                                                                      ),
+                                                                                      Text(
+                                                                                        party.productData?[i].orderData?[j].productionQuantity ?? "",
+                                                                                        style: TextStyle(
+                                                                                          color: AppColors.BLACK_COLOR,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 16.sp,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 1.5.h),
+                                                                                ]
+
+                                                                                ///Roll
+                                                                                else
+                                                                                  ...[
+
+                                                                                    ///Order size [inch]
+                                                                                    Text(
+                                                                                      "${S.current.orderSize.replaceAll(" :", "")} (${S.current.inch}) :",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    Divider(
+                                                                                      color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                      thickness: 0.8,
+                                                                                      height: 1,
+                                                                                    ),
+                                                                                    SizedBox(height: 0.5.h),
+
+                                                                                    ///Deckle
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          "${S.current.deckle}: ",
+                                                                                          style: TextStyle(
+                                                                                            color: AppColors.BLACK_COLOR,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 15.sp,
+                                                                                          ),
+                                                                                        ),
+                                                                                        Text(
+                                                                                          party.productData?[i].deckle ?? "",
+                                                                                          style: TextStyle(
+                                                                                            color: AppColors.BLACK_COLOR,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 16.sp,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    SizedBox(height: 0.8.h),
+
+                                                                                    ///Specification
+                                                                                    Text(
+                                                                                      S.current.specification,
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    Divider(
+                                                                                      color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                      thickness: 0.8,
+                                                                                      height: 1,
+                                                                                    ),
+                                                                                    SizedBox(height: 0.5.h),
+
+                                                                                    ///Paper & Flute
+                                                                                    Row(
+                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                      children: [
+                                                                                        SizedBox(
+                                                                                          width: 35.w,
+                                                                                          child: Text.rich(
+                                                                                            TextSpan(
+                                                                                                text: "${S.current.paper}: ",
+                                                                                                style: TextStyle(
+                                                                                                  color: AppColors.BLACK_COLOR,
+                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  fontSize: 15.sp,
+                                                                                                ),
+                                                                                                children: [
+                                                                                                  TextSpan(
+                                                                                                    text: party.productData?[i].paper ?? "",
+                                                                                                    style: TextStyle(
+                                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                      fontSize: 16.sp,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ]),
+                                                                                          ),
+                                                                                        ),
+                                                                                        SizedBox(width: 2.w),
+                                                                                        SizedBox(
+                                                                                          width: 35.w,
+                                                                                          child: Text.rich(
+                                                                                            TextSpan(
+                                                                                                text: "${S.current.flute}: ",
+                                                                                                style: TextStyle(
+                                                                                                  color: AppColors.BLACK_COLOR,
+                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  fontSize: 15.sp,
+                                                                                                ),
+                                                                                                children: [
+                                                                                                  TextSpan(
+                                                                                                    text: party.productData?[i].flute ?? "",
+                                                                                                    style: TextStyle(
+                                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                      fontSize: 16.sp,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ]),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    SizedBox(height: 0.8.h),
+
+                                                                                    ///Order Quantity
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          "${S.current.orderQuantity}: ",
+                                                                                          style: TextStyle(
+                                                                                            color: AppColors.BLACK_COLOR,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 15.sp,
+                                                                                          ),
+                                                                                        ),
+                                                                                        Text(
+                                                                                          party.productData?[i].orderData?[j].orderQuantity ?? "",
+                                                                                          style: TextStyle(
+                                                                                            color: AppColors.BLACK_COLOR,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 16.sp,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    SizedBox(height: 0.8.h),
+
+                                                                                    ///Production roll size [inch]
+                                                                                    Text(
+                                                                                      S.current.productionRollSize,
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    Divider(
+                                                                                      color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                      thickness: 0.8,
+                                                                                      height: 1,
+                                                                                    ),
+                                                                                    SizedBox(height: 0.5.h),
+
+                                                                                    ///Deckle
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          "${S.current.deckle}: ",
+                                                                                          style: TextStyle(
+                                                                                            color: AppColors.BLACK_COLOR,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 15.sp,
+                                                                                          ),
+                                                                                        ),
+                                                                                        Text(
+                                                                                          party.productData?[i].productionDeckle ?? "",
+                                                                                          style: TextStyle(
+                                                                                            color: AppColors.BLACK_COLOR,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 16.sp,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    SizedBox(height: 0.8.h),
+
+                                                                                    ///Production Roll Quantity
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          S.current.productionRollQuantity,
+                                                                                          style: TextStyle(
+                                                                                            color: AppColors.BLACK_COLOR,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 15.sp,
+                                                                                          ),
+                                                                                        ),
+                                                                                        Text(
+                                                                                          party.productData?[i].orderData?[j].productionQuantity ?? "",
+                                                                                          style: TextStyle(
+                                                                                            color: AppColors.BLACK_COLOR,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 16.sp,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    SizedBox(height: 1.5.h),
+                                                                                  ],
                                                                             ],
                                                                           ),
                                                                         ),

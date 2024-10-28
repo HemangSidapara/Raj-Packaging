@@ -8,6 +8,7 @@ import 'package:raj_packaging/Network/services/utils_services/get_package_info_s
 import 'package:raj_packaging/generated/l10n.dart';
 
 part 'settings_event.dart';
+
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
@@ -60,7 +61,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<void> checkLogOut(Emitter<SettingsState> emit) async {
     try {
       add(const SettingsLogOutLoadingEvent(isLoading: true));
-      await Future.delayed(const Duration(seconds: 3));
       await clearData();
       emit(SettingsLogOutSuccessState());
     } finally {
