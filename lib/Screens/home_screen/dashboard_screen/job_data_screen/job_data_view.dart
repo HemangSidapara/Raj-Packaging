@@ -130,59 +130,65 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                                   ),
                                 )
                               else
-                                ListView.separated(
-                                  itemCount: jobDataBloc.jobsList[tabsList[i]]?.length ?? 0,
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                                  itemBuilder: (context, index) {
-                                    return Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            jobDataBloc.jobsList[tabsList[i]][index]["description"]?.toString().replaceAll("\\n", "\n") ?? "",
-                                            style: TextStyle(
-                                              color: AppColors.PRIMARY_COLOR,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600,
+                                RefreshIndicator(
+                                  onRefresh: () async {
+                                    jobDataBloc.add(const JobDataGetJobsEvent());
+                                  },
+                                  color: AppColors.SECONDARY_COLOR,
+                                  child: ListView.separated(
+                                    itemCount: jobDataBloc.jobsList[tabsList[i]]?.length ?? 0,
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              jobDataBloc.jobsList[tabsList[i]][index]["description"]?.toString().replaceAll("\\n", "\n") ?? "",
+                                              style: TextStyle(
+                                                color: AppColors.PRIMARY_COLOR,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(width: 2.w),
-                                        IconButton(
-                                          onPressed: () async {
-                                            await showConfirmDialog(
-                                              context: context,
-                                              title: S.current.nextStartJobConfirmText.replaceAll("Job Name", tabsList[i]),
-                                              onPressed: () async {
-                                                jobDataBloc.add(
-                                                  JobDataCompleteJobClickEvent(
-                                                    jobId: jobDataBloc.jobsList[tabsList[i]][index]["jobId"] ?? "",
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          },
-                                          style: IconButton.styleFrom(
-                                            backgroundColor: AppColors.DARK_GREEN_COLOR,
-                                            maximumSize: Size(8.w, 8.w),
-                                            minimumSize: Size(8.w, 8.w),
-                                            padding: EdgeInsets.zero,
+                                          SizedBox(width: 2.w),
+                                          IconButton(
+                                            onPressed: () async {
+                                              await showConfirmDialog(
+                                                context: context,
+                                                title: S.current.nextStartJobConfirmText.replaceAll("Job Name", tabsList[i]),
+                                                onPressed: () async {
+                                                  jobDataBloc.add(
+                                                    JobDataCompleteJobClickEvent(
+                                                      jobId: jobDataBloc.jobsList[tabsList[i]][index]["jobId"] ?? "",
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            style: IconButton.styleFrom(
+                                              backgroundColor: AppColors.DARK_GREEN_COLOR,
+                                              maximumSize: Size(8.w, 8.w),
+                                              minimumSize: Size(8.w, 8.w),
+                                              padding: EdgeInsets.zero,
+                                            ),
+                                            icon: Icon(
+                                              Icons.done_rounded,
+                                              color: AppColors.WHITE_COLOR,
+                                              size: 5.w,
+                                            ),
                                           ),
-                                          icon: Icon(
-                                            Icons.done_rounded,
-                                            color: AppColors.WHITE_COLOR,
-                                            size: 5.w,
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return Divider(
-                                      color: AppColors.HINT_GREY_COLOR,
-                                      thickness: 1.2,
-                                    );
-                                  },
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return Divider(
+                                        color: AppColors.HINT_GREY_COLOR,
+                                        thickness: 1.2,
+                                      );
+                                    },
+                                  ),
                                 )
                           ],
                         ),
