@@ -100,8 +100,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
       }
     });
-    if (event.bottomIndex == 0) {
-    } else if (event.bottomIndex == 1) {}
     pageController.jumpToPage(event.bottomIndex);
   }
 

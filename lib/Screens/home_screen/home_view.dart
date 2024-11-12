@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
 import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Routes/app_pages.dart';
-import 'package:raj_packaging/Constants/app_constance.dart';
 import 'package:raj_packaging/Screens/home_screen/bloc/home_bloc.dart';
 import 'package:raj_packaging/generated/l10n.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -41,9 +41,7 @@ class _HomeViewState extends State<HomeView> {
         await showExitDialog(context);
       },
       child: BlocProvider(
-        create: (context) =>
-        HomeBloc()
-          ..add(HomeStartedEvent()),
+        create: (context) => HomeBloc()..add(HomeStartedEvent()),
         child: Scaffold(
           bottomNavigationBar: DecoratedBox(
             decoration: BoxDecoration(
@@ -58,9 +56,7 @@ class _HomeViewState extends State<HomeView> {
             ),
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
-                final items = context
-                    .read<HomeBloc>()
-                    .bottomItemWidgetList;
+                final items = context.read<HomeBloc>().bottomItemWidgetList;
                 if (state is HomeCheckTokenFailedState && state.statusCode == 498) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     context.goNamed(Routes.signInScreen);
@@ -72,14 +68,12 @@ class _HomeViewState extends State<HomeView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     for (int i = 0; i < items.length; i++)
-                      if(i != 1 || getData(AppConstance.role) == AppConstance.admin)
+                      if (i != 1 || getData(AppConstance.role) == AppConstance.admin)
                         SizedBox(
                           width: 100.w / items.length,
                           child: BottomNavigationBarItem(
                             index: i,
-                            iconName: context
-                                .read<HomeBloc>()
-                                .listOfImages[i],
+                            iconName: context.read<HomeBloc>().listOfImages[i],
                           ),
                         ),
                   ],
@@ -186,7 +180,6 @@ class _HomeViewState extends State<HomeView> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-
                     ///No
                     ElevatedButton(
                       onPressed: () {
