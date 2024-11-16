@@ -2022,6 +2022,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         _specificationBoxDiePunchFluteController.text = product?.flute ?? "";
         _productionSheetSizeBoxDiePunchDeckleController.text = product?.productionDeckle ?? "";
         _productionSheetSizeBoxDiePunchCuttingController.text = product?.productionCutting ?? "";
+        _upsDiePunchController.text = product?.ups ?? "";
       } else {
         _orderSizeBoxRSCLController.text = product?.l ?? "";
         _orderSizeBoxRSCBController.text = product?.b ?? "";
