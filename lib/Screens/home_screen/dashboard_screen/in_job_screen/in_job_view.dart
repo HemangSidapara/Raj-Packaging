@@ -292,7 +292,66 @@ class _InJobViewState extends State<InJobView> {
                                                                             ),
                                                                           ),
                                                                         ),
+
+                                                                        ///Delete Jobs
+                                                                        if (Device.screenType == ScreenType.tablet) ...[
+                                                                          SizedBox(width: 2.w),
+                                                                          IconButton(
+                                                                            onPressed: () async {
+                                                                              await showDeleteDialog(
+                                                                                context: context,
+                                                                                title: S.current.deleteItemText,
+                                                                                onPressed: () async {
+                                                                                  if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
+                                                                                    inJobBloc.add(InJobDeleteOrderClickEvent(orderId: party.productData?[i].orderData?[j].orderId ?? ""));
+                                                                                  }
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                            style: IconButton.styleFrom(
+                                                                              backgroundColor: AppColors.DARK_RED_COLOR,
+                                                                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                              padding: EdgeInsets.zero,
+                                                                              elevation: 4,
+                                                                              maximumSize: Device.aspectRatio > 0.5 ? Size(4.5.h, 4.5.h) : Size(8.5.w, 8.5.w),
+                                                                              minimumSize: Device.aspectRatio > 0.5 ? Size(4.5.h, 4.5.h) : Size(8.5.w, 8.5.w),
+                                                                            ),
+                                                                            icon: FaIcon(
+                                                                              FontAwesomeIcons.solidTrashCan,
+                                                                              color: AppColors.PRIMARY_COLOR,
+                                                                              size: Device.aspectRatio > 0.5 ? 2.5.w : 4.w,
+                                                                            ),
+                                                                          )
+                                                                        ],
                                                                       ],
+                                                                    ),
+                                                                  ),
+                                                                  trailing: Device.screenType == ScreenType.tablet
+                                                                      ? const SizedBox()
+                                                                      : IconButton(
+                                                                    onPressed: () async {
+                                                                      await showDeleteDialog(
+                                                                        context: context,
+                                                                        title: S.current.deleteItemText,
+                                                                        onPressed: () async {
+                                                                          if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
+                                                                            inJobBloc.add(InJobDeleteOrderClickEvent(orderId: party.productData?[i].orderData?[j].orderId ?? ""));
+                                                                          }
+                                                                        },
+                                                                      );
+                                                                    },
+                                                                    style: IconButton.styleFrom(
+                                                                      backgroundColor: AppColors.DARK_RED_COLOR,
+                                                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                      padding: EdgeInsets.zero,
+                                                                      elevation: 4,
+                                                                      maximumSize: Size(7.5.w, 7.5.w),
+                                                                      minimumSize: Size(7.5.w, 7.5.w),
+                                                                    ),
+                                                                    icon: FaIcon(
+                                                                      FontAwesomeIcons.solidTrashCan,
+                                                                      color: AppColors.PRIMARY_COLOR,
+                                                                      size: 4.w,
                                                                     ),
                                                                   ),
                                                                   dense: true,
@@ -1646,5 +1705,123 @@ class _InJobViewState extends State<InJobView> {
         .now()
         .difference(DateFormat("yyyy-MM-dd, hh:mm:ss").parse(date).toLocal())
         .inDays;
+  }
+
+  Future<void> showDeleteDialog({
+    required BuildContext context,
+    required void Function()? onPressed,
+    required String title,
+  }) async {
+    final inJobBloc = context.read<InJobBloc>();
+
+    await showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'string',
+      transitionDuration: const Duration(milliseconds: 400),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 1),
+            end: const Offset(0, 0),
+          ).animate(animation),
+          child: FadeTransition(
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOut,
+            ),
+            child: child,
+          ),
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: AppColors.WHITE_COLOR,
+          surfaceTintColor: AppColors.WHITE_COLOR,
+          contentPadding: EdgeInsets.symmetric(horizontal: 2.w),
+          content: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: AppColors.WHITE_COLOR,
+            ),
+            width: 80.w,
+            clipBehavior: Clip.hardEdge,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 2.h),
+                Icon(
+                  Icons.delete_forever_rounded,
+                  color: AppColors.DARK_RED_COLOR,
+                  size: 8.w,
+                ),
+                SizedBox(height: 2.h),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.SECONDARY_COLOR,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                SizedBox(height: 3.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
+                      ///Cancel
+                      ButtonWidget(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        fixedSize: Size(30.w, 5.h),
+                        buttonTitle: S.current.cancel,
+                        buttonColor: AppColors.DARK_GREEN_COLOR,
+                        buttonTitleColor: AppColors.PRIMARY_COLOR,
+                      ),
+
+                      ///Delete
+                      BlocProvider.value(
+                        value: inJobBloc,
+                        child: BlocConsumer<InJobBloc, InJobState>(
+                          listener: (context, state) {
+                            if (state is InJobDeleteOrderSuccessState) {
+                              context.pop();
+                              Utils.handleMessage(message: state.successMessage);
+                              context.read<InJobBloc>().add(InJobGetJobsEvent());
+                            }
+                            if (state is InJobDeleteOrderFailedState) {
+                              context.pop();
+                              Utils.handleMessage(message: state.failedMessage, isError: true);
+                            }
+                          },
+                          builder: (context, state) {
+                            return ButtonWidget(
+                              onPressed: onPressed,
+                              isLoading: state is InJobDeleteOrderLoadingState && state.isLoading,
+                              fixedSize: Size(30.w, 5.h),
+                              buttonTitle: S.current.delete,
+                              buttonColor: AppColors.DARK_RED_COLOR,
+                              loaderColor: AppColors.PRIMARY_COLOR,
+                              buttonTitleColor: AppColors.PRIMARY_COLOR,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 3.h),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

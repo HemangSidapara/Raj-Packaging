@@ -39,6 +39,22 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
     on<InJobSearchOrderEvent>((event, emit) {
       emit(InJobSearchOrderState(ordersList: event.ordersList));
     });
+
+    on<InJobDeleteOrderClickEvent>((event, emit) async {
+      await checkDeleteJobs(event, emit);
+    });
+
+    on<InJobDeleteOrderLoadingEvent>((event, emit) async {
+      emit(InJobDeleteOrderLoadingState(isLoading: event.isLoading));
+    });
+
+    on<InJobDeleteOrderSuccessEvent>((event, emit) async {
+      emit(InJobDeleteOrderSuccessState(successMessage: event.successMessage));
+    });
+
+    on<InJobDeleteOrderFailedEvent>((event, emit) async {
+      emit(InJobDeleteOrderFailedState(failedMessage: event.failedMessage));
+    });
   }
 
   Future<void> getJobsApiCall(InJobGetJobsEvent event, Emitter<InJobState> emit) async {
@@ -101,5 +117,20 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
       searchedOrdersList.addAll(ordersList);
     }
     add(InJobSearchOrderEvent(ordersList: searchedOrdersList));
+  }
+
+  Future<void> checkDeleteJobs(InJobDeleteOrderClickEvent event, Emitter<InJobState> emit) async {
+    try {
+      add(const InJobDeleteOrderLoadingEvent(isLoading: true));
+      final response = await InJobService.deleteJobsService(orderId: event.orderId);
+
+      if (response.isSuccess) {
+        add(InJobDeleteOrderSuccessEvent(successMessage: response.message));
+      } else {
+        add(InJobDeleteOrderFailedEvent(failedMessage: response.message));
+      }
+    } finally {
+      add(const InJobDeleteOrderLoadingEvent(isLoading: false));
+    }
   }
 }

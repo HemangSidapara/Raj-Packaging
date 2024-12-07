@@ -28,4 +28,28 @@ class InJobService {
     );
     return response;
   }
+
+  ///Delete Jobs
+  static Future<ResponseModel> deleteJobsService({required String orderId}) async {
+    final response = await ApiBaseHelper.deleteHTTP(
+      ApiUrls.deleteJobsApi + orderId,
+      showProgress: false,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      onSuccess: (res) {
+        if (res.isSuccess) {
+          if (kDebugMode) {
+            print("deleteJobsApi Success ::: ${res.message}");
+          }
+        } else {
+          if (kDebugMode) {
+            print("deleteJobsApi Error ::: ${res.message}");
+          }
+          Utils.handleMessage(message: res.message, isError: true);
+        }
+      },
+    );
+    return response;
+  }
 }

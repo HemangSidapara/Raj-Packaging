@@ -41,3 +41,30 @@ class InJobSearchOrderState extends InJobState {
   @override
   List<Object?> get props => [ordersList];
 }
+
+class InJobDeleteOrderLoadingState extends InJobState {
+  final bool isLoading;
+
+  const InJobDeleteOrderLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class InJobDeleteOrderSuccessState extends InJobState {
+  final String? successMessage;
+
+  const InJobDeleteOrderSuccessState({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class InJobDeleteOrderFailedState extends InJobState {
+  final String? failedMessage;
+
+  const InJobDeleteOrderFailedState({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}

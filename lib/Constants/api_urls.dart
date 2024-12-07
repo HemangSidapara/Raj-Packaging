@@ -20,4 +20,5 @@ class ApiUrls {
   static const String getPaperFluteApi = '${_apiPath}getPaperFlute.php';
   static const String checkTokenApi = '${_apiPath}checkToken.php';
   static const String getArchivedOrdersApi = '${_apiPath}getArchivedOrders.php';
+  static const String deleteJobsApi = '${_apiPath}deleteJobs.php?orderId=';
 }

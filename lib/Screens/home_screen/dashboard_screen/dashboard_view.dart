@@ -47,17 +47,21 @@ class _DashboardViewState extends State<DashboardView> {
           ///Header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      "${S.current.hello}${getData(AppConstance.userName) != null ? "${getData(AppConstance.userName)} " : ""}",
-                      style: TextStyle(
-                        color: AppColors.PRIMARY_COLOR.withOpacity(0.8),
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.w900,
+                    Flexible(
+                      child: Text(
+                        "${S.current.hello}${getData(AppConstance.userName) != null ? "${getData(AppConstance.userName)} " : ""}",
+                        style: TextStyle(
+                          color: AppColors.PRIMARY_COLOR.withOpacity(0.8),
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     ),
                     const HandShakenAnimation(),
