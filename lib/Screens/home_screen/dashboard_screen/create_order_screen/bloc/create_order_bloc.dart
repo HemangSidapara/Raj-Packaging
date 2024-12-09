@@ -26,6 +26,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   int plyBoxRSCTypeIndex = 0;
   int plyBoxDiePunchTypeIndex = 0;
 
+  bool isPartyLoading = false;
   List<get_orders.Data> defaultPartyList = <get_orders.Data>[];
   List<get_orders.Data> partyList = <get_orders.Data>[];
   String? selectedPartyId;
@@ -47,6 +48,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     });
 
     on<CreateOrderGetPartiesLoadingEvent>((event, emit) async {
+      isPartyLoading = event.isLoading;
       emit(CreateOrderGetPartiesLoadingState(isLoading: event.isLoading));
     });
 

@@ -37,6 +37,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     const SettingsView(),
   ];
 
+  String newAPKUrl = "";
+
   bool isUpdateLoading = false;
   int _downloadedProgress = 0;
 
@@ -93,6 +95,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           print('currentVersion :: $currentVersion');
           print('newVersion :: $newAPKVersion');
         }
+        this.newAPKUrl = newAPKUrl;
         add(HomeUpdateAvailableEvent(
           isLatestVersionAvailable: Utils.isUpdateAvailable(currentVersion, versionModel.data?.firstOrNull?.appVersion ?? currentVersion),
           newAPKVersion: newAPKVersion,

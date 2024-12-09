@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
 import 'package:raj_packaging/Constants/app_constance.dart';
 import 'package:raj_packaging/Constants/app_strings.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Routes/app_pages.dart';
 import 'package:raj_packaging/Screens/home_screen/bloc/home_bloc.dart';
 import 'package:raj_packaging/Screens/home_screen/settings_screen/bloc/settings_bloc.dart';
@@ -27,9 +30,6 @@ class _SettingsViewState extends State<SettingsView> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => HomeBloc()..add(HomeStartedEvent()),
-        ),
-        BlocProvider(
           create: (context) => SettingsBloc()..add(SettingsStartedEvent()),
         ),
       ],
@@ -50,6 +50,7 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
                 BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
+                    final homeBloc = context.read<HomeBloc>();
                     return Row(
                       children: [
                         if (state is HomeOnUpdateAvailableState && state.isLatestVersionAvailable) ...[
@@ -90,6 +91,23 @@ class _SettingsViewState extends State<SettingsView> {
                             );
                           },
                         ),
+
+                        ///Copy URL
+                        if (getData(AppConstance.role) == AppConstance.admin) ...[
+                          SizedBox(width: 2.w),
+                          InkWell(
+                            onTap: () {
+                              Clipboard.setData(
+                                ClipboardData(text: homeBloc.newAPKUrl),
+                              );
+                            },
+                            child: FaIcon(
+                              FontAwesomeIcons.link,
+                              color: AppColors.PRIMARY_COLOR,
+                              size: 4.w,
+                            ),
+                          ),
+                        ],
                       ],
                     );
                   },

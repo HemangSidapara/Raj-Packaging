@@ -1183,7 +1183,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                         SizedBox(height: 2.h),
 
                         ///Parties
-                        if (createOrderBloc.state is CreateOrderGetPartiesLoadingState && (createOrderBloc.state as CreateOrderGetPartiesLoadingState).isLoading)
+                        if (createOrderBloc.isPartyLoading)
                           SizedBox(
                             height: 20.h,
                             child: const Center(
