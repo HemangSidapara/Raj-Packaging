@@ -37,7 +37,7 @@ class MainActivity : FlutterActivity() {
                     }
                     val infoMap: HashMap<String, String?> =
                         HashMap()
-                    infoMap["appName"] = packageInfo.applicationInfo.loadLabel(this.packageManager)
+                    infoMap["appName"] = packageInfo.applicationInfo?.loadLabel(this.packageManager)
                         .toString()
                     infoMap["packageName"] = packageInfo.packageName
                     infoMap["version"] = packageInfo.versionName

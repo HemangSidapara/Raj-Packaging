@@ -115,6 +115,24 @@ class CreateOrderJointTypeState extends CreateOrderState {
   List<Object?> get props => [jointTypeIndex];
 }
 
+class CreateOrderFlapTypeState extends CreateOrderState {
+  final int flapTypeIndex;
+
+  const CreateOrderFlapTypeState({required this.flapTypeIndex});
+
+  @override
+  List<Object?> get props => [flapTypeIndex];
+}
+
+class CreateOrderSheetBoxTypeState extends CreateOrderState {
+  final int sheetBoxTypeIndex;
+
+  const CreateOrderSheetBoxTypeState({required this.sheetBoxTypeIndex});
+
+  @override
+  List<Object?> get props => [sheetBoxTypeIndex];
+}
+
 class CreateOrderPlyBoxRSCTypeState extends CreateOrderState {
   final int plyBoxRSCTypeIndex;
 

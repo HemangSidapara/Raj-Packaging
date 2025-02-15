@@ -24,7 +24,9 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     globalContext = context;
     return BlocProvider(
-      create: (context) => SplashBloc()..add(SplashStartedEvent()),
+      create: (context) =>
+      SplashBloc()
+        ..add(SplashStartedEvent()),
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) async {
           if (state is SplashOnUpdateAvailableState) {
@@ -53,6 +55,7 @@ class _SplashViewState extends State<SplashView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+
                       ///Image
                       Lottie.asset(
                         AppAssets.splashAnim,
@@ -81,7 +84,7 @@ class _SplashViewState extends State<SplashView> {
                       child: Text(
                         AppConstance.appVersion.replaceAll('1.0.0', (state is SplashCurrentVersionState) ? state.currentVersion : ""),
                         style: TextStyle(
-                          color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+                          color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
                           fontWeight: FontWeight.w700,
                           fontSize: 14.sp,
                         ),
@@ -92,7 +95,7 @@ class _SplashViewState extends State<SplashView> {
                 Text(
                   AppStrings.poweredByMindwaveInfoway,
                   style: TextStyle(
-                    color: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.55),
+                    color: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.55),
                     fontWeight: FontWeight.w700,
                     fontSize: 14.sp,
                   ),

@@ -88,6 +88,16 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     "Glue Joint",
   ];
 
+  final List<String> flapTypeList = [
+    "Regular Flap",
+    "Full Flap",
+  ];
+
+  final List<String> sheetBoxTypeList = [
+    "Single Sheet Box",
+    "Double Sheet Box",
+  ];
+
   final List<String> paperAndFluteTypesForRollList = [
     "100 gsm",
     "150 gsm",
@@ -111,17 +121,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     "11",
   ];
 
-  // final List<String> topPaperPaperAndFluteTypesForSheetAndBoxList = [
-  //   "100 gsm",
-  //   "150 gsm",
-  //   "180 gsm",
-  //   "230 gsm",
-  //   "250 gsm",
-  //   "Plastic",
-  // ];
-
   ///Get Production Quantity
-  void _getProductionQuantity(CreateOrderBloc createOrderBloc) {
+  void _getProductionQuantity(CreateOrderBloc createOrderBloc, {int? sheetBoxTypeIndex}) {
     if (createOrderBloc.orderTypeIndex == 0) {
       _productionQuantityController.text = createOrderBloc.productionQuantityCalculatorForRoll(
         productionQuantityController: _productionQuantityController,
@@ -147,18 +148,21 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         actualSizeCutting: createOrderBloc.boxTypeIndex == 1 ? _actualSheetSizeBoxDiePunchCuttingController.text.trim() : _actualSheetSizeBoxRSCCuttingController.text.trim(),
         productionSizeCutting: createOrderBloc.boxTypeIndex == 1 ? _productionSheetSizeBoxDiePunchCuttingController.text.trim() : _productionSheetSizeBoxRSCCuttingController.text.trim(),
         upsForDiePunch: createOrderBloc.boxTypeIndex == 1 ? _upsDiePunchController.text.trim() : null,
+        sheetBoxType: sheetBoxTypeIndex,
       );
     }
   }
 
   ///Get Actual Sheet Size for Box RSC
-  void _getActualSheetSizeForBoxRSC(CreateOrderBloc createOrderBloc) {
+  void _getActualSheetSizeForBoxRSC(CreateOrderBloc createOrderBloc, {int? flapTypeIndex, int? sheetBoxTypeIndex}) {
     createOrderBloc.actualSheetSizeCalculatorForBoxRSC(
       actualSheetSizeBoxRSCDecalController: _actualSheetSizeBoxRSCDeckleController,
       actualSheetSizeBoxRSCCuttingController: _actualSheetSizeBoxRSCCuttingController,
       orderSizeL: _orderSizeBoxRSCLController.text.trim(),
       orderSizeB: _orderSizeBoxRSCBController.text.trim(),
       orderSizeH: _orderSizeBoxRSCHController.text.trim(),
+      flapType: flapTypeIndex,
+      sheetBoxType: sheetBoxTypeIndex,
     );
   }
 
@@ -481,6 +485,66 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   ],
                                 ),
                                 SizedBox(height: 1.h),
+
+                                ///Flap Type[Regular Flap, Full Flap]
+                                if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) ...[
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      S.current.flapType,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 1.3.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ///Regular Flap
+                                      FlapTypeWidget(title: S.current.regularFlap, index: 0),
+                                      SizedBox(width: 2.w),
+
+                                      ///Full Flap
+                                      FlapTypeWidget(title: S.current.fullFlap, index: 1),
+                                    ],
+                                  ),
+                                  SizedBox(height: 1.h),
+                                ],
+
+                                ///Sheet Box Type[Single Sheet Box, Double Sheet Box]
+                                if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) ...[
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      S.current.sheetBoxType,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 1.3.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ///Single Sheet Box
+                                      Flexible(
+                                        child: SheetBoxTypeWidget(title: S.current.singleSheetBox, index: 0),
+                                      ),
+                                      SizedBox(width: 2.w),
+
+                                      ///Double Sheet Box
+                                      Flexible(
+                                        child: SheetBoxTypeWidget(title: S.current.doubleSheetBox, index: 1),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 1.h),
+                                ],
 
                                 ///Ups
                                 if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1) ...[
@@ -985,6 +1049,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               ups: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 1 ? _upsDiePunchController.text.trim() : null,
                               jointType: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.jointTypeIndex != -1 ? jointTypeList[createOrderBloc.jointTypeIndex] : null,
                               notes: _notesController.text.trim(),
+                              flapType: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 && createOrderBloc.flapTypeIndex != -1 ? flapTypeList[createOrderBloc.flapTypeIndex] : null,
+                              sheetBoxType: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0 && createOrderBloc.sheetBoxTypeIndex != -1 ? sheetBoxTypeList[createOrderBloc.sheetBoxTypeIndex] : null,
                             ),
                           );
                         },
@@ -1118,7 +1184,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                           padding: EdgeInsets.symmetric(horizontal: 5.w),
                           child: TextFieldWidget(
                             hintText: S.current.searchParty,
-                            primaryColor: AppColors.MAIN_BORDER_COLOR.withOpacity(0.2),
+                            primaryColor: AppColors.MAIN_BORDER_COLOR.withValues(alpha: 0.2),
                             secondaryColor: AppColors.SECONDARY_COLOR,
                             onChanged: (value) {
                               createOrderBloc.add(SearchPartyEvent(partyList: getSearchParty(value)));
@@ -1233,7 +1299,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                                 borderRadius: BorderRadius.circular(10),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: AppColors.GREY_COLOR.withOpacity(0.2),
+                                                    color: AppColors.GREY_COLOR.withValues(alpha: 0.2),
                                                     blurRadius: 25,
                                                     offset: const Offset(-10, 5),
                                                     spreadRadius: 3,
@@ -1608,7 +1674,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                       padding: EdgeInsets.symmetric(horizontal: 5.w),
                       child: TextFieldWidget(
                         hintText: S.current.searchProduct,
-                        primaryColor: AppColors.MAIN_BORDER_COLOR.withOpacity(0.2),
+                        primaryColor: AppColors.MAIN_BORDER_COLOR.withValues(alpha: 0.2),
                         secondaryColor: AppColors.SECONDARY_COLOR,
                         onChanged: (value) {
                           createOrderBloc.add(SearchProductEvent(productList: getSearchProduct(value)));
@@ -1726,7 +1792,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                                 borderRadius: BorderRadius.circular(10),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: AppColors.GREY_COLOR.withOpacity(0.2),
+                                                    color: AppColors.GREY_COLOR.withValues(alpha: 0.2),
                                                     blurRadius: 25,
                                                     offset: const Offset(-10, 5),
                                                     spreadRadius: 3,
@@ -2165,7 +2231,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     );
   }
 
-  ///Box Type
+  ///Joint Type
   Widget JointTypeWidget({
     required String title,
     required int index,
@@ -2210,6 +2276,131 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     color: AppColors.PRIMARY_COLOR,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ///Flap Type
+  Widget FlapTypeWidget({
+    required String title,
+    required int index,
+  }) {
+    return BlocBuilder<CreateOrderBloc, CreateOrderState>(
+      buildWhen: (previous, current) => current is CreateOrderTypeState,
+      builder: (context, state) {
+        final createOrderBloc = context.read<CreateOrderBloc>();
+        return InkWell(
+          onTap: () {
+            createOrderBloc.add(CreateOrderFlapTypeEvent(flapTypeIndex: createOrderBloc.flapTypeIndex == index ? -1 : index));
+            _getActualSheetSizeForBoxRSC(
+              createOrderBloc,
+              flapTypeIndex: createOrderBloc.flapTypeIndex == index ? -1 : index,
+              sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+            );
+            _getProductionQuantity(createOrderBloc, sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex);
+          },
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 15.w, minHeight: 2.5.h),
+            child: Row(
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  padding: EdgeInsets.all(0.5.w),
+                  decoration: BoxDecoration(
+                    color: createOrderBloc.flapTypeIndex == index ? AppColors.PRIMARY_COLOR : AppColors.SECONDARY_COLOR,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: AppColors.PRIMARY_COLOR,
+                      width: 1,
+                    ),
+                  ),
+                  child: AnimatedOpacity(
+                    opacity: createOrderBloc.flapTypeIndex == index ? 1 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Icon(
+                      FontAwesomeIcons.check,
+                      color: AppColors.SECONDARY_COLOR,
+                      size: 4.w,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 2.w),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ///Sheet Box Type
+  Widget SheetBoxTypeWidget({
+    required String title,
+    required int index,
+  }) {
+    return BlocBuilder<CreateOrderBloc, CreateOrderState>(
+      buildWhen: (previous, current) => current is CreateOrderTypeState,
+      builder: (context, state) {
+        final createOrderBloc = context.read<CreateOrderBloc>();
+        return InkWell(
+          onTap: () {
+            createOrderBloc.add(CreateOrderSheetBoxTypeEvent(sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex == index ? -1 : index));
+            _getActualSheetSizeForBoxRSC(
+              createOrderBloc,
+              flapTypeIndex: createOrderBloc.flapTypeIndex,
+              sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex == index ? -1 : index,
+            );
+            _getProductionQuantity(createOrderBloc, sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex == index ? -1 : index);
+          },
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 15.w, minHeight: 2.5.h),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  padding: EdgeInsets.all(0.5.w),
+                  decoration: BoxDecoration(
+                    color: createOrderBloc.sheetBoxTypeIndex == index ? AppColors.PRIMARY_COLOR : AppColors.SECONDARY_COLOR,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: AppColors.PRIMARY_COLOR,
+                      width: 1,
+                    ),
+                  ),
+                  child: AnimatedOpacity(
+                    opacity: createOrderBloc.sheetBoxTypeIndex == index ? 1 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Icon(
+                      FontAwesomeIcons.check,
+                      color: AppColors.SECONDARY_COLOR,
+                      size: 4.w,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 2.w),
+                Flexible(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: AppColors.PRIMARY_COLOR,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
@@ -2384,13 +2575,13 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   selectedTypeIndex == index
                                       ? AppColors.PRIMARY_COLOR
                                       : selectedTypeIndex >= index
-                                          ? AppColors.DARK_BLACK_COLOR.withOpacity(0.5)
+                                          ? AppColors.DARK_BLACK_COLOR.withValues(alpha: 0.5)
                                           : AppColors.PRIMARY_COLOR,
                                   selectedTypeIndex == index
                                       ? AppColors.PRIMARY_COLOR
                                       : selectedTypeIndex >= index
                                           ? AppColors.PRIMARY_COLOR
-                                          : AppColors.DARK_BLACK_COLOR.withOpacity(0.5),
+                                          : AppColors.DARK_BLACK_COLOR.withValues(alpha: 0.5),
                                 ],
                                 transform: const GradientRotation(80),
                               ).createShader(

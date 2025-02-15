@@ -84,7 +84,7 @@ class _SettingsViewState extends State<SettingsView> {
                             return Text(
                               AppConstance.appVersion.replaceAll('1.0.0', state is SettingsCurrentVersionState ? state.currentVersion : ""),
                               style: TextStyle(
-                                color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+                                color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16.sp,
                               ),
@@ -302,7 +302,7 @@ class _SettingsViewState extends State<SettingsView> {
               child: Text(
                 AppStrings.copyrightContext.replaceAll('2024', DateTime.now().year.toString()),
                 style: TextStyle(
-                  color: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.55),
+                  color: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.55),
                   fontWeight: FontWeight.w700,
                   fontSize: 14.sp,
                 ),

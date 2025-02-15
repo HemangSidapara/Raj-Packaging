@@ -60,3 +60,30 @@ class JobDataCompleteJobFailedState extends JobDataState {
   @override
   List<Object?> get props => [failedMessage];
 }
+
+class JobDataUpdateAValueLoadingState extends JobDataState {
+  final bool isLoading;
+
+  const JobDataUpdateAValueLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class JobDataUpdateAValueSuccessState extends JobDataState {
+  final String? successMessage;
+
+  const JobDataUpdateAValueSuccessState({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class JobDataUpdateAValueFailedState extends JobDataState {
+  final String? failedMessage;
+
+  const JobDataUpdateAValueFailedState({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}

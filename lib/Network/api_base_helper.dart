@@ -46,7 +46,6 @@ class ApiBaseHelper {
               await Get.closeCurrentSnackbar();
             }
             if (showProgressDialog) Get.put(ProgressDialog()).showProgressDialog(true);
-            Logger.printLog(tag: '|---------------> ${options.method} JSON METHOD <---------------|\n\n REQUEST_URL :', printLog: '\n ${options.uri} \n\n REQUEST_HEADER : ${options.headers}  \n\n REQUEST_DATA : ${options.data.toString()}', logIcon: Logger.info);
             return requestInterceptor(options, handler);
           },
           onResponse: (response, handler) async {
@@ -86,6 +85,8 @@ class ApiBaseHelper {
       "Authorization": "Bearer ${getData(AppConstance.authorizationToken)}",
       "content-type": "application/json",
     });
+
+    Logger.printLog(tag: '|---------------> ${options.method} JSON METHOD <---------------|\n\n REQUEST_URL :', printLog: '\n ${options.uri} \n\n REQUEST_HEADER : ${options.headers}  \n\n REQUEST_DATA : ${options.data.toString()}', logIcon: Logger.info);
 
     return handler.next(options);
   }

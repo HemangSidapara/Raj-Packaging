@@ -138,7 +138,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                     suffixIconConstraints: widget.suffixIconConstraints,
                     suffixIcon: widget.suffixIcon,
                     hintStyle: TextStyle(
-                      color: widget.secondaryColor ?? AppColors.SECONDARY_COLOR.withOpacity(0.5),
+                      color: widget.secondaryColor ?? AppColors.SECONDARY_COLOR.withValues(alpha: 0.5),
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w600,
                     ),

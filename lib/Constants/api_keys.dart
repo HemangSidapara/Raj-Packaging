@@ -25,4 +25,7 @@ class ApiKeys {
   static const joint = "joint";
   static const orderId = "orderId";
   static const notes = "notes";
+  static const flapType = "flapType";
+  static const sheetBoxType = "sheetBoxType";
+  static const aValue = "aValue";
 }

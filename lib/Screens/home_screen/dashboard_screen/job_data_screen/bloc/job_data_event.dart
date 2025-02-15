@@ -81,3 +81,40 @@ class JobDataCompleteJobFailedEvent extends JobDataEvent {
   @override
   List<Object?> get props => [failedMessage];
 }
+
+class JobDataUpdateAValueClickEvent extends JobDataEvent {
+  final String orderId;
+  final String aValue;
+
+  const JobDataUpdateAValueClickEvent({required this.orderId, required this.aValue});
+
+  @override
+  List<Object?> get props => [orderId, aValue];
+}
+
+class JobDataUpdateAValueLoadingEvent extends JobDataEvent {
+  final bool isLoading;
+
+  const JobDataUpdateAValueLoadingEvent({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class JobDataUpdateAValueSuccessEvent extends JobDataEvent {
+  final String? successMessage;
+
+  const JobDataUpdateAValueSuccessEvent({required this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class JobDataUpdateAValueFailedEvent extends JobDataEvent {
+  final String? failedMessage;
+
+  const JobDataUpdateAValueFailedEvent({required this.failedMessage});
+
+  @override
+  List<Object?> get props => [failedMessage];
+}

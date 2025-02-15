@@ -141,6 +141,24 @@ class CreateOrderJointTypeEvent extends CreateOrderEvent {
   List<Object?> get props => [jointTypeIndex];
 }
 
+class CreateOrderFlapTypeEvent extends CreateOrderEvent {
+  final int flapTypeIndex;
+
+  const CreateOrderFlapTypeEvent({required this.flapTypeIndex});
+
+  @override
+  List<Object?> get props => [flapTypeIndex];
+}
+
+class CreateOrderSheetBoxTypeEvent extends CreateOrderEvent {
+  final int sheetBoxTypeIndex;
+
+  const CreateOrderSheetBoxTypeEvent({required this.sheetBoxTypeIndex});
+
+  @override
+  List<Object?> get props => [sheetBoxTypeIndex];
+}
+
 class CreateOrderPlyBoxRSCTypeEvent extends CreateOrderEvent {
   final int plyBoxRSCTypeIndex;
 
@@ -184,6 +202,8 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
   final String? ups;
   final String? jointType;
   final String? notes;
+  final String? flapType;
+  final String? sheetBoxType;
 
   const CreateOrderButtonClickEvent({
     required this.isValidate,
@@ -210,6 +230,8 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
     this.ups,
     this.jointType,
     this.notes,
+    this.flapType,
+    this.sheetBoxType,
   });
 
   @override
@@ -238,6 +260,8 @@ class CreateOrderButtonClickEvent extends CreateOrderEvent {
         ups,
         jointType,
         notes,
+        flapType,
+        sheetBoxType,
       ];
 }
 

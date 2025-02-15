@@ -172,5 +172,14 @@
   "searchProduct": "Search product",
   "editProduct": "Edit product",
   "editProductName": "Edit product name",
-  "sessionExpired": "Session expired"
+  "sessionExpired": "Session expired",
+  "flapType": "Flap Type :",
+  "regularFlap": "Regular Flap",
+  "fullFlap": "Full Flap",
+  "sheetBoxType": "Sheet Box Type :",
+  "singleSheetBox": "Single Sheet Box",
+  "doubleSheetBox": "Double Sheet Box",
+  "enterA": "Enter A",
+  "pleaseEnterA": "Please enter A",
+  "data": "Data"
 }

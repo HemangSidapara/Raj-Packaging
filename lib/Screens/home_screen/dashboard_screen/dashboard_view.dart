@@ -58,7 +58,7 @@ class _DashboardViewState extends State<DashboardView> {
                       child: Text(
                         "${S.current.hello}${getData(AppConstance.userName) != null ? "${getData(AppConstance.userName)} " : ""}",
                         style: TextStyle(
-                          color: AppColors.PRIMARY_COLOR.withOpacity(0.8),
+                          color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.8),
                           fontSize: 22.sp,
                           fontWeight: FontWeight.w900,
                         ),

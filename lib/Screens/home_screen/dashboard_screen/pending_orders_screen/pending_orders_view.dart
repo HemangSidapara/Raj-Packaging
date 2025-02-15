@@ -224,8 +224,8 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                 ),
                                               ),
                                         dense: true,
-                                        collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
-                                        backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
+                                        collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                                        backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
                                         iconColor: AppColors.SECONDARY_COLOR,
                                         collapsedShape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
@@ -490,8 +490,8 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                 dense: true,
                                                                 collapsedShape: InputBorder.none,
                                                                 shape: InputBorder.none,
-                                                                collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
-                                                                backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
+                                                                collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                                                                backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
                                                                 iconColor: AppColors.SECONDARY_COLOR,
                                                                 tilePadding: EdgeInsets.only(left: 4.w, right: 2.w),
                                                                 children: [
@@ -573,7 +573,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                   ),
                                                                                 ),
                                                                                 Divider(
-                                                                                  color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                  color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                   thickness: 0.8,
                                                                                   height: 1,
                                                                                 ),
@@ -671,7 +671,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                   ),
                                                                                 ),
                                                                                 Divider(
-                                                                                  color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                  color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                   thickness: 0.8,
                                                                                   height: 1,
                                                                                 ),
@@ -766,7 +766,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                 ),
                                                                               ),
                                                                               Divider(
-                                                                                color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                 thickness: 0.8,
                                                                                 height: 1,
                                                                               ),
@@ -892,7 +892,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                   ),
                                                                                 ),
                                                                                 Divider(
-                                                                                  color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                  color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                   thickness: 0.8,
                                                                                   height: 1,
                                                                                 ),
@@ -987,7 +987,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                 ),
                                                                               ),
                                                                               Divider(
-                                                                                color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                 thickness: 0.8,
                                                                                 height: 1,
                                                                               ),
@@ -1084,7 +1084,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                 ),
                                                                               ),
                                                                               Divider(
-                                                                                color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                 thickness: 0.8,
                                                                                 height: 1,
                                                                               ),
@@ -1155,7 +1155,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                 ),
                                                                               ),
                                                                               Divider(
-                                                                                color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                 thickness: 0.8,
                                                                                 height: 1,
                                                                               ),
@@ -1303,7 +1303,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                 ),
                                                                               ),
                                                                               Divider(
-                                                                                color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                 thickness: 0.8,
                                                                                 height: 1,
                                                                               ),
@@ -1400,7 +1400,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                 ),
                                                                               ),
                                                                               Divider(
-                                                                                color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                 thickness: 0.8,
                                                                                 height: 1,
                                                                               ),
@@ -1439,7 +1439,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                 ),
                                                                               ),
                                                                               Divider(
-                                                                                color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                 thickness: 0.8,
                                                                                 height: 1,
                                                                               ),
@@ -1531,7 +1531,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                 ),
                                                                               ),
                                                                               Divider(
-                                                                                color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                 thickness: 0.8,
                                                                                 height: 1,
                                                                               ),

@@ -21,7 +21,7 @@ class Logger {
       Logger.logIcon = logIcon;
       Logger.tag = tag;
       log('|---------->${Logger.logIcon} ${tag.contains('JSON METHOD') ? 'Request Data Start' : 'Response Data Start'} ${Logger.logIcon}<----------|');
-      log('${tag + '\t : ' + printLog}', level: 2000);
+      log('$tag\t : $printLog', level: 2000);
       log('|------------------------------>${Logger.logIcon} ${tag.contains('JSON METHOD') ? 'Request Data End' : 'Response Data End'} ${Logger.logIcon}<------------------------------|');
     }
   }

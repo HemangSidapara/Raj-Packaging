@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:raj_packaging/Constants/app_constance.dart';
 import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Network/services/job_data_services/job_data_service.dart';
+import 'package:raj_packaging/generated/l10n.dart';
 
 part 'job_data_event.dart';
 part 'job_data_state.dart';
@@ -46,6 +47,29 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
     on<JobDataCompleteJobFailedEvent>((event, emit) async {
       emit(JobDataCompleteJobFailedState(failedMessage: event.failedMessage));
     });
+
+    on<JobDataUpdateAValueClickEvent>((event, emit) async {
+      await updateAValueApiCall(event, emit);
+    });
+
+    on<JobDataUpdateAValueLoadingEvent>((event, emit) async {
+      emit(JobDataUpdateAValueLoadingState(isLoading: event.isLoading));
+    });
+
+    on<JobDataUpdateAValueSuccessEvent>((event, emit) async {
+      emit(JobDataUpdateAValueSuccessState(successMessage: event.successMessage));
+    });
+
+    on<JobDataUpdateAValueFailedEvent>((event, emit) async {
+      emit(JobDataUpdateAValueFailedState(failedMessage: event.failedMessage));
+    });
+  }
+
+  String? validateAValue(String? value) {
+    if (value == null || value.isEmpty) {
+      return S.current.pleaseEnterA;
+    }
+    return null;
   }
 
   Future<void> getJobDataApiCall(JobDataGetJobsEvent event, Emitter<JobDataState> emit) async {
@@ -80,6 +104,24 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
       }
     } finally {
       add(const JobDataCompleteJobLoadingEvent(isLoading: false));
+    }
+  }
+
+  Future<void> updateAValueApiCall(JobDataUpdateAValueClickEvent event, Emitter<JobDataState> emit) async {
+    try {
+      add(const JobDataUpdateAValueLoadingEvent(isLoading: true));
+      final response = await JobDataService.updateAValueService(
+        orderId: event.orderId,
+        aValue: event.aValue,
+      );
+
+      if (response.isSuccess) {
+        add(JobDataUpdateAValueSuccessEvent(successMessage: response.message));
+      } else {
+        add(JobDataUpdateAValueFailedEvent(failedMessage: response.message));
+      }
+    } finally {
+      add(const JobDataUpdateAValueLoadingEvent(isLoading: false));
     }
   }
 }

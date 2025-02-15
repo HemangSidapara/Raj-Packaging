@@ -23,6 +23,8 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   int plySheetTypeIndex = 0;
   int boxTypeIndex = 0;
   int jointTypeIndex = -1;
+  int flapTypeIndex = -1;
+  int sheetBoxTypeIndex = -1;
   int plyBoxRSCTypeIndex = 0;
   int plyBoxDiePunchTypeIndex = 0;
 
@@ -124,6 +126,16 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     on<CreateOrderJointTypeEvent>((event, emit) {
       jointTypeIndex = event.jointTypeIndex;
       emit(CreateOrderJointTypeState(jointTypeIndex: event.jointTypeIndex));
+    });
+
+    on<CreateOrderFlapTypeEvent>((event, emit) {
+      flapTypeIndex = event.flapTypeIndex;
+      emit(CreateOrderFlapTypeState(flapTypeIndex: event.flapTypeIndex));
+    });
+
+    on<CreateOrderSheetBoxTypeEvent>((event, emit) {
+      sheetBoxTypeIndex = event.sheetBoxTypeIndex;
+      emit(CreateOrderSheetBoxTypeState(sheetBoxTypeIndex: event.sheetBoxTypeIndex));
     });
 
     on<CreateOrderPlyBoxRSCTypeEvent>((event, emit) {
@@ -310,10 +322,12 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     required String orderSizeL,
     required String orderSizeB,
     required String orderSizeH,
+    int? flapType,
+    int? sheetBoxType,
   }) {
     if (orderSizeL.isNotEmpty && orderSizeB.isNotEmpty && orderSizeH.isNotEmpty) {
-      actualSheetSizeBoxRSCDecalController.text = (orderSizeB.toDouble() + orderSizeH.toDouble()).toStringAsFixed(2);
-      actualSheetSizeBoxRSCCuttingController.text = (((orderSizeL.toDouble() + orderSizeB.toDouble()) * 2) + 1.5).toStringAsFixed(2).replaceAll(".00", "");
+      actualSheetSizeBoxRSCDecalController.text = (((flapType == 1 ? 2 : 1) * orderSizeB.toDouble()) + orderSizeH.toDouble()).toStringAsFixed(2);
+      actualSheetSizeBoxRSCCuttingController.text = (((orderSizeL.toDouble() + orderSizeB.toDouble()) * (sheetBoxType == 1 ? 1 : 2)) + 1.5).toStringAsFixed(2).replaceAll(".00", "");
       return (actualSheetSizeBoxRSCDecalController.text, actualSheetSizeBoxRSCCuttingController.text);
     }
 
@@ -328,9 +342,10 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     required String actualSizeCutting,
     required String productionSizeCutting,
     required String? upsForDiePunch,
+    int? sheetBoxType,
   }) {
     if (orderQuantity.isNotEmpty && productionSizeDeckle.isNotEmpty && actualSizeDeckle.isNotEmpty && productionSizeCutting.isNotEmpty && actualSizeCutting.isNotEmpty) {
-      productionQuantityController.text = ((orderQuantity.toDouble() / ((productionSizeDeckle.toDouble() / actualSizeDeckle.toDouble()).truncateToDouble() * (productionSizeCutting.toDouble() / actualSizeCutting.toDouble()).truncateToDouble())) / (upsForDiePunch?.toDouble() ?? 1)).toStringAsFixed(2).replaceAll(".00", "");
+      productionQuantityController.text = (((orderQuantity.toDouble() / ((productionSizeDeckle.toDouble() / actualSizeDeckle.toDouble()).truncateToDouble() * (productionSizeCutting.toDouble() / actualSizeCutting.toDouble()).truncateToDouble())) / (upsForDiePunch?.toDouble() ?? 1)) * (sheetBoxType == 1 ? 2 : 1)).toStringAsFixed(2).replaceAll(".00", "");
       return productionQuantityController.text;
     }
 
@@ -448,6 +463,8 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
           ups: event.ups,
           jointType: event.jointType,
           notes: event.notes,
+          flapType: event.flapType,
+          sheetBoxType: event.sheetBoxType,
         );
 
         if (response.isSuccess) {

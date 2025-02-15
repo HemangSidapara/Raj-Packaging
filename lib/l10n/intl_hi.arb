@@ -171,5 +171,14 @@
   "searchProduct": "उत्पाद खोजें",
   "editProduct": "उत्पाद संपादित करें",
   "editProductName": "उत्पाद का नाम संपादित करें",
-  "sessionExpired": "सत्र समाप्त हुआ"
+  "sessionExpired": "सत्र समाप्त हुआ",
+  "flapType": "फ्लैप प्रकार :",
+  "regularFlap": "नियमित फ्लैप",
+  "fullFlap": "पूर्ण फ्लैप",
+  "sheetBoxType": "शीट बॉक्स प्रकार:",
+  "singleSheetBox": "शीट बॉक्स प्रकार:",
+  "doubleSheetBox": "डबल शीट बॉक्स",
+  "enterA": "A दर्ज करें",
+  "pleaseEnterA": "कृपया A दर्ज करें",
+  "data": "डेटा"
 }

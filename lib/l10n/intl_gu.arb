@@ -172,5 +172,14 @@
   "searchProduct": "ઉત્પાદન શોધો",
   "editProduct": "ઉત્પાદન સંપાદિત કરો",
   "editProductName": "ઉત્પાદન નામ સંપાદિત કરો",
-  "sessionExpired": "સત્ર સમાપ્ત થયું"
+  "sessionExpired": "સત્ર સમાપ્ત થયું",
+  "flapType": "ફ્લેપ પ્રકાર :",
+  "regularFlap": "રેગ્યુલર ફ્લેપ",
+  "fullFlap": "ફુલ ફ્લેપ",
+  "sheetBoxType": "શીટ બોક્સ પ્રકાર :",
+  "singleSheetBox": "સિંગલ શીટ બોક્સ",
+  "doubleSheetBox": "ડબલ શીટ બોક્સ",
+  "enterA": "A દાખલ કરો",
+  "pleaseEnterA": "કૃપા કરીને A દાખલ કરો",
+  "data": "માહિતી"
 }

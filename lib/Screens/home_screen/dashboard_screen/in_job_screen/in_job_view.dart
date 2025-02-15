@@ -167,8 +167,8 @@ class _InJobViewState extends State<InJobView> {
                                           ),
                                           tilePadding: EdgeInsets.only(left: 3.w, right: 2.w),
                                           dense: true,
-                                          collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
-                                          backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
+                                          collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                                          backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
                                           iconColor: AppColors.SECONDARY_COLOR,
                                           collapsedShape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(10),
@@ -357,8 +357,8 @@ class _InJobViewState extends State<InJobView> {
                                                                   dense: true,
                                                                   collapsedShape: InputBorder.none,
                                                                   shape: InputBorder.none,
-                                                                  collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
-                                                                  backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
+                                                                  collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                                                                  backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
                                                                   iconColor: AppColors.SECONDARY_COLOR,
                                                                   tilePadding: EdgeInsets.only(left: 4.w, right: 2.w),
                                                                   children: [
@@ -418,7 +418,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                   defaultLineColor: AppColors.SECONDARY_COLOR,
                                                                                 ),
                                                                                 titlesAreLargerThanSteps: true,
-                                                                                unreachedStepBorderColor: AppColors.SECONDARY_COLOR.withOpacity(0.25),
+                                                                                unreachedStepBorderColor: AppColors.SECONDARY_COLOR.withValues(alpha: 0.25),
                                                                                 steps: [
                                                                                   for (int jobIndex = 0; jobIndex < (party.productData?[i].orderData?[j].jobData?.length ?? 0); jobIndex++) ...[
                                                                                     EasyStep(
@@ -531,7 +531,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                     ),
                                                                                   ),
                                                                                   Divider(
-                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                     thickness: 0.8,
                                                                                     height: 1,
                                                                                   ),
@@ -630,7 +630,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                     ),
                                                                                   ),
                                                                                   Divider(
-                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                     thickness: 0.8,
                                                                                     height: 1,
                                                                                   ),
@@ -725,7 +725,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                   ),
                                                                                 ),
                                                                                 Divider(
-                                                                                  color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                  color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                   thickness: 0.8,
                                                                                   height: 1,
                                                                                 ),
@@ -851,7 +851,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                     ),
                                                                                   ),
                                                                                   Divider(
-                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                     thickness: 0.8,
                                                                                     height: 1,
                                                                                   ),
@@ -946,7 +946,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                   ),
                                                                                 ),
                                                                                 Divider(
-                                                                                  color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                  color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                   thickness: 0.8,
                                                                                   height: 1,
                                                                                 ),
@@ -1045,7 +1045,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                     ),
                                                                                   ),
                                                                                   Divider(
-                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                     thickness: 0.8,
                                                                                     height: 1,
                                                                                   ),
@@ -1116,7 +1116,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                     ),
                                                                                   ),
                                                                                   Divider(
-                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                     thickness: 0.8,
                                                                                     height: 1,
                                                                                   ),
@@ -1264,7 +1264,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                     ),
                                                                                   ),
                                                                                   Divider(
-                                                                                    color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                    color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                     thickness: 0.8,
                                                                                     height: 1,
                                                                                   ),
@@ -1363,7 +1363,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                       ),
                                                                                     ),
                                                                                     Divider(
-                                                                                      color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                      color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                       thickness: 0.8,
                                                                                       height: 1,
                                                                                     ),
@@ -1402,7 +1402,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                       ),
                                                                                     ),
                                                                                     Divider(
-                                                                                      color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                      color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                       thickness: 0.8,
                                                                                       height: 1,
                                                                                     ),
@@ -1494,7 +1494,7 @@ class _InJobViewState extends State<InJobView> {
                                                                                       ),
                                                                                     ),
                                                                                     Divider(
-                                                                                      color: AppColors.BLACK_COLOR.withOpacity(0.5),
+                                                                                      color: AppColors.BLACK_COLOR.withValues(alpha: 0.5),
                                                                                       thickness: 0.8,
                                                                                       height: 1,
                                                                                     ),
