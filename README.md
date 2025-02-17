@@ -3,7 +3,7 @@
 The stock and order management app for the Raj Packaging.
 
 ## Flutter version:
-- v3.22.2
+- v3.27.4
 
 ## Notes:
 1) Run for the intl_utils global activate
