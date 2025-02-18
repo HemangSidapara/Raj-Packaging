@@ -175,6 +175,8 @@ class ProductData {
     String? productionCutting,
     String? productionDeckle,
     String? notes,
+    String? flapType,
+    String? sheetBoxType,
     List<OrderData>? orderData,
   }) {
     _productId = productId;
@@ -195,6 +197,8 @@ class ProductData {
     _productionDeckle = productionDeckle;
     _orderData = orderData;
     _joint = joint;
+    _flapType = flapType;
+    _sheetBoxType = sheetBoxType;
   }
 
   ProductData.fromJson(dynamic json) {
@@ -215,6 +219,8 @@ class ProductData {
     _joint = json['joint'];
     _productionCutting = json['productionCutting'];
     _productionDeckle = json['productionDeckle'];
+    _flapType = json['flapType'];
+    _sheetBoxType = json['sheetBoxType'];
     if (json['orderData'] != null) {
       _orderData = [];
       json['orderData'].forEach((v) {
@@ -240,6 +246,8 @@ class ProductData {
   String? _joint;
   String? _productionCutting;
   String? _productionDeckle;
+  String? _flapType;
+  String? _sheetBoxType;
   List<OrderData>? _orderData;
 
   ProductData copyWith({
@@ -260,6 +268,8 @@ class ProductData {
     String? joint,
     String? productionCutting,
     String? productionDeckle,
+    String? flapType,
+    String? sheetBoxType,
     List<OrderData>? orderData,
   }) =>
       ProductData(
@@ -281,6 +291,8 @@ class ProductData {
         productionCutting: productionCutting ?? _productionCutting,
         productionDeckle: productionDeckle ?? _productionDeckle,
         orderData: orderData ?? _orderData,
+        flapType: flapType ?? _flapType,
+        sheetBoxType: sheetBoxType ?? _sheetBoxType,
       );
 
   String? get productId => _productId;
@@ -317,6 +329,10 @@ class ProductData {
 
   String? get productionDeckle => _productionDeckle;
 
+  String? get flapType => _flapType;
+
+  String? get sheetBoxType => _sheetBoxType;
+
   List<OrderData>? get orderData => _orderData;
 
   Map<String, dynamic> toJson() {
@@ -338,6 +354,8 @@ class ProductData {
     map['joint'] = _joint;
     map['productionCutting'] = _productionCutting;
     map['productionDeckle'] = _productionDeckle;
+    map['flapType'] = _flapType;
+    map['sheetBoxType'] = _sheetBoxType;
     if (_orderData != null) {
       map['orderData'] = _orderData?.map((v) => v.toJson()).toList();
     }

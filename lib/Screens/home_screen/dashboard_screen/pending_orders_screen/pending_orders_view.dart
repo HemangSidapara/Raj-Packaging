@@ -562,6 +562,54 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                               ),
                                                                               SizedBox(height: 0.8.h),
 
+                                                                              ///Flap Type & Sheet Box Type
+                                                                              if (party.productData?[i].boxType == "RSC") ...[
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      S.current.flapType,
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 15.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(width: 2.w),
+                                                                                    Text(
+                                                                                      party.productData?[i].flapType != null && party.productData?[i].flapType?.isNotEmpty == true ? (party.productData?[i].flapType == "Regular Flap" ? S.current.regularFlap : S.current.fullFlap) : "-",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(height: 0.8.h),
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      S.current.sheetBoxType,
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 15.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(width: 2.w),
+                                                                                    Text(
+                                                                                      party.productData?[i].sheetBoxType != null && party.productData?[i].sheetBoxType?.isNotEmpty == true ? (party.productData?[i].sheetBoxType == "Single Sheet Box" ? S.current.singleSheetBox : S.current.doubleSheetBox) : "-",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(height: 0.8.h),
+                                                                              ],
+
                                                                               ///Order size [inch]
                                                                               if (party.productData?[i].boxType != "Die Punch") ...[
                                                                                 Text(

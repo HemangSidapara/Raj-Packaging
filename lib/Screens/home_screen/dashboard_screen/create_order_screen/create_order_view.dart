@@ -2094,6 +2094,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         _orderSizeBoxRSCBController.text = product?.b ?? "";
         _orderSizeBoxRSCHController.text = product?.h ?? "";
         createOrderBloc.add(CreateOrderPlyBoxRSCTypeEvent(plyBoxRSCTypeIndex: product?.ply != null ? plyTypesForBoxRSCList.indexOf(product!.ply!) : 0));
+        createOrderBloc.add(CreateOrderFlapTypeEvent(flapTypeIndex: flapTypeList.indexWhere((element) => element == product?.flapType)));
+        createOrderBloc.add(CreateOrderSheetBoxTypeEvent(sheetBoxTypeIndex: sheetBoxTypeList.indexWhere((element) => element == product?.sheetBoxType)));
         _specificationBoxRSCPlyController.text = product?.ply ?? "";
         _specificationBoxRSCTopPaperController.text = product?.topPaper ?? "";
         _specificationBoxRSCPaperController.text = product?.paper ?? "";
