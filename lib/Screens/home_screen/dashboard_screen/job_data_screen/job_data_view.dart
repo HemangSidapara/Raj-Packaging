@@ -164,9 +164,10 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                                                 if (tabsList[i] == "Slitting - Scoring") ...[
                                                   IconButton(
                                                     onPressed: () async {
-                                                      await showBottomSheetFlapValueData(
+                                                      await showSizeSettingsCallBack(
                                                         jobDataBloc: jobDataBloc,
-                                                        data: jobDataBloc.jobsList[tabsList[i]][index] ?? {},
+                                                        tabName: tabsList[i],
+                                                        dataIndex: index,
                                                       );
                                                     },
                                                     style: IconButton.styleFrom(
@@ -355,9 +356,11 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
     );
   }
 
-  Future<void> showBottomSheetFlapValueData({required JobDataBloc jobDataBloc, required Map<String, dynamic> data}) async {
+  Future<bool> showBottomSheetFlapValueData({required JobDataBloc jobDataBloc, required Map<String, dynamic> data}) async {
     GlobalKey<FormState> aValueFormKey = GlobalKey<FormState>();
     TextEditingController aValueController = TextEditingController(text: data["aValue"] ?? "");
+
+    bool isCloseFromSave = false;
 
     await showModalBottomSheet(
       context: context,
@@ -414,7 +417,7 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                                 ),
                               ),
                               Text(
-                                S.current.data,
+                                S.current.sizeSettings,
                                 style: TextStyle(
                                   color: AppColors.SECONDARY_COLOR,
                                   fontWeight: FontWeight.w700,
@@ -425,6 +428,7 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                                 listener: (context, state) {
                                   if (state is JobDataUpdateAValueSuccessState) {
                                     context.pop();
+                                    isCloseFromSave = true;
                                     Utils.handleMessage(message: state.successMessage);
                                     context.read<JobDataBloc>().add(const JobDataGetJobsEvent(isLoading: false));
                                   }
@@ -432,6 +436,7 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
                                 builder: (context, state) {
                                   return TextButton(
                                     onPressed: () {
+                                      Utils.unfocus();
                                       if (aValueFormKey.currentState?.validate() == true) {
                                         jobDataBloc.add(JobDataUpdateAValueClickEvent(orderId: data["orderId"], aValue: aValueController.text.trim()));
                                       }
@@ -608,6 +613,7 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
         );
       },
     );
+    return isCloseFromSave;
   }
 
   List<Widget> dataWidget({required String value, bool isGap = true}) {
@@ -645,5 +651,30 @@ class _JobDataViewState extends State<JobDataView> with TickerProviderStateMixin
           ),
         ),
     ];
+  }
+
+  Future<void> showSizeSettingsCallBack({
+    required JobDataBloc jobDataBloc,
+    dynamic tabName,
+    required int dataIndex,
+  }) async {
+    if (jobDataBloc.jobsList[tabName].length > dataIndex) {
+      final isCloseFromSave = await showBottomSheetFlapValueData(
+        jobDataBloc: jobDataBloc,
+        data: jobDataBloc.jobsList[tabName][dataIndex] ?? {},
+      );
+      if (isCloseFromSave) {
+        Future.delayed(
+          Duration(milliseconds: 375),
+          () async {
+            await showSizeSettingsCallBack(
+              jobDataBloc: jobDataBloc,
+              tabName: tabName,
+              dataIndex: dataIndex,
+            );
+          },
+        );
+      }
+    }
   }
 }

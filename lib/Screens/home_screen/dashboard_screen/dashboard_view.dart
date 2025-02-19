@@ -51,6 +51,7 @@ class _DashboardViewState extends State<DashboardView> {
             children: [
               Flexible(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [

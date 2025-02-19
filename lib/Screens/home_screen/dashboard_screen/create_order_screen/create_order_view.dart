@@ -425,9 +425,16 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                         onChanged: (value) {
                                           if (value.isNotEmpty) {
                                             if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) {
-                                              _getActualSheetSizeForBoxRSC(createOrderBloc);
+                                              _getActualSheetSizeForBoxRSC(
+                                                createOrderBloc,
+                                                flapTypeIndex: createOrderBloc.flapTypeIndex,
+                                                sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                              );
                                             }
-                                            _getProductionQuantity(createOrderBloc);
+                                            _getProductionQuantity(
+                                              createOrderBloc,
+                                              sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                            );
                                           }
                                         },
                                         isCrossEnable: createOrderBloc.orderTypeIndex != 0,
@@ -452,9 +459,16 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           onChanged: (value) {
                                             if (value.isNotEmpty) {
                                               if (createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0) {
-                                                _getActualSheetSizeForBoxRSC(createOrderBloc);
+                                                _getActualSheetSizeForBoxRSC(
+                                                  createOrderBloc,
+                                                  flapTypeIndex: createOrderBloc.flapTypeIndex,
+                                                  sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                                );
                                               }
-                                              _getProductionQuantity(createOrderBloc);
+                                              _getProductionQuantity(
+                                                createOrderBloc,
+                                                sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                              );
                                             }
                                           },
                                           isCrossEnable: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0,
@@ -475,9 +489,16 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
                                             if (value.isNotEmpty) {
-                                              _getActualSheetSizeForBoxRSC(createOrderBloc);
+                                              _getActualSheetSizeForBoxRSC(
+                                                createOrderBloc,
+                                                flapTypeIndex: createOrderBloc.flapTypeIndex,
+                                                sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                              );
                                             }
-                                            _getProductionQuantity(createOrderBloc);
+                                            _getProductionQuantity(
+                                              createOrderBloc,
+                                              sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                            );
                                           },
                                         ),
                                       ),
@@ -799,7 +820,10 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   keyboardType: TextInputType.number,
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
-                                      _getProductionQuantity(createOrderBloc);
+                                      _getProductionQuantity(
+                                        createOrderBloc,
+                                        sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                      );
                                     }
                                   },
                                 ),
