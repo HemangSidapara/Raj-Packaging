@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
-import 'package:raj_packaging/main.dart';
+import 'package:raj_packaging/Widgets/custom_snack_bar_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class Utils {
+  static BuildContext? context;
+
+  static void setGlobalContext(BuildContext value) => context = value;
+
+  static BuildContext? get getGlobalContext => context;
+
   ///Unfocus
   static void unfocus() {
     FocusManager.instance.primaryFocus?.unfocus();
@@ -28,6 +35,7 @@ class Utils {
 
   ///showSnackBar
   static void handleMessage({
+    BuildContext? context,
     String? message,
     bool isError = false,
     bool isWarning = false,
@@ -35,45 +43,48 @@ class Utils {
     Color? iconColor,
     Color? textColor,
   }) {
-    final snackBar = SnackBar(
-      backgroundColor: barColor ??
-          (isError
-              ? AppColors.ERROR_COLOR
-              : isWarning
-                  ? AppColors.WARNING_COLOR
-                  : AppColors.SUCCESS_COLOR),
-      duration: const Duration(milliseconds: 2500),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-        ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
-      content: Row(
-        children: [
-          Icon(
-            isError
-                ? Icons.error_rounded
-                : isWarning
-                    ? Icons.warning_rounded
-                    : Icons.check_circle_rounded,
-            color: iconColor ?? AppColors.WHITE_COLOR,
-          ),
-          SizedBox(width: 3.w),
-          Expanded(
-            child: Text(
-              message ?? 'Empty message',
-              style: TextStyle(
-                fontSize: 15.sp,
-                color: textColor ?? AppColors.WHITE_COLOR,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
+    context ??= getGlobalContext!;
+    message ??= 'Empty message';
+    TextStyle textStyle = TextStyle(
+      fontSize: 15.sp,
+      color: textColor ?? AppColors.WHITE_COLOR,
+      fontWeight: FontWeight.w600,
     );
-    scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+    EdgeInsetsGeometry messagePadding = EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h);
+    int maxLines = 1000;
+    Color backgroundColor = barColor ??
+        (isError
+            ? AppColors.ERROR_COLOR
+            : isWarning
+                ? AppColors.WARNING_COLOR
+                : AppColors.SUCCESS_COLOR);
+
+    showTopSnackBar(
+      Overlay.of(context),
+      snackBarPosition: SnackBarPosition.bottom,
+      isError
+          ? CustomSnackBarWidget.error(
+              message: message,
+              textStyle: textStyle,
+              messagePadding: messagePadding,
+              maxLines: maxLines,
+              backgroundColor: backgroundColor,
+            )
+          : isWarning
+              ? CustomSnackBarWidget.info(
+                  message: message,
+                  textStyle: textStyle,
+                  messagePadding: messagePadding,
+                  maxLines: maxLines,
+                  backgroundColor: backgroundColor,
+                )
+              : CustomSnackBarWidget.success(
+                  message: message,
+                  textStyle: textStyle,
+                  messagePadding: messagePadding,
+                  maxLines: maxLines,
+                  backgroundColor: backgroundColor,
+                ),
+    );
   }
 }

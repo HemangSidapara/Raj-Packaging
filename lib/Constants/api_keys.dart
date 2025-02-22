@@ -28,4 +28,5 @@ class ApiKeys {
   static const flapType = "flapType";
   static const sheetBoxType = "sheetBoxType";
   static const aValue = "aValue";
+  static const overFlap = "overFlap";
 }

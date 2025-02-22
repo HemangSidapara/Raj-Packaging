@@ -2,7 +2,7 @@ name: raj_packaging
 description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
-version: 1.1.7+19
+version: 1.1.9+21
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -35,11 +35,13 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   collection: ^1.19.1
   easy_stepper: ^0.8.5+1
+  flutter_native_splash: ^2.4.5
+  top_snackbar_flutter: ^3.2.0
 
   # File Libs
   path_provider: ^2.1.5
   image_picker: ^1.1.2
-  permission_handler: ^11.3.1
+  permission_handler: ^11.4.0
 
   # Syncfusion Libs
   syncfusion_flutter_core: ^28.2.6
@@ -86,3 +88,10 @@ flutter:
 
 flutter_intl:
   enabled: true
+
+flutter_native_splash:
+  image: assets/images/native_splash_image.png
+  color: "#FDC674"
+  android_12:
+    image: assets/images/native_splash_image.png
+    color: "#FDC674"

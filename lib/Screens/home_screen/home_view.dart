@@ -35,6 +35,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    Utils.setGlobalContext(context);
     return PopScope(
       canPop: true,
       onPopInvokedWithResult: (didPop, result) async {

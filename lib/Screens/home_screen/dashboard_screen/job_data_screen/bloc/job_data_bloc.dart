@@ -113,6 +113,7 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
       final response = await JobDataService.updateAValueService(
         orderId: event.orderId,
         aValue: event.aValue,
+        overFlap: event.overFlap,
       );
 
       if (response.isSuccess) {

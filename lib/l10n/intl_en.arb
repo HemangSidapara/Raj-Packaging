@@ -182,5 +182,7 @@
   "enterA": "Enter A",
   "pleaseEnterA": "Please enter A",
   "data": "Data",
-  "sizeSettings": "Size Settings"
+  "sizeSettings": "Size Settings",
+  "overFlap": "Over Flap",
+  "overFlapError": "The total flap value (totalResult) exceeds the production deckle (productionDeckle). Please adjust the values."
 }

@@ -181,5 +181,7 @@
   "enterA": "A दर्ज करें",
   "pleaseEnterA": "कृपया A दर्ज करें",
   "data": "डेटा",
-  "sizeSettings": "साइज़ सेटिंग्स"
+  "sizeSettings": "साइज़ सेटिंग्स",
+  "overFlap": "ऊपर की फ्लैप",
+  "overFlapError": "कुल फ्लैप मूल्य (totalResult) उत्पादन डेकल (productionDeckle) से अधिक है। कृपया मानों को समायोजित करें।"
 }

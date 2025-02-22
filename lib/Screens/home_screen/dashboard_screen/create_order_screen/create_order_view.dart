@@ -579,7 +579,10 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) {
                                       if (value.isNotEmpty) {
-                                        _getProductionQuantity(createOrderBloc);
+                                        _getProductionQuantity(
+                                          createOrderBloc,
+                                          sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                        );
                                       }
                                     },
                                     isCrossEnable: createOrderBloc.orderTypeIndex == 2 && createOrderBloc.boxTypeIndex == 0,
@@ -860,7 +863,10 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           isCrossEnable: true,
                                           onChanged: (value) {
                                             if (value.isNotEmpty) {
-                                              _getProductionQuantity(createOrderBloc);
+                                              _getProductionQuantity(
+                                                createOrderBloc,
+                                                sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                              );
                                             }
                                           },
                                         ),
@@ -878,7 +884,10 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
                                             if (value.isNotEmpty) {
-                                              _getProductionQuantity(createOrderBloc);
+                                              _getProductionQuantity(
+                                                createOrderBloc,
+                                                sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                              );
                                             }
                                           },
                                         ),
@@ -923,7 +932,10 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
                                           if (value.isNotEmpty) {
-                                            _getProductionQuantity(createOrderBloc);
+                                            _getProductionQuantity(
+                                              createOrderBloc,
+                                              sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                            );
                                           }
                                         },
                                         isCrossEnable: createOrderBloc.orderTypeIndex != 0,
@@ -947,7 +959,10 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
                                             if (value.isNotEmpty) {
-                                              _getProductionQuantity(createOrderBloc);
+                                              _getProductionQuantity(
+                                                createOrderBloc,
+                                                sheetBoxTypeIndex: createOrderBloc.sheetBoxTypeIndex,
+                                              );
                                             }
                                           },
                                         ),
