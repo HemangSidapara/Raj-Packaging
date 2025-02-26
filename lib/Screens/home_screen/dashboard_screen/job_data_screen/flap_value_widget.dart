@@ -145,6 +145,7 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                                       widget.jobDataBloc.add(
                                         JobDataUpdateAValueClickEvent(
                                           orderId: widget.data["orderId"],
+                                          productId: widget.data["productId"],
                                           aValue: _aValueController.text.trim(),
                                           overFlap: isOverFlap,
                                         ),

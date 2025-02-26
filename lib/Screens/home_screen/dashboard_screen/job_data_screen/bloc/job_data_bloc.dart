@@ -112,6 +112,7 @@ class JobDataBloc extends Bloc<JobDataEvent, JobDataState> {
       add(const JobDataUpdateAValueLoadingEvent(isLoading: true));
       final response = await JobDataService.updateAValueService(
         orderId: event.orderId,
+        productId: event.productId,
         aValue: event.aValue,
         overFlap: event.overFlap,
       );

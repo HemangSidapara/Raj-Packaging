@@ -57,6 +57,7 @@ class JobDataService {
   ///Update A Value
   static Future<ResponseModel> updateAValueService({
     required String orderId,
+    required String productId,
     required String aValue,
     required bool overFlap,
   }) async {
@@ -65,6 +66,7 @@ class JobDataService {
       showProgress: false,
       params: {
         ApiKeys.orderId: orderId,
+        ApiKeys.productId: productId,
         ApiKeys.aValue: aValue,
         ApiKeys.overFlap: overFlap,
       },

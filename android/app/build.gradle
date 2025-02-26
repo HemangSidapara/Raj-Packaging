@@ -6,7 +6,7 @@ plugins {
 }
 
 def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.propertiesZ')
+def keystorePropertiesFile = rootProject.file('keystore/key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }

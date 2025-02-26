@@ -84,11 +84,13 @@ class JobDataCompleteJobFailedEvent extends JobDataEvent {
 
 class JobDataUpdateAValueClickEvent extends JobDataEvent {
   final String orderId;
+  final String productId;
   final String aValue;
   final bool overFlap;
 
   const JobDataUpdateAValueClickEvent({
     required this.orderId,
+    required this.productId,
     required this.aValue,
     required this.overFlap,
   });
@@ -96,6 +98,7 @@ class JobDataUpdateAValueClickEvent extends JobDataEvent {
   @override
   List<Object?> get props => [
         orderId,
+        productId,
         aValue,
         overFlap,
       ];
