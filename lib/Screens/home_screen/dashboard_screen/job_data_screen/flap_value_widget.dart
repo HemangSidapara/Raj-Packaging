@@ -14,12 +14,7 @@ class FlapValueWidget extends StatefulWidget {
   final Map<String, dynamic> data;
   final ValueChanged<bool> isCloseFromSaveCallBack;
 
-  const FlapValueWidget({
-    super.key,
-    required this.jobDataBloc,
-    required this.data,
-    required this.isCloseFromSaveCallBack,
-  });
+  const FlapValueWidget({super.key, required this.jobDataBloc, required this.data, required this.isCloseFromSaveCallBack});
 
   @override
   State<FlapValueWidget> createState() => _FlapValueWidgetState();
@@ -66,9 +61,9 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
   }
 
   (bool, String) validatorFailedOverFlap() {
-    double ofBValue = (widget.data["bValue"]?.toString() ?? "0.0").toDouble() + (widget.data["bValue"] != null ? 0.25 : 0.0);
-    double ofCValue = (widget.data["cValue"]?.toString() ?? "0.0").toDouble() + (widget.data["cValue"] != null ? 0.25 : 0.0);
-    double ofDValue = (widget.data["dValue"]?.toString() ?? "0.0").toDouble() + (widget.data["dValue"] != null ? 0.25 : 0.0);
+    double ofBValue = (widget.data["bValue"] != null && widget.data["bValue"]?.toString().isNotEmpty == true ? (widget.data["bValue"]?.toString() ?? "0.0") : "0.0").toDouble() + (widget.data["bValue"] != null && widget.data["bValue"]?.toString().isNotEmpty == true && widget.data["bValue"].toString().toDouble() > 0.0 ? 0.25 : 0.0);
+    double ofCValue = (widget.data["cValue"] != null && widget.data["cValue"]?.toString().isNotEmpty == true ? (widget.data["cValue"]?.toString() ?? "0.0") : "0.0").toDouble() + (widget.data["cValue"] != null && widget.data["cValue"]?.toString().isNotEmpty == true && widget.data["cValue"].toString().toDouble() > 0.0 ? 0.25 : 0.0);
+    double ofDValue = (widget.data["dValue"] != null && widget.data["dValue"]?.toString().isNotEmpty == true ? (widget.data["dValue"]?.toString() ?? "0.0") : "0.0").toDouble() + (widget.data["dValue"] != null && widget.data["dValue"]?.toString().isNotEmpty == true && widget.data["dValue"].toString().toDouble() > 0.0 ? 0.25 : 0.0);
     double productionDeckle = (widget.data["productionDeckle"]?.toString() ?? "0.0").toDouble();
     double totalOfValues = ofBValue + ofCValue + ofDValue;
     return (productionDeckle.toDouble() < totalOfValues, S.current.overFlapError.replaceAll("totalResult", totalOfValues.toStringAsFixed(2)).replaceAll("productionDeckle", productionDeckle.toStringAsFixed(2)));
@@ -92,9 +87,7 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                 );
               },
               child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 1.h).copyWith(bottom: keyboardPadding),
                   child: Column(
@@ -110,14 +103,8 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                               onPressed: () {
                                 context.pop();
                               },
-                              style: IconButton.styleFrom(
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              icon: Icon(
-                                Icons.close_rounded,
-                                color: AppColors.SECONDARY_COLOR,
-                                size: 6.w,
-                              ),
+                              style: IconButton.styleFrom(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                              icon: Icon(Icons.close_rounded, color: AppColors.SECONDARY_COLOR, size: 6.w),
                             ),
                             Text(
                               S.current.sizeSettings,
@@ -142,19 +129,10 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                                   onPressed: () {
                                     Utils.unfocus();
                                     if (_aValueFormKey.currentState?.validate() == true) {
-                                      widget.jobDataBloc.add(
-                                        JobDataUpdateAValueClickEvent(
-                                          orderId: widget.data["orderId"],
-                                          productId: widget.data["productId"],
-                                          aValue: _aValueController.text.trim(),
-                                          overFlap: isOverFlap,
-                                        ),
-                                      );
+                                      widget.jobDataBloc.add(JobDataUpdateAValueClickEvent(orderId: widget.data["orderId"], productId: widget.data["productId"], aValue: _aValueController.text.trim(), overFlap: isOverFlap));
                                     }
                                   },
-                                  style: IconButton.styleFrom(
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
+                                  style: IconButton.styleFrom(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                                   child: state is JobDataUpdateAValueLoadingState && state.isLoading
                                       ? SizedBox(
                                           width: 5.w,
@@ -200,10 +178,7 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                                   final overFlapValidation = validatorFailedOverFlap();
                                   if (value && overFlapValidation.$1) {
                                     triggerShake();
-                                    Utils.handleMessage(
-                                      message: overFlapValidation.$2,
-                                      isError: true,
-                                    );
+                                    Utils.handleMessage(message: overFlapValidation.$2, isError: true);
                                   }
                                 });
                               },
@@ -273,22 +248,16 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                               ),
 
                               ///B Value
-                              ...dataWidget(
-                                value: widget.data["bValue"] ?? "",
-                              ),
+                              ...dataWidget(value: widget.data["bValue"] ?? ""),
 
                               ///C Value
                               if (widget.data["cValue"] != null && widget.data["cValue"]?.toString().isNotEmpty == true && widget.data["cValue"]?.toString().toDouble() != 0.0) ...[
-                                ...dataWidget(
-                                  value: widget.data["cValue"] ?? "",
-                                ),
+                                ...dataWidget(value: widget.data["cValue"] ?? ""),
                               ],
 
                               ///D Value
                               if (widget.data["dValue"] != null && widget.data["dValue"]?.toString().isNotEmpty == true && widget.data["dValue"]?.toString().toDouble() != 0.0) ...[
-                                ...dataWidget(
-                                  value: widget.data["dValue"] ?? "",
-                                ),
+                                ...dataWidget(value: widget.data["dValue"] ?? ""),
                               ],
                             ],
                           ),
@@ -365,10 +334,7 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
     );
   }
 
-  List<Widget> dataWidget({
-    required String value,
-    bool isGap = true,
-  }) {
+  List<Widget> dataWidget({required String value, bool isGap = true}) {
     return [
       SizedBox(
         width: (isGap ? 72 : 50).w / 4,
