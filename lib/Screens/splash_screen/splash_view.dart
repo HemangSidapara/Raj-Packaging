@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,16 +26,16 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     globalContext = context;
     return BlocProvider(
-      create: (context) =>
-      SplashBloc()
-        ..add(SplashStartedEvent()),
+      create: (context) => SplashBloc()..add(SplashStartedEvent()),
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) async {
           if (state is SplashOnUpdateAvailableState) {
             await showUpdateDialog<SplashBloc, SplashState>(
               context: context,
               onUpdate: () async {
-                context.read<SplashBloc>().add(SplashDownloadAndInstallStartEvent());
+                if (Platform.isAndroid) {
+                  context.read<SplashBloc>().add(SplashDownloadAndInstallStartEvent());
+                }
               },
               bloc: context.read<SplashBloc>(),
             );
@@ -55,7 +57,6 @@ class _SplashViewState extends State<SplashView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
                       ///Image
                       Lottie.asset(
                         AppAssets.splashAnim,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raj_packaging/Constants/app_assets.dart';
@@ -101,7 +103,7 @@ Future<void> showUpdateDialog<B extends StateStreamable<State>, State>({
                           )
                         ],
                       ),
-                      buttonTitle: S.current.update,
+                      buttonTitle: Platform.isIOS ? "Update from Testflight" : S.current.update,
                       buttonTitleColor: AppColors.PRIMARY_COLOR,
                       buttonColor: AppColors.SECONDARY_COLOR,
                     );

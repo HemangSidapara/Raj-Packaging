@@ -1,17 +1,16 @@
-import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class GetPackageInfoService {
-  static const _platform = MethodChannel('AndroidMethodChannel');
   static GetPackageInfoService instance = GetPackageInfoService();
 
   Future<_PackageInfoData> getInfo() async {
-    final info = await _platform.invokeMapMethod<String, dynamic>('getPackageInfo');
+    PackageInfo info = await PackageInfo.fromPlatform();
     return _PackageInfoData(
-      appName: info?['appName'] ?? '',
-      packageName: info?['packageName'] ?? '',
-      version: info?['version'] ?? '',
-      buildNumber: info?['buildNumber'] ?? '',
-      installerStore: info?['installerStore'] as String?,
+      appName: info.appName,
+      packageName: info.packageName,
+      version: info.version,
+      buildNumber: info.buildNumber,
+      installerStore: info.installerStore,
     );
   }
 }
