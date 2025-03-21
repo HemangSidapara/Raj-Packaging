@@ -16,6 +16,7 @@ import 'package:raj_packaging/Network/services/auth_services/auth_services.dart'
 import 'package:raj_packaging/Network/services/utils_services/get_package_info_service.dart';
 import 'package:raj_packaging/Network/services/utils_services/install_apk_service.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 part 'splash_event.dart';
 part 'splash_state.dart';
@@ -50,12 +51,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   SplashBloc() : super(SplashInitialState()) {
     on<SplashStartedEvent>((event, emit) async {
       stopwatch.start();
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: AppColors.SECONDARY_COLOR,
-        systemNavigationBarIconBrightness: Brightness.light,
-        statusBarColor: AppColors.SECONDARY_COLOR,
-        statusBarIconBrightness: Brightness.light,
-      ));
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(systemNavigationBarColor: AppColors.SECONDARY_COLOR, systemNavigationBarIconBrightness: Brightness.light, statusBarColor: AppColors.SECONDARY_COLOR, statusBarIconBrightness: Brightness.light));
 
       newAPKUrlStream.listen((event) async {
         _currentVersion = (await GetPackageInfoService.instance.getInfo()).version;
@@ -71,20 +67,14 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
           if (Utils.isUpdateAvailable(_currentVersion, _newAPKVersion)) {
             add(SplashUpdateAvailableEvent());
           } else {
-            await Future.delayed(
-              Duration(milliseconds: 3000 - stopwatch.elapsedMilliseconds),
-              () async {
-                await nextScreenRoute(emit);
-              },
-            );
+            await Future.delayed(Duration(milliseconds: 3000 - stopwatch.elapsedMilliseconds), () async {
+              await nextScreenRoute(emit);
+            });
           }
         } else {
-          await Future.delayed(
-            Duration(milliseconds: 3000 - stopwatch.elapsedMilliseconds),
-            () async {
-              await nextScreenRoute(emit);
-            },
-          );
+          await Future.delayed(Duration(milliseconds: 3000 - stopwatch.elapsedMilliseconds), () async {
+            await nextScreenRoute(emit);
+          });
         }
       });
 
@@ -100,7 +90,15 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     });
 
     on<SplashDownloadAndInstallStartEvent>((event, emit) async {
-      await _downloadAndInstall(emit);
+      if (Platform.isAndroid) {
+        await _downloadAndInstall(emit);
+      }
+      if (Platform.isIOS) {
+        await launchUrlString(
+          _newAPKUrl,
+          mode: LaunchMode.externalApplication,
+        );
+      }
     });
 
     on<SplashDownloadAndInstallInProgressEvent>((event, emit) async {
@@ -118,15 +116,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
   /// Next Screen Route
   Future<void> nextScreenRoute(Emitter<SplashState> emit) async {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: AppColors.SECONDARY_COLOR,
-        systemNavigationBarIconBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.TRANSPARENT,
-        statusBarBrightness: Brightness.light,
-      ),
-    );
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(systemNavigationBarColor: AppColors.SECONDARY_COLOR, systemNavigationBarIconBrightness: Brightness.dark, statusBarIconBrightness: Brightness.dark, statusBarColor: AppColors.TRANSPARENT, statusBarBrightness: Brightness.light));
     if (kDebugMode) {
       print("token value ::: ${getData(AppConstance.authorizationToken)}");
     }
@@ -142,7 +132,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     final response = await AuthServices.getLatestVersionService();
     if (response.isSuccess) {
       GetLatestVersionModel versionModel = GetLatestVersionModel.fromJson(response.response?.data);
-      setNewAPKUrl(versionModel.data?.firstOrNull?.appUrl ?? "");
+      setNewAPKUrl(Platform.isIOS ? (versionModel.data?.firstOrNull?.iosUrl ?? "") : (versionModel.data?.firstOrNull?.appUrl ?? ""));
       _newAPKVersion = versionModel.data?.firstOrNull?.appVersion ?? "";
     } else {
       setNewAPKUrl("");
@@ -154,11 +144,9 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   Future<void> _downloadAndInstall(Emitter<SplashState> emit) async {
     try {
       emit(SplashUpdateProgressState(isUpdateLoading: true, downloadedProgress: _downloadedProgress));
-      downloadedProgressStream.listen(
-        (event) {
-          add(SplashDownloadAndInstallInProgressEvent(isUpdateLoading: true, downloadedProgress: event));
-        },
-      );
+      downloadedProgressStream.listen((event) {
+        add(SplashDownloadAndInstallInProgressEvent(isUpdateLoading: true, downloadedProgress: event));
+      });
       final directory = await getExternalStorageDirectory();
       final downloadPath = '${directory?.path}/app-release.apk';
 

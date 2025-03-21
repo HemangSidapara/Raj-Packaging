@@ -17,6 +17,7 @@ import 'package:raj_packaging/Screens/home_screen/dashboard_screen/dashboard_vie
 import 'package:raj_packaging/Screens/home_screen/recycle_bin_screen/recycle_bin_view.dart';
 import 'package:raj_packaging/Screens/home_screen/settings_screen/settings_view.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -74,7 +75,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<HomeDownloadAndInstallStartEvent>((event, emit) async {
-      await _downloadAndInstall(event, emit);
+      if (Platform.isAndroid) {
+        await _downloadAndInstall(event, emit);
+      }
+      if (Platform.isIOS) {
+        await launchUrlString(
+          newAPKUrl,
+          mode: LaunchMode.externalApplication,
+        );
+      }
     });
 
     on<HomeDownloadAndInstallInProgressEvent>((event, emit) async {
@@ -88,7 +97,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     AuthServices.getLatestVersionService().then((response) async {
       if (response.isSuccess) {
         GetLatestVersionModel versionModel = GetLatestVersionModel.fromJson(response.response?.data);
-        String newAPKUrl = versionModel.data?.firstOrNull?.appUrl ?? '';
+        String newAPKUrl = Platform.isIOS ? (versionModel.data?.firstOrNull?.iosUrl ?? '') : (versionModel.data?.firstOrNull?.appUrl ?? '');
         String newAPKVersion = versionModel.data?.firstOrNull?.appVersion ?? '';
         final currentVersion = (await GetPackageInfoService.instance.getInfo()).version;
         if (kDebugMode) {

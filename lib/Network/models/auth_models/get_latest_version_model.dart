@@ -9,11 +9,7 @@ GetLatestVersionModel getLatestVersionModelFromJson(String str) => GetLatestVers
 String getLatestVersionModelToJson(GetLatestVersionModel data) => json.encode(data.toJson());
 
 class GetLatestVersionModel {
-  GetLatestVersionModel({
-    String? code,
-    String? msg,
-    List<Data>? data,
-  }) {
+  GetLatestVersionModel({String? code, String? msg, List<Data>? data}) {
     _code = code;
     _msg = msg;
     _data = data;
@@ -34,16 +30,7 @@ class GetLatestVersionModel {
   String? _msg;
   List<Data>? _data;
 
-  GetLatestVersionModel copyWith({
-    String? code,
-    String? msg,
-    List<Data>? data,
-  }) =>
-      GetLatestVersionModel(
-        code: code ?? _code,
-        msg: msg ?? _msg,
-        data: data ?? _data,
-      );
+  GetLatestVersionModel copyWith({String? code, String? msg, List<Data>? data}) => GetLatestVersionModel(code: code ?? _code, msg: msg ?? _msg, data: data ?? _data);
 
   String? get code => _code;
 
@@ -72,14 +59,10 @@ Data dataFromJson(String str) => Data.fromJson(json.decode(str));
 String dataToJson(Data data) => json.encode(data.toJson());
 
 class Data {
-  Data({
-    String? inAppUpdateId,
-    String? appUrl,
-    String? appVersion,
-    String? createdDate,
-  }) {
+  Data({String? inAppUpdateId, String? appUrl, String? iosUrl, String? appVersion, String? createdDate}) {
     _inAppUpdateId = inAppUpdateId;
     _appUrl = appUrl;
+    _iosUrl = iosUrl;
     _appVersion = appVersion;
     _createdDate = createdDate;
   }
@@ -87,31 +70,24 @@ class Data {
   Data.fromJson(dynamic json) {
     _inAppUpdateId = json['inAppUpdateId'];
     _appUrl = json['appUrl'];
+    _iosUrl = json['iosUrl'];
     _appVersion = json['appVersion'];
     _createdDate = json['createdDate'];
   }
 
   String? _inAppUpdateId;
   String? _appUrl;
+  String? _iosUrl;
   String? _appVersion;
   String? _createdDate;
 
-  Data copyWith({
-    String? inAppUpdateId,
-    String? appUrl,
-    String? appVersion,
-    String? createdDate,
-  }) =>
-      Data(
-        inAppUpdateId: inAppUpdateId ?? _inAppUpdateId,
-        appUrl: appUrl ?? _appUrl,
-        appVersion: appVersion ?? _appVersion,
-        createdDate: createdDate ?? _createdDate,
-      );
+  Data copyWith({String? inAppUpdateId, String? appUrl, String? iosUrl, String? appVersion, String? createdDate}) => Data(inAppUpdateId: inAppUpdateId ?? _inAppUpdateId, appUrl: appUrl ?? _appUrl, iosUrl: iosUrl ?? _iosUrl, appVersion: appVersion ?? _appVersion, createdDate: createdDate ?? _createdDate);
 
   String? get inAppUpdateId => _inAppUpdateId;
 
   String? get appUrl => _appUrl;
+
+  String? get iosUrl => _iosUrl;
 
   String? get appVersion => _appVersion;
 
@@ -121,6 +97,7 @@ class Data {
     final map = <String, dynamic>{};
     map['inAppUpdateId'] = _inAppUpdateId;
     map['appUrl'] = _appUrl;
+    map['iosUrl'] = _iosUrl;
     map['appVersion'] = _appVersion;
     map['createdDate'] = _createdDate;
     return map;
