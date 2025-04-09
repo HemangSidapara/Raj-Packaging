@@ -36,18 +36,18 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   collection: ^1.19.1
   easy_stepper: ^0.8.5+1
-  flutter_native_splash: ^2.4.5
+  flutter_native_splash: ^2.4.6
   top_snackbar_flutter: ^3.2.0
 
   # File Libs
   path_provider: ^2.1.5
   image_picker: ^1.1.2
-  permission_handler: ^11.4.0
+  permission_handler: ^12.0.0
   package_info_plus: ^8.3.0
 
   # Syncfusion Libs
-  syncfusion_flutter_core: ^28.2.12
-  syncfusion_flutter_pdfviewer: ^28.2.12
+  syncfusion_flutter_core: ^29.1.37
+  syncfusion_flutter_pdfviewer: ^29.1.37
 
 dependency_overrides:
   collection: ^1.19.1

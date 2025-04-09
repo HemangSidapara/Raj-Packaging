@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:raj_packaging/Constants/api_keys.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/job_data_screen/bloc/job_data_bloc.dart';
 import 'package:raj_packaging/Utils/app_extensions.dart';
@@ -33,8 +35,8 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    isOverFlap = widget.data["overFlap"] ?? false;
-    _aValueController.text = widget.data["aValue"] ?? "";
+    isOverFlap = widget.data[ApiKeys.overFlap] ?? false;
+    _aValueController.text = widget.data[ApiKeys.aValue] ?? "";
 
     _shakeController = AnimationController(
       duration: const Duration(milliseconds: 400),
@@ -64,9 +66,9 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
     double ofBValue = (widget.data["bValue"] != null && widget.data["bValue"]?.toString().isNotEmpty == true ? (widget.data["bValue"]?.toString() ?? "0.0") : "0.0").toDouble() + (widget.data["bValue"] != null && widget.data["bValue"]?.toString().isNotEmpty == true && widget.data["bValue"].toString().toDouble() > 0.0 ? 0.25 : 0.0);
     double ofCValue = (widget.data["cValue"] != null && widget.data["cValue"]?.toString().isNotEmpty == true ? (widget.data["cValue"]?.toString() ?? "0.0") : "0.0").toDouble() + (widget.data["cValue"] != null && widget.data["cValue"]?.toString().isNotEmpty == true && widget.data["cValue"].toString().toDouble() > 0.0 ? 0.25 : 0.0);
     double ofDValue = (widget.data["dValue"] != null && widget.data["dValue"]?.toString().isNotEmpty == true ? (widget.data["dValue"]?.toString() ?? "0.0") : "0.0").toDouble() + (widget.data["dValue"] != null && widget.data["dValue"]?.toString().isNotEmpty == true && widget.data["dValue"].toString().toDouble() > 0.0 ? 0.25 : 0.0);
-    double productionDeckle = (widget.data["productionDeckle"]?.toString() ?? "0.0").toDouble();
+    double productionDeckle = (widget.data[ApiKeys.productionDeckle]?.toString() ?? "0.0").toDouble();
     double totalOfValues = ofBValue + ofCValue + ofDValue;
-    return (productionDeckle.toDouble() < totalOfValues, S.current.overFlapError.replaceAll("totalResult", totalOfValues.toStringAsFixed(2)).replaceAll("productionDeckle", productionDeckle.toStringAsFixed(2)));
+    return (productionDeckle.toDouble() < totalOfValues, S.current.overFlapError.replaceAll("totalResult", totalOfValues.toStringAsFixed(2)).replaceAll(ApiKeys.productionDeckle, productionDeckle.toStringAsFixed(2)));
   }
 
   @override
@@ -129,7 +131,14 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                                   onPressed: () {
                                     Utils.unfocus();
                                     if (_aValueFormKey.currentState?.validate() == true) {
-                                      widget.jobDataBloc.add(JobDataUpdateAValueClickEvent(orderId: widget.data["orderId"], productId: widget.data["productId"], aValue: _aValueController.text.trim(), overFlap: isOverFlap));
+                                      widget.jobDataBloc.add(
+                                        JobDataUpdateAValueClickEvent(
+                                          orderId: widget.data[ApiKeys.orderId],
+                                          productId: widget.data[ApiKeys.productId],
+                                          aValue: _aValueController.text.trim(),
+                                          overFlap: isOverFlap,
+                                        ),
+                                      );
                                     }
                                   },
                                   style: IconButton.styleFrom(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
@@ -166,43 +175,44 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                       SizedBox(height: 1.h),
 
                       ///Over Flap
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Row(
-                          children: [
-                            Switch.adaptive(
-                              value: isOverFlap,
-                              onChanged: (value) {
-                                setState(() {
-                                  isOverFlap = value;
-                                  final overFlapValidation = validatorFailedOverFlap();
-                                  if (value && overFlapValidation.$1) {
-                                    triggerShake();
-                                    Utils.handleMessage(message: overFlapValidation.$2, isError: true);
-                                  }
-                                });
-                              },
-                              activeColor: AppColors.PRIMARY_COLOR,
-                              activeTrackColor: AppColors.SECONDARY_COLOR,
-                              inactiveTrackColor: AppColors.PRIMARY_COLOR,
-                              inactiveThumbColor: AppColors.SECONDARY_COLOR,
-                              trackOutlineColor: WidgetStatePropertyAll<Color>(AppColors.SECONDARY_COLOR),
-                            ),
-                            SizedBox(width: 2.w),
-                            Text(
-                              S.current.overFlap,
-                              style: TextStyle(
-                                color: AppColors.SECONDARY_COLOR,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
+                      if (widget.data[ApiKeys.flapType] == AppConstance.regularFlap)
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          child: Row(
+                            children: [
+                              Switch.adaptive(
+                                value: isOverFlap,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isOverFlap = value;
+                                    final overFlapValidation = validatorFailedOverFlap();
+                                    if (value && overFlapValidation.$1) {
+                                      triggerShake();
+                                      Utils.handleMessage(message: overFlapValidation.$2, isError: true);
+                                    }
+                                  });
+                                },
+                                activeColor: AppColors.PRIMARY_COLOR,
+                                activeTrackColor: AppColors.SECONDARY_COLOR,
+                                inactiveTrackColor: AppColors.PRIMARY_COLOR,
+                                inactiveThumbColor: AppColors.SECONDARY_COLOR,
+                                trackOutlineColor: WidgetStatePropertyAll<Color>(AppColors.SECONDARY_COLOR),
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 2.w),
+                              Text(
+                                S.current.overFlap,
+                                style: TextStyle(
+                                  color: AppColors.SECONDARY_COLOR,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                       SizedBox(height: 2.h),
 
-                      if (widget.data["aValue"] == null || widget.data["aValue"]?.toString().isEmpty == true) ...[
+                      if (widget.data[ApiKeys.aValue] == null || widget.data[ApiKeys.aValue]?.toString().isEmpty == true) ...[
                         SizedBox(
                           height: 20.h,
                           child: Center(

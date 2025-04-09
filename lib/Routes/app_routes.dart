@@ -10,4 +10,6 @@ class Routes {
   static String inJobScreen = '${homeScreen.replaceAll("/", "")}/inJobScreen';
   static String completedScreen = '${homeScreen.replaceAll("/", "")}/completedScreen';
   static String jobDataScreen = '${homeScreen.replaceAll("/", "")}/jobDataScreen';
+  static String productionReportScreen = '${homeScreen.replaceAll("/", "")}/productionReportScreen';
+  static String inventoryScreen = '${homeScreen.replaceAll("/", "")}/inventoryScreen';
 }

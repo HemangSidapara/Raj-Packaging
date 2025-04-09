@@ -24,4 +24,6 @@ class ApiUrls {
   static const String getArchivedOrdersApi = '${_apiPath}getArchivedOrders.php';
   static const String deleteJobsApi = '${_apiPath}deleteJobs.php?orderId=';
   static const String updateAValueApi = '${_apiPath}updateAValue.php';
+  static const String getProductionApi = '${_apiPath}getProduction.php';
+  static const String getInventoryApi = '${_apiPath}getInventory.php';
 }

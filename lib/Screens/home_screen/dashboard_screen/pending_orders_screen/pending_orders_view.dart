@@ -1658,9 +1658,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                               );
                             },
                             separatorBuilder: (context, index) {
-                              return SizedBox(
-                                height: 2.h,
-                              );
+                              return SizedBox(height: 2.h);
                             },
                           ),
                         ),

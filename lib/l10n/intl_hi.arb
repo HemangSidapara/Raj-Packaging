@@ -183,5 +183,9 @@
   "data": "डेटा",
   "sizeSettings": "साइज़ सेटिंग्स",
   "overFlap": "ऊपर की फ्लैप",
-  "overFlapError": "कुल फ्लैप मूल्य (totalResult) उत्पादन डेकल (productionDeckle) से अधिक है। कृपया मानों को समायोजित करें।"
+  "overFlapError": "कुल फ्लैप मूल्य (totalResult) उत्पादन डेकल (productionDeckle) से अधिक है। कृपया मानों को समायोजित करें।",
+  "productionReport": "उत्पादन रिपोर्ट",
+  "inventory": "भंडार",
+  "entry": "नोंद",
+  "stock": "स्टॉक"
 }

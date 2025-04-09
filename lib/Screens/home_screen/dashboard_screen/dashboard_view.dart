@@ -22,6 +22,8 @@ class _DashboardViewState extends State<DashboardView> {
     if (getData(AppConstance.role) == AppConstance.admin) Routes.inJobScreen,
     Routes.completedScreen,
     Routes.jobDataScreen,
+    if (getData(AppConstance.role) == AppConstance.admin) Routes.productionReportScreen,
+    if (getData(AppConstance.role) == AppConstance.admin) Routes.inventoryScreen,
   ];
 
   final List<String> _contentList = [
@@ -29,6 +31,8 @@ class _DashboardViewState extends State<DashboardView> {
     if (getData(AppConstance.role) == AppConstance.admin) S.current.inJob,
     S.current.completed,
     S.current.jobData,
+    if (getData(AppConstance.role) == AppConstance.admin) S.current.productionReport,
+    if (getData(AppConstance.role) == AppConstance.admin) S.current.inventory,
   ];
 
   final List<String> _contentIconList = [
@@ -36,6 +40,8 @@ class _DashboardViewState extends State<DashboardView> {
     if (getData(AppConstance.role) == AppConstance.admin) AppAssets.inJobIcon,
     AppAssets.completedIcon,
     AppAssets.jobDataIcon,
+    if (getData(AppConstance.role) == AppConstance.admin) AppAssets.productionReportIcon,
+    if (getData(AppConstance.role) == AppConstance.admin) AppAssets.inventoryIcon,
   ];
 
   @override

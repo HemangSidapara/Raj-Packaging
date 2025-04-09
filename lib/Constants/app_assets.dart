@@ -28,4 +28,6 @@ class AppAssets {
   static const String jobDataIcon = "assets/icons/job_data_icon.png";
   static const String recycleBinIcon = "assets/icons/recycle_bin_icon.png";
   static const String completedIcon = "assets/icons/completed_icon.png";
+  static const String productionReportIcon = "assets/icons/production_report_icon.png";
+  static const String inventoryIcon = "assets/icons/inventory_icon.png";
 }

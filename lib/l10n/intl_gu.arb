@@ -184,5 +184,9 @@
   "data": "માહિતી",
   "sizeSettings": "સાઈઝ સેટિંગ્સ",
   "overFlap": "ઓવર ફ્લેપ",
-  "overFlapError": "કુલ ફ્લેપ મૂલ્ય (totalResult) ઉત્પાદન ડેકલ (productionDeckle) કરતા વધી ગયું છે. કૃપા કરીને મૂલ્યોને સમાયોજિત કરો."
+  "overFlapError": "કુલ ફ્લેપ મૂલ્ય (totalResult) ઉત્પાદન ડેકલ (productionDeckle) કરતા વધી ગયું છે. કૃપા કરીને મૂલ્યોને સમાયોજિત કરો.",
+  "productionReport": "ઉત્પાદન અહેવાલ",
+  "inventory": "માલયાદી",
+  "entry": "નોંધ",
+  "stock": "જથ્થો"
 }
