@@ -188,5 +188,16 @@
   "productionReport": "Production Report",
   "inventory": "Inventory",
   "entry": "Entry",
-  "stock": "Stock"
+  "stock": "Stock",
+  "type": "Type",
+  "consume": "Consume",
+  "items": "Items",
+  "reel": "Reel",
+  "printingPlates": "Printing Plates",
+  "die": "Die",
+  "selectSize": "Select Size",
+  "pleaseSelectSize": "Please select size.",
+  "gsm": "GSM",
+  "selectGSM": "Select GSM",
+  "pleaseSelectGSM": "Please select gsm."
 }

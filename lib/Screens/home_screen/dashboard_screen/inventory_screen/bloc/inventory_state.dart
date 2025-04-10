@@ -34,3 +34,21 @@ class InventoryGetInventoryFailedState extends InventoryState {
   @override
   List<Object?> get props => [];
 }
+
+class InventoryEntryTypeState extends InventoryState {
+  final int entryTypeIndex;
+
+  const InventoryEntryTypeState({this.entryTypeIndex = 0});
+
+  @override
+  List<Object?> get props => [entryTypeIndex];
+}
+
+class InventoryItemsTypeState extends InventoryState {
+  final int itemsTypeIndex;
+
+  const InventoryItemsTypeState({this.itemsTypeIndex = 0});
+
+  @override
+  List<Object?> get props => [itemsTypeIndex];
+}

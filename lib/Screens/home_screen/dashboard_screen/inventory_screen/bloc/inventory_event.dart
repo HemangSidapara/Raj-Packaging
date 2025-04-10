@@ -47,3 +47,21 @@ class InventoryGetInventoryFailedEvent extends InventoryEvent {
   @override
   List<Object?> get props => [inventoryList];
 }
+
+class InventoryEntryTypeEvent extends InventoryEvent {
+  final int entryTypeIndex;
+
+  const InventoryEntryTypeEvent({this.entryTypeIndex = 0});
+
+  @override
+  List<Object?> get props => [entryTypeIndex];
+}
+
+class InventoryItemsTypeEvent extends InventoryEvent {
+  final int itemsTypeIndex;
+
+  const InventoryItemsTypeEvent({this.itemsTypeIndex = 0});
+
+  @override
+  List<Object?> get props => [itemsTypeIndex];
+}

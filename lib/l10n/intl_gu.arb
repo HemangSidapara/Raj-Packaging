@@ -188,5 +188,16 @@
   "productionReport": "ઉત્પાદન અહેવાલ",
   "inventory": "માલયાદી",
   "entry": "નોંધ",
-  "stock": "જથ્થો"
+  "stock": "જથ્થો",
+  "type": "પ્રકાર",
+  "consume": "વપરાશ",
+  "items": "વસ્તુઓ",
+  "reel": "રીલ",
+  "printingPlates": "મુદ્રણ પ્લેટ",
+  "die": "બીબું",
+  "selectSize": "સાઈઝ પસંદ કરો",
+  "pleaseSelectSize": "કૃપા કરીને કદ પસંદ કરો.",
+  "gsm": "GSM",
+  "selectGSM": "GSM પસંદ કરો",
+  "pleaseSelectGSM": "કૃપા કરીને GSM પસંદ કરો."
 }

@@ -187,5 +187,17 @@
   "productionReport": "उत्पादन रिपोर्ट",
   "inventory": "भंडार",
   "entry": "नोंद",
-  "stock": "स्टॉक"
+  "stock": "स्टॉक",
+  "type": "प्रकार",
+  "consume": "उपभोग करना",
+  "items": "सामान",
+  "reel": "रील",
+  "printingPlates": "मुद्रण प्लेट",
+  "die": "डाई",
+  "selectSize": "आकार चुना",
+  "pleaseSelectSize": "कृपया आकार का चयन करें।",
+  "gsm": "GSM",
+  "selectGSM": "GSM चुनें",
+  "pleaseSelectGSM": "कृपया GSM चुनें।"
+
 }
