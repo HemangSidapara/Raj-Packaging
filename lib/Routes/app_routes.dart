@@ -1,15 +1,19 @@
 part of 'app_pages.dart';
 
 class Routes {
-  static const splashScreen = '/';
-  static const signInScreen = '/signIn';
-  static const passwordScreen = '/password';
-  static const homeScreen = '/home';
-  static String createOrderScreen = '${homeScreen.replaceAll("/", "")}/createOrderScreen';
-  static String pendingOrdersScreen = '${homeScreen.replaceAll("/", "")}/pendingOrdersScreen';
-  static String inJobScreen = '${homeScreen.replaceAll("/", "")}/inJobScreen';
-  static String completedScreen = '${homeScreen.replaceAll("/", "")}/completedScreen';
-  static String jobDataScreen = '${homeScreen.replaceAll("/", "")}/jobDataScreen';
-  static String productionReportScreen = '${homeScreen.replaceAll("/", "")}/productionReportScreen';
-  static String inventoryScreen = '${homeScreen.replaceAll("/", "")}/inventoryScreen';
+  static String splashScreen = '/';
+  static String signInScreen = '/signIn';
+  static String passwordScreen = '/password';
+  static String homeScreen = '/home';
+  static String createOrderScreen = '/createOrderScreen';
+  static String pendingOrdersScreen = '/pendingOrdersScreen';
+  static String inJobScreen = '/inJobScreen';
+  static String completedScreen = '/completedScreen';
+  static String jobDataScreen = '/jobDataScreen';
+  static String productionReportScreen = '/productionReportScreen';
+  static String inventoryScreen = '/inventoryScreen';
+  static String addScreen = '/addScreen';
+  static String consumeScreen = '/consumeScreen';
+  static String consumeHomeScreen = '/consumeHomeScreen';
+  static String stockScreen = '/stockScreen';
 }

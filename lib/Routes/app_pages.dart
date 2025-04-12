@@ -4,7 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/completed_screen/completed_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/create_order_screen/create_order_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/in_job_screen/in_job_view.dart';
+import 'package:raj_packaging/Screens/home_screen/dashboard_screen/inventory_screen/add_screen/add_view.dart';
+import 'package:raj_packaging/Screens/home_screen/dashboard_screen/inventory_screen/consume_screen/consume_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/inventory_screen/inventory_view.dart';
+import 'package:raj_packaging/Screens/home_screen/dashboard_screen/inventory_screen/stock_screen/stock_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/job_data_screen/job_data_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_view.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/production_report_screen/production_report_view.dart';
@@ -245,6 +248,111 @@ class AppPages {
                 key: state.pageKey,
                 name: Routes.inventoryScreen,
                 child: const InventoryView(),
+                transitionDuration: transitionDuration,
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1.0, 0.0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    ),
+                  );
+                },
+              );
+            },
+            routes: [
+              ///Add
+              GoRoute(
+                path: Routes.addScreen,
+                name: Routes.addScreen,
+                pageBuilder: (context, state) {
+                  return CustomTransitionPage(
+                    key: state.pageKey,
+                    name: Routes.addScreen,
+                    child: const AddView(),
+                    transitionDuration: transitionDuration,
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+
+              ///Consume
+              GoRoute(
+                path: Routes.consumeScreen,
+                name: Routes.consumeScreen,
+                pageBuilder: (context, state) {
+                  return CustomTransitionPage(
+                    key: state.pageKey,
+                    name: Routes.consumeScreen,
+                    child: const ConsumeView(),
+                    transitionDuration: transitionDuration,
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+
+              ///Stock
+              GoRoute(
+                path: Routes.stockScreen,
+                name: Routes.stockScreen,
+                pageBuilder: (context, state) {
+                  return CustomTransitionPage(
+                    key: state.pageKey,
+                    name: Routes.stockScreen,
+                    child: const StockView(),
+                    transitionDuration: transitionDuration,
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+
+          ///Consume
+          GoRoute(
+            path: Routes.consumeHomeScreen,
+            name: Routes.consumeHomeScreen,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                name: Routes.consumeHomeScreen,
+                child: const ConsumeView(),
                 transitionDuration: transitionDuration,
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   return SlideTransition(

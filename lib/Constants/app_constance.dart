@@ -17,4 +17,6 @@ class AppConstance {
   static const String admin = 'Admin';
   static const String employee = 'Employee';
   static const String regularFlap = 'Regular Flap';
+  static const String localProductionReportStored = 'localProductionReportStored';
+  static const String localInventoryStored = 'localInventoryStored';
 }

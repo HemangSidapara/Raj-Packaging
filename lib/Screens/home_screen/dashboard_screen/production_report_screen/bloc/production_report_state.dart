@@ -21,7 +21,7 @@ class ProductionReportGetProductionLoadingState extends ProductionReportState {
 }
 
 class ProductionReportGetProductionSuccessState extends ProductionReportState {
-  final List productionList;
+  final List<get_report.Data> productionList;
   final String? successMessage;
 
   const ProductionReportGetProductionSuccessState({required this.productionList, required this.successMessage});

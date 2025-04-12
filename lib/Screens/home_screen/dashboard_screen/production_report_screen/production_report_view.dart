@@ -7,6 +7,7 @@ import 'package:raj_packaging/Constants/app_assets.dart';
 import 'package:raj_packaging/Constants/app_colors.dart';
 import 'package:raj_packaging/Constants/app_styles.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
+import 'package:raj_packaging/Network/models/production_report_models/get_production_report_model.dart' as get_report;
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/production_report_screen/bloc/production_report_bloc.dart';
 import 'package:raj_packaging/Widgets/custom_header_widget.dart';
 import 'package:raj_packaging/Widgets/loading_widget.dart';
@@ -92,186 +93,196 @@ class _ProductionReportViewState extends State<ProductionReportView> with Ticker
                         physics: NeverScrollableScrollPhysics(),
                         children: [
                           ///Production
-                          Column(
-                            children: [
-                              if (state is ProductionReportGetProductionLoadingState && state.isLoading == true)
-                                const Expanded(
-                                  child: Center(
-                                    child: LoadingWidget(),
-                                  ),
-                                )
-                              else if (productionList.isEmpty)
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      S.current.noDataFound,
-                                      style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16.sp,
+                          RefreshIndicator(
+                            onRefresh: () async {
+                              productionReportBloc.add(ProductionReportGetProductionEvent(isLoading: false));
+                            },
+                            backgroundColor: AppColors.PRIMARY_COLOR,
+                            color: AppColors.SECONDARY_COLOR,
+                            strokeWidth: 1.5,
+                            child: Column(
+                              children: [
+                                if (state is ProductionReportGetProductionLoadingState && state.isLoading == true)
+                                  const Expanded(
+                                    child: Center(
+                                      child: LoadingWidget(),
+                                    ),
+                                  )
+                                else if (productionList.isEmpty)
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        S.current.noDataFound,
+                                        style: TextStyle(
+                                          color: AppColors.PRIMARY_COLOR,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.sp,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                )
-                              else
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      ///Headings
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 7.w),
-                                        child: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            border: Border(
-                                              top: BorderSide(
-                                                color: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
-                                                width: 1,
-                                              ),
-                                              bottom: BorderSide(
-                                                color: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
-                                                width: 1,
+                                  )
+                                else
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        ///Headings
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 7.w),
+                                          child: DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                top: BorderSide(
+                                                  color: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                                                  width: 1,
+                                                ),
+                                                bottom: BorderSide(
+                                                  color: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                                                  width: 1,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              spacing: 2.w,
-                                              children: [
-                                                ///Date
-                                                SizedBox(
-                                                  width: 40.w,
-                                                  child: Text(
-                                                    S.current.date,
-                                                    style: AppStyles.size16W600TextStyle.copyWith(fontWeight: FontWeight.w500),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                spacing: 2.w,
+                                                children: [
+                                                  ///Date
+                                                  SizedBox(
+                                                    width: 30.w,
+                                                    child: Text(
+                                                      S.current.date,
+                                                      style: AppStyles.size16W600TextStyle.copyWith(fontWeight: FontWeight.w500),
+                                                    ),
                                                   ),
-                                                ),
 
-                                                ///Meters
-                                                SizedBox(
-                                                  width: 18.w,
-                                                  child: Text(
-                                                    S.current.meters,
-                                                    style: AppStyles.size16W600TextStyle.copyWith(fontWeight: FontWeight.w500),
+                                                  ///Meters
+                                                  SizedBox(
+                                                    width: 23.w,
+                                                    child: Text(
+                                                      S.current.meters,
+                                                      style: AppStyles.size16W600TextStyle.copyWith(fontWeight: FontWeight.w500),
+                                                    ),
                                                   ),
-                                                ),
 
-                                                ///KGs
-                                                SizedBox(
-                                                  width: 18.w,
-                                                  child: Text(
-                                                    S.current.kgs,
-                                                    style: AppStyles.size16W600TextStyle.copyWith(fontWeight: FontWeight.w500),
+                                                  ///KGs
+                                                  SizedBox(
+                                                    width: 23.w,
+                                                    child: Text(
+                                                      S.current.kgs,
+                                                      style: AppStyles.size16W600TextStyle.copyWith(fontWeight: FontWeight.w500),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
 
-                                      ///Data
-                                      Expanded(
-                                        child: AnimationLimiter(
-                                          child: ListView.separated(
-                                            itemCount: productionList.length,
-                                            shrinkWrap: true,
-                                            padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 1.h),
-                                            itemBuilder: (context, index) {
-                                              return AnimationConfiguration.staggeredList(
-                                                position: index,
-                                                duration: const Duration(milliseconds: 400),
-                                                child: SlideAnimation(
-                                                  verticalOffset: 50.0,
-                                                  child: FadeInAnimation(
-                                                    child: Card(
-                                                      color: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
-                                                      clipBehavior: Clip.antiAlias,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                      ),
-                                                      child: Padding(
-                                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                          spacing: 2.w,
-                                                          children: [
-                                                            ///Date
-                                                            SizedBox(
-                                                              width: 40.w,
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    '❖',
-                                                                    style: TextStyle(
-                                                                      fontSize: 16.sp,
-                                                                      fontWeight: FontWeight.w700,
-                                                                      color: AppColors.SECONDARY_COLOR,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 2.w),
-                                                                  Flexible(
-                                                                    child: Text(
-                                                                      '10-04-2025',
+                                        ///Data
+                                        Expanded(
+                                          child: AnimationLimiter(
+                                            child: ListView.separated(
+                                              itemCount: productionList.length,
+                                              shrinkWrap: true,
+                                              padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 1.h),
+                                              itemBuilder: (context, index) {
+                                                final production = productionList[index];
+                                                return AnimationConfiguration.staggeredList(
+                                                  position: index,
+                                                  duration: const Duration(milliseconds: 400),
+                                                  child: SlideAnimation(
+                                                    verticalOffset: 50.0,
+                                                    child: FadeInAnimation(
+                                                      child: Card(
+                                                        color: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                                                        clipBehavior: Clip.antiAlias,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(10),
+                                                        ),
+                                                        child: Padding(
+                                                          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            spacing: 2.w,
+                                                            children: [
+                                                              ///Date
+                                                              SizedBox(
+                                                                width: 30.w,
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      '❖',
                                                                       style: TextStyle(
-                                                                        color: AppColors.SECONDARY_COLOR,
                                                                         fontSize: 16.sp,
-                                                                        fontWeight: FontWeight.w600,
+                                                                        fontWeight: FontWeight.w700,
+                                                                        color: AppColors.SECONDARY_COLOR,
                                                                       ),
                                                                     ),
+                                                                    SizedBox(width: 2.w),
+                                                                    Flexible(
+                                                                      child: Text(
+                                                                        production.date ?? "",
+                                                                        style: TextStyle(
+                                                                          color: AppColors.SECONDARY_COLOR,
+                                                                          fontSize: 16.sp,
+                                                                          fontWeight: FontWeight.w600,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+
+                                                              ///Meters
+                                                              SizedBox(
+                                                                width: 23.w,
+                                                                child: Text(
+                                                                  production.meters != null ? NumberFormat.decimalPattern().format(production.meters) : "",
+                                                                  style: TextStyle(
+                                                                    fontSize: 16.sp,
+                                                                    fontWeight: FontWeight.w700,
+                                                                    color: AppColors.SECONDARY_COLOR,
                                                                   ),
-                                                                ],
-                                                              ),
-                                                            ),
-
-                                                            ///Meters
-                                                            SizedBox(
-                                                              width: 18.w,
-                                                              child: Text(
-                                                                '100',
-                                                                style: TextStyle(
-                                                                  fontSize: 16.sp,
-                                                                  fontWeight: FontWeight.w700,
-                                                                  color: AppColors.SECONDARY_COLOR,
                                                                 ),
                                                               ),
-                                                            ),
 
-                                                            ///KGs
-                                                            SizedBox(
-                                                              width: 18.w,
-                                                              child: Text(
-                                                                '100',
-                                                                style: TextStyle(
-                                                                  fontSize: 16.sp,
-                                                                  fontWeight: FontWeight.w700,
-                                                                  color: AppColors.SECONDARY_COLOR,
+                                                              ///KGs
+                                                              SizedBox(
+                                                                width: 23.w,
+                                                                child: Text(
+                                                                  production.kgs != null ? NumberFormat.decimalPattern().format(production.kgs) : "",
+                                                                  style: TextStyle(
+                                                                    fontSize: 16.sp,
+                                                                    fontWeight: FontWeight.w700,
+                                                                    color: AppColors.SECONDARY_COLOR,
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              );
-                                            },
-                                            separatorBuilder: (context, index) {
-                                              return SizedBox(height: 2.h);
-                                            },
+                                                );
+                                              },
+                                              separatorBuilder: (context, index) {
+                                                return SizedBox(height: 2.h);
+                                              },
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                            ],
+                              ],
+                            ),
                           ),
 
                           ///Reports
                           Column(
+                            mainAxisSize: MainAxisSize.max,
                             children: [
                               Expanded(
                                 child: SfCartesianChart(
@@ -304,17 +315,17 @@ class _ProductionReportViewState extends State<ProductionReportView> with Ticker
                                                 Text(
                                                   '${S.current.date}: ',
                                                   style: TextStyle(
-                                                    color: AppColors.SECONDARY_COLOR,
-                                                    fontWeight: FontWeight.w700,
+                                                    color: AppColors.HINT_GREY_COLOR,
+                                                    fontWeight: FontWeight.w600,
                                                     fontSize: 14.sp,
                                                   ),
                                                 ),
                                                 Text(
                                                   '${data.date ?? 0}',
                                                   style: TextStyle(
-                                                    color: AppColors.HINT_GREY_COLOR,
+                                                    color: AppColors.SECONDARY_COLOR,
                                                     fontSize: 14.sp,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.w700,
                                                   ),
                                                 ),
                                               ],
@@ -337,17 +348,17 @@ class _ProductionReportViewState extends State<ProductionReportView> with Ticker
                                                   Text(
                                                     '${S.current.meters}: ',
                                                     style: TextStyle(
-                                                      color: AppColors.SECONDARY_COLOR,
-                                                      fontWeight: FontWeight.w700,
+                                                      color: AppColors.HINT_GREY_COLOR,
+                                                      fontWeight: FontWeight.w600,
                                                       fontSize: 14.sp,
                                                     ),
                                                   ),
                                                   Text(
-                                                    '${data.meters ?? '-'}',
+                                                    data.meters != null ? NumberFormat.decimalPattern().format(data.meters) : '-',
                                                     style: TextStyle(
-                                                      color: AppColors.HINT_GREY_COLOR,
+                                                      color: AppColors.SECONDARY_COLOR,
                                                       fontSize: 14.sp,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight: FontWeight.w700,
                                                     ),
                                                   ),
                                                 ],
@@ -371,17 +382,17 @@ class _ProductionReportViewState extends State<ProductionReportView> with Ticker
                                                   Text(
                                                     '${S.current.kgs}: ',
                                                     style: TextStyle(
-                                                      color: AppColors.SECONDARY_COLOR,
-                                                      fontWeight: FontWeight.w700,
+                                                      color: AppColors.HINT_GREY_COLOR,
+                                                      fontWeight: FontWeight.w600,
                                                       fontSize: 14.sp,
                                                     ),
                                                   ),
                                                   Text(
-                                                    '${data.kgs ?? '-'}',
+                                                    data.kgs != null ? NumberFormat.decimalPattern().format(data.kgs) : '-',
                                                     style: TextStyle(
-                                                      color: AppColors.HINT_GREY_COLOR,
+                                                      color: AppColors.SECONDARY_COLOR,
                                                       fontSize: 14.sp,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight: FontWeight.w700,
                                                     ),
                                                   ),
                                                 ],
@@ -414,7 +425,8 @@ class _ProductionReportViewState extends State<ProductionReportView> with Ticker
                                       textStyle: AppStyles.size16W600TextStyle,
                                     ),
                                     autoScrollingDelta: 4,
-                                    autoScrollingMode: AutoScrollingMode.end,
+                                    autoScrollingMode: AutoScrollingMode.start,
+                                    autoScrollingDeltaType: DateTimeIntervalType.days,
                                   ),
                                   primaryYAxis: NumericAxis(
                                     majorGridLines: MajorGridLines(
@@ -427,11 +439,11 @@ class _ProductionReportViewState extends State<ProductionReportView> with Ticker
                                       textStyle: AppStyles.size16W600TextStyle,
                                     ),
                                   ),
-                                  series: <CartesianSeries<ProductionReportData, DateTime>>[
-                                    LineSeries<ProductionReportData, DateTime>(
-                                      dataSource: productionReportBloc.productionReportData,
-                                      xValueMapper: (ProductionReportData data, _) => DateFormat("dd-MM-yyyy").parse(data.date),
-                                      yValueMapper: (ProductionReportData data, _) => num.tryParse(data.meters),
+                                  series: <CartesianSeries<get_report.Data, DateTime>>[
+                                    LineSeries<get_report.Data, DateTime>(
+                                      dataSource: productionReportBloc.productionList,
+                                      xValueMapper: (get_report.Data data, _) => DateFormat("dd-MM-yyyy").tryParse(data.date ?? ""),
+                                      yValueMapper: (get_report.Data data, _) => data.meters,
                                       name: S.current.meters,
                                       markerSettings: MarkerSettings(
                                         color: AppColors.WARNING_COLOR,
@@ -441,10 +453,10 @@ class _ProductionReportViewState extends State<ProductionReportView> with Ticker
                                         borderWidth: 0,
                                       ),
                                     ),
-                                    LineSeries<ProductionReportData, DateTime>(
-                                      dataSource: productionReportBloc.productionReportData,
-                                      xValueMapper: (ProductionReportData data, _) => DateFormat("dd-MM-yyyy").parse(data.date),
-                                      yValueMapper: (ProductionReportData data, _) => num.parse(data.kgs),
+                                    LineSeries<get_report.Data, DateTime>(
+                                      dataSource: productionReportBloc.productionList,
+                                      xValueMapper: (get_report.Data data, _) => DateFormat("dd-MM-yyyy").tryParse(data.date ?? ""),
+                                      yValueMapper: (get_report.Data data, _) => data.kgs,
                                       name: S.current.kgs,
                                       markerSettings: MarkerSettings(
                                         color: AppColors.WARNING_COLOR,

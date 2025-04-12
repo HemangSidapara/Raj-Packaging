@@ -118,7 +118,7 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
         setData(AppConstance.localPendingOrdersStored, getOrdersModel.toJson());
         add(PendingOrdersGetOrdersSuccessEvent(ordersList: getOrdersModel.data ?? [], successMessage: response.message));
       } else {
-        get_orders.GetOrdersModel getOrdersModel = get_orders.GetOrdersModel.fromJson(response.response?.data);
+        get_orders.GetOrdersModel getOrdersModel = get_orders.GetOrdersModel.fromJson(getData(AppConstance.localCompletedOrderStored));
         ordersList.clear();
         searchedOrdersList.clear();
         ordersList.addAll(getOrdersModel.data ?? []);

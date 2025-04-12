@@ -8,6 +8,11 @@ class AppStyles {
         fontSize: 14.sp,
         fontWeight: FontWeight.w600,
       );
+  static TextStyle get size15W600TextStyle => TextStyle(
+        color: AppColors.PRIMARY_COLOR,
+        fontSize: 15.sp,
+        fontWeight: FontWeight.w600,
+      );
 
   static TextStyle get size16W600TextStyle => TextStyle(
         color: AppColors.PRIMARY_COLOR,

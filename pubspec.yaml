@@ -2,7 +2,7 @@ name: raj_packaging
 description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
-version: 1.1.12+24
+version: 1.1.14+26
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -51,7 +51,6 @@ dependencies:
   syncfusion_flutter_charts: ^29.1.37+1
 
 dependency_overrides:
-  collection: ^1.19.1
   intl: ^0.20.2
 
 dev_dependencies:

@@ -30,7 +30,7 @@ class ProductionReportGetProductionLoadingEvent extends ProductionReportEvent {
 }
 
 class ProductionReportGetProductionSuccessEvent extends ProductionReportEvent {
-  final List productionList;
+  final List<get_report.Data> productionList;
   final String? successMessage;
 
   const ProductionReportGetProductionSuccessEvent({required this.productionList, required this.successMessage});
@@ -40,7 +40,7 @@ class ProductionReportGetProductionSuccessEvent extends ProductionReportEvent {
 }
 
 class ProductionReportGetProductionFailedEvent extends ProductionReportEvent {
-  final List productionList;
+  final List<get_report.Data> productionList;
 
   const ProductionReportGetProductionFailedEvent({required this.productionList});
 

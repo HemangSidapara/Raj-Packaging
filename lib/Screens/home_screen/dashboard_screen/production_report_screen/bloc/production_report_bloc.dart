@@ -1,23 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:raj_packaging/Constants/app_constance.dart';
+import 'package:raj_packaging/Constants/get_storage.dart';
+import 'package:raj_packaging/Network/models/production_report_models/get_production_report_model.dart' as get_report;
 import 'package:raj_packaging/Network/services/production_services/production_services.dart';
 
 part 'production_report_event.dart';
 part 'production_report_state.dart';
 
 class ProductionReportBloc extends Bloc<ProductionReportEvent, ProductionReportState> {
-  List productionList = [];
-
-  List<ProductionReportData> productionReportData = [
-    ProductionReportData('10-04-2025', '100', '100'),
-    ProductionReportData('15-04-2025', '125', '150'),
-    ProductionReportData('12-04-2025', '90', '250'),
-    ProductionReportData('11-04-2025', '100', '100'),
-    ProductionReportData('20-04-2025', '260', '150'),
-    ProductionReportData('22-04-2025', '300', '450'),
-    ProductionReportData('10-05-2025', '300', '450'),
-    ProductionReportData('15-05-2025', '300', '450'),
-  ];
+  List<get_report.Data> productionList = [];
 
   ProductionReportBloc() : super(ProductionReportInitial()) {
     on<ProductionReportStartedEvent>((event, emit) {
@@ -47,24 +39,19 @@ class ProductionReportBloc extends Bloc<ProductionReportEvent, ProductionReportS
       final response = await ProductionServices.getProductionService();
 
       if (response.isSuccess) {
+        get_report.GetProductionReportModel reportModel = get_report.GetProductionReportModel.fromJson(response.response?.data);
         productionList.clear();
-        productionList = (response.response?.data['Tabs'] as List<dynamic>).firstOrNull ?? {};
+        productionList.addAll(reportModel.data ?? []);
+        setData(AppConstance.localProductionReportStored, reportModel.toJson());
         add(ProductionReportGetProductionSuccessEvent(productionList: productionList, successMessage: response.message));
+      } else {
+        get_report.GetProductionReportModel reportModel = get_report.GetProductionReportModel.fromJson(getData(AppConstance.localProductionReportStored));
+        productionList.clear();
+        productionList.addAll(reportModel.data ?? []);
+        add(ProductionReportGetProductionFailedEvent(productionList: productionList));
       }
     } finally {
       add(const ProductionReportGetProductionLoadingEvent(isLoading: false));
     }
   }
-}
-
-class ProductionReportData {
-  ProductionReportData(
-    this.date,
-    this.meters,
-    this.kgs,
-  );
-
-  final String date;
-  final String meters;
-  final String kgs;
 }

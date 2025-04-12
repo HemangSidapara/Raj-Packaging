@@ -1,72 +1,72 @@
-part of 'inventory_bloc.dart';
+part of 'add_bloc.dart';
 
-sealed class InventoryEvent extends Equatable {
-  const InventoryEvent();
+sealed class AddEvent extends Equatable {
+  const AddEvent();
 }
 
-class InventoryStartedEvent extends InventoryEvent {
-  const InventoryStartedEvent();
+class AddStartedEvent extends AddEvent {
+  const AddStartedEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class InventoryGetInventoryEvent extends InventoryEvent {
+class AddGetInventoryEvent extends AddEvent {
   final bool isLoading;
 
-  const InventoryGetInventoryEvent({this.isLoading = true});
+  const AddGetInventoryEvent({this.isLoading = true});
 
   @override
   List<Object?> get props => [isLoading];
 }
 
-class InventoryGetInventoryLoadingEvent extends InventoryEvent {
+class AddGetInventoryLoadingEvent extends AddEvent {
   final bool isLoading;
 
-  const InventoryGetInventoryLoadingEvent({required this.isLoading});
+  const AddGetInventoryLoadingEvent({required this.isLoading});
 
   @override
   List<Object?> get props => [isLoading];
 }
 
-class InventoryGetInventorySuccessEvent extends InventoryEvent {
-  final List inventoryList;
+class AddGetInventorySuccessEvent extends AddEvent {
+  final List<get_inventory.Data> inventoryList;
   final String? successMessage;
 
-  const InventoryGetInventorySuccessEvent({required this.inventoryList, required this.successMessage});
+  const AddGetInventorySuccessEvent({required this.inventoryList, required this.successMessage});
 
   @override
   List<Object?> get props => [inventoryList, successMessage];
 }
 
-class InventoryGetInventoryFailedEvent extends InventoryEvent {
-  final List inventoryList;
+class AddGetInventoryFailedEvent extends AddEvent {
+  final List<get_inventory.Data> inventoryList;
 
-  const InventoryGetInventoryFailedEvent({required this.inventoryList});
+  const AddGetInventoryFailedEvent({required this.inventoryList});
 
   @override
   List<Object?> get props => [inventoryList];
 }
 
-class InventoryEntryTypeEvent extends InventoryEvent {
+class AddTypeEvent extends AddEvent {
   final int entryTypeIndex;
 
-  const InventoryEntryTypeEvent({this.entryTypeIndex = 0});
+  const AddTypeEvent({this.entryTypeIndex = 0});
 
   @override
   List<Object?> get props => [entryTypeIndex];
 }
 
-class InventoryItemsTypeEvent extends InventoryEvent {
+class AddItemsTypeEvent extends AddEvent {
   final int itemsTypeIndex;
 
-  const InventoryItemsTypeEvent({this.itemsTypeIndex = 0});
+  const AddItemsTypeEvent({this.itemsTypeIndex = 0});
 
   @override
   List<Object?> get props => [itemsTypeIndex];
 }
 
-class InventoryEntryButtonClickEvent extends InventoryEvent {
+class AddButtonClickEvent extends AddEvent {
   final bool isValidate;
   final String entryType;
   final String itemType;
@@ -77,7 +77,7 @@ class InventoryEntryButtonClickEvent extends InventoryEvent {
   final String weight;
   final String quantity;
 
-  const InventoryEntryButtonClickEvent({
+  const AddButtonClickEvent({
     required this.isValidate,
     required this.entryType,
     required this.itemType,
@@ -103,25 +103,25 @@ class InventoryEntryButtonClickEvent extends InventoryEvent {
       ];
 }
 
-class InventoryEntryLoadingEvent extends InventoryEvent {
+class AddLoadingEvent extends AddEvent {
   final bool isLoading;
 
-  const InventoryEntryLoadingEvent({required this.isLoading});
+  const AddLoadingEvent({required this.isLoading});
 
   @override
   List<Object?> get props => [isLoading];
 }
 
-class InventoryEntrySuccessEvent extends InventoryEvent {
+class AddSuccessEvent extends AddEvent {
   final String? successMessage;
 
-  const InventoryEntrySuccessEvent({this.successMessage});
+  const AddSuccessEvent({this.successMessage});
 
   @override
   List<Object?> get props => [successMessage];
 }
 
-class InventoryEntryFailedEvent extends InventoryEvent {
+class AddFailedEvent extends AddEvent {
   @override
   List<Object?> get props => [];
 }
