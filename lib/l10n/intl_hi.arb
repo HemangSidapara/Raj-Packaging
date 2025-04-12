@@ -198,6 +198,20 @@
   "pleaseSelectSize": "कृपया आकार का चयन करें।",
   "gsm": "GSM",
   "selectGSM": "GSM चुनें",
-  "pleaseSelectGSM": "कृपया GSM चुनें।"
-
+  "pleaseSelectGSM": "कृपया GSM चुनें।",
+  "bf": "BF",
+  "selectBF": "BF चुनें",
+  "pleaseSelectBF": "कृपया BF चुनें।",
+  "shade": "रंग",
+  "selectShade": "रंग चुनें",
+  "pleaseSelectShade": "कृपया रंग चुनें।",
+  "weight": "वजन",
+  "enterWeight": "वजन दर्ज करें",
+  "pleaseEnterWeight": "कृपया वजन दर्ज करें।",
+  "pleaseEnterValidWeight": "कृपया वैध वजन दर्ज करें।",
+  "date": "तारीख",
+  "meters": "मीटर",
+  "kgs": "किलोग्राम",
+  "production": "उत्पादन",
+  "reports": "रिपोर्ट"
 }

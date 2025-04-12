@@ -199,5 +199,20 @@
   "pleaseSelectSize": "Please select size.",
   "gsm": "GSM",
   "selectGSM": "Select GSM",
-  "pleaseSelectGSM": "Please select gsm."
+  "pleaseSelectGSM": "Please select gsm.",
+  "bf": "BF",
+  "selectBF": "Select BF",
+  "pleaseSelectBF": "Please select BF.",
+  "shade": "Shade",
+  "selectShade": "Select shade",
+  "pleaseSelectShade": "Please select shade.",
+  "weight": "Weight",
+  "enterWeight": "Enter weight",
+  "pleaseEnterWeight": "Please enter weight.",
+  "pleaseEnterValidWeight": "Please enter valid weight.",
+  "date": "Date",
+  "meters": "Meters",
+  "kgs": "KGs",
+  "production": "Production",
+  "reports": "Reports"
 }

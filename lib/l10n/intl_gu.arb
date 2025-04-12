@@ -199,5 +199,20 @@
   "pleaseSelectSize": "કૃપા કરીને કદ પસંદ કરો.",
   "gsm": "GSM",
   "selectGSM": "GSM પસંદ કરો",
-  "pleaseSelectGSM": "કૃપા કરીને GSM પસંદ કરો."
+  "pleaseSelectGSM": "કૃપા કરીને GSM પસંદ કરો.",
+  "bf": "BF",
+  "selectBF": "BF પસંદ કરો",
+  "pleaseSelectBF": "કૃપા કરીને BF પસંદ કરો.",
+  "shade": "રંગ",
+  "selectShade": "રંગ પસંદ કરો",
+  "pleaseSelectShade": "કૃપા કરીને રંગ પસંદ કરો.",
+  "weight": "વજન",
+  "enterWeight": "વજન દાખલ કરો",
+  "pleaseEnterWeight": "કૃપા કરીને વજન દાખલ કરો.",
+  "pleaseEnterValidWeight": "કૃપા કરીને માન્ય વજન દાખલ કરો.",
+  "date": "તારીખ",
+  "meters": "મીટર",
+  "kgs": "કિલોગ્રામ",
+  "production": "ઉત્પાદન",
+  "reports": "રિપોર્ટ"
 }

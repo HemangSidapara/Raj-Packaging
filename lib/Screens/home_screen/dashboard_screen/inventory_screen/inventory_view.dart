@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +10,7 @@ import 'package:raj_packaging/Constants/app_colors.dart';
 import 'package:raj_packaging/Constants/app_styles.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
 import 'package:raj_packaging/Screens/home_screen/dashboard_screen/inventory_screen/bloc/inventory_bloc.dart';
+import 'package:raj_packaging/Widgets/button_widget.dart';
 import 'package:raj_packaging/Widgets/custom_header_widget.dart';
 import 'package:raj_packaging/Widgets/loading_widget.dart';
 import 'package:raj_packaging/Widgets/textfield_widget.dart';
@@ -33,6 +35,10 @@ class _InventoryViewState extends State<InventoryView> with TickerProviderStateM
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController sizeController = TextEditingController();
   TextEditingController gsmController = TextEditingController();
+  TextEditingController bfController = TextEditingController();
+  TextEditingController shadeController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
 
   @override
   void initState() {
@@ -46,6 +52,7 @@ class _InventoryViewState extends State<InventoryView> with TickerProviderStateM
       create: (context) => InventoryBloc()..add(InventoryStartedEvent()),
       child: GestureDetector(
         onTap: () => Utils.unfocus(),
+        behavior: HitTestBehavior.opaque,
         child: Scaffold(
           body: Padding(
             padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
@@ -98,125 +105,261 @@ class _InventoryViewState extends State<InventoryView> with TickerProviderStateM
                           ///Entry
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                children: [
-                                  ///Type
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      S.current.type,
-                                      style: AppStyles.size16W600TextStyle,
+                            child: SingleChildScrollView(
+                              child: Form(
+                                key: formKey,
+                                child: Column(
+                                  children: [
+                                    ///Type
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        S.current.type,
+                                        style: AppStyles.size16W600TextStyle,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 1.h),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      EntryTypeWidget(
-                                        title: S.current.add,
-                                        index: 0,
-                                      ),
-                                      EntryTypeWidget(
-                                        title: S.current.consume,
-                                        index: 1,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 2.h),
+                                    SizedBox(height: 1.h),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        EntryTypeWidget(
+                                          title: S.current.add,
+                                          index: 0,
+                                        ),
+                                        EntryTypeWidget(
+                                          title: S.current.consume,
+                                          index: 1,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 2.h),
 
-                                  ///Items Type
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      S.current.items,
-                                      style: AppStyles.size16W600TextStyle,
+                                    ///Items Type
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        S.current.items,
+                                        style: AppStyles.size16W600TextStyle,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 1.h),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ItemsTypeWidget(
-                                        title: S.current.reel,
-                                        index: 0,
-                                      ),
-                                      ItemsTypeWidget(
-                                        title: S.current.printingPlates,
-                                        index: 1,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 1.5.h),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ItemsTypeWidget(
-                                        title: S.current.die,
-                                        index: 2,
-                                      ),
-                                      ItemsTypeWidget(
-                                        title: S.current.paper,
-                                        index: 3,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 2.h),
+                                    SizedBox(height: 1.h),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ItemsTypeWidget(
+                                          title: S.current.reel,
+                                          index: 0,
+                                        ),
+                                        ItemsTypeWidget(
+                                          title: S.current.printingPlates,
+                                          index: 1,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 1.5.h),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ItemsTypeWidget(
+                                          title: S.current.die,
+                                          index: 2,
+                                        ),
+                                        ItemsTypeWidget(
+                                          title: S.current.paper,
+                                          index: 3,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 2.h),
 
-                                  ///Size
-                                  TextFieldWidget(
-                                    controller: sizeController,
-                                    title: S.current.size,
-                                    hintText: S.current.selectSize,
-                                    validator: inventoryBloc.validateSize,
-                                    textInputAction: TextInputAction.next,
-                                    maxLength: 50,
-                                    readOnly: true,
-                                    suffixIconConstraints: BoxConstraints(maxWidth: 10.w, minWidth: 10.w),
-                                    suffixIcon: Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                      color: AppColors.HINT_GREY_COLOR,
-                                      size: 5.w,
+                                    ///Size
+                                    TextFieldWidget(
+                                      controller: sizeController,
+                                      title: S.current.size,
+                                      hintText: S.current.selectSize,
+                                      validator: inventoryBloc.validateSize,
+                                      textInputAction: TextInputAction.next,
+                                      maxLength: 50,
+                                      readOnly: true,
+                                      suffixIconConstraints: BoxConstraints(maxWidth: 10.w, minWidth: 10.w),
+                                      suffixIcon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: AppColors.HINT_GREY_COLOR,
+                                        size: 5.w,
+                                      ),
+                                      onTap: () async {
+                                        showBottomSheetSelection(
+                                          context: context,
+                                          itemList: inventoryBloc.sizeList,
+                                          title: S.current.selectSize,
+                                          selectedItem: sizeController.text,
+                                          onPressed: (index, itemName) {
+                                            sizeController.text = itemName;
+                                          },
+                                        );
+                                      },
                                     ),
-                                    onTap: () async {
-                                      showBottomSheetSelection(
-                                        context: context,
-                                        itemList: [],
-                                        title: S.current.selectSize,
-                                        selectedItem: "0",
-                                        onPressed: (index, typeName) {},
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(height: 2.h),
+                                    SizedBox(height: 2.h),
 
-                                  ///GSM
-                                  TextFieldWidget(
-                                    controller: gsmController,
-                                    title: S.current.gsm,
-                                    hintText: S.current.selectGSM,
-                                    validator: inventoryBloc.validateGSM,
-                                    textInputAction: TextInputAction.next,
-                                    maxLength: 50,
-                                    readOnly: true,
-                                    suffixIconConstraints: BoxConstraints(maxWidth: 10.w, minWidth: 10.w),
-                                    suffixIcon: Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                      color: AppColors.HINT_GREY_COLOR,
-                                      size: 5.w,
+                                    ///GSM
+                                    TextFieldWidget(
+                                      controller: gsmController,
+                                      title: S.current.gsm,
+                                      hintText: S.current.selectGSM,
+                                      validator: inventoryBloc.validateGSM,
+                                      textInputAction: TextInputAction.next,
+                                      maxLength: 50,
+                                      readOnly: true,
+                                      suffixIconConstraints: BoxConstraints(maxWidth: 10.w, minWidth: 10.w),
+                                      suffixIcon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: AppColors.HINT_GREY_COLOR,
+                                        size: 5.w,
+                                      ),
+                                      onTap: () async {
+                                        showBottomSheetSelection(
+                                          context: context,
+                                          itemList: inventoryBloc.gsmList,
+                                          title: S.current.selectGSM,
+                                          selectedItem: gsmController.text,
+                                          onPressed: (index, itemName) {
+                                            gsmController.text = itemName;
+                                          },
+                                        );
+                                      },
                                     ),
-                                    onTap: () async {
-                                      showBottomSheetSelection(
-                                        context: context,
-                                        itemList: [],
-                                        title: S.current.selectGSM,
-                                        selectedItem: "0",
-                                        onPressed: (index, typeName) {},
-                                      );
-                                    },
-                                  ),
-                                ],
+                                    SizedBox(height: 2.h),
+
+                                    ///BF
+                                    TextFieldWidget(
+                                      controller: bfController,
+                                      title: S.current.bf,
+                                      hintText: S.current.selectBF,
+                                      validator: inventoryBloc.validateBF,
+                                      textInputAction: TextInputAction.next,
+                                      maxLength: 50,
+                                      readOnly: true,
+                                      suffixIconConstraints: BoxConstraints(maxWidth: 10.w, minWidth: 10.w),
+                                      suffixIcon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: AppColors.HINT_GREY_COLOR,
+                                        size: 5.w,
+                                      ),
+                                      onTap: () async {
+                                        showBottomSheetSelection(
+                                          context: context,
+                                          itemList: inventoryBloc.bfList,
+                                          title: S.current.selectBF,
+                                          selectedItem: bfController.text,
+                                          onPressed: (index, itemName) {
+                                            bfController.text = itemName;
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: 2.h),
+
+                                    ///Shade
+                                    TextFieldWidget(
+                                      controller: shadeController,
+                                      title: S.current.shade,
+                                      hintText: S.current.selectShade,
+                                      validator: inventoryBloc.validateShade,
+                                      textInputAction: TextInputAction.next,
+                                      maxLength: 50,
+                                      readOnly: true,
+                                      suffixIconConstraints: BoxConstraints(maxWidth: 10.w, minWidth: 10.w),
+                                      suffixIcon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: AppColors.HINT_GREY_COLOR,
+                                        size: 5.w,
+                                      ),
+                                      onTap: () async {
+                                        showBottomSheetSelection(
+                                          context: context,
+                                          itemList: inventoryBloc.shadeList,
+                                          title: S.current.selectShade,
+                                          selectedItem: shadeController.text,
+                                          onPressed: (index, itemName) {
+                                            shadeController.text = itemName;
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: 2.h),
+
+                                    ///Weight
+                                    TextFieldWidget(
+                                      controller: weightController,
+                                      title: S.current.weight,
+                                      hintText: S.current.enterWeight,
+                                      validator: inventoryBloc.validateWeight,
+                                      textInputAction: TextInputAction.next,
+                                      maxLength: 5,
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                    SizedBox(height: 2.h),
+
+                                    ///Quantity
+                                    TextFieldWidget(
+                                      controller: quantityController,
+                                      title: S.current.quantity,
+                                      hintText: S.current.enterQuantity,
+                                      validator: inventoryBloc.validateQuantity,
+                                      textInputAction: TextInputAction.next,
+                                      maxLength: 5,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                    ),
+                                    SizedBox(height: 3.h),
+
+                                    ///Button
+                                    BlocConsumer<InventoryBloc, InventoryState>(
+                                      listener: (context, state) {
+                                        if (state is InventoryEntrySuccessState) {
+                                          context.pop();
+                                          inventoryBloc.add(InventoryEntryTypeEvent(entryTypeIndex: 0));
+                                          inventoryBloc.add(InventoryItemsTypeEvent(itemsTypeIndex: 0));
+                                          sizeController.clear();
+                                          gsmController.clear();
+                                          bfController.clear();
+                                          shadeController.clear();
+                                          weightController.clear();
+                                          quantityController.clear();
+                                          inventoryBloc.add(InventoryGetInventoryEvent(isLoading: true));
+                                          Utils.handleMessage(message: state.successMessage);
+                                        }
+                                      },
+                                      builder: (context, state) {
+                                        final inventoryBloc = context.read<InventoryBloc>();
+                                        return ButtonWidget(
+                                          onPressed: () {
+                                            if (formKey.currentState?.validate() == true) {
+                                              inventoryBloc.add(
+                                                InventoryEntryButtonClickEvent(
+                                                  isValidate: formKey.currentState?.validate() == true,
+                                                  entryType: inventoryBloc.entryList[inventoryBloc.entryTypeIndex],
+                                                  itemType: inventoryBloc.itemList[inventoryBloc.itemsTypeIndex],
+                                                  size: sizeController.text.trim(),
+                                                  gsm: gsmController.text.trim(),
+                                                  bf: bfController.text.trim(),
+                                                  shade: shadeController.text.trim(),
+                                                  weight: weightController.text.trim(),
+                                                  quantity: quantityController.text.trim(),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          isLoading: (state is InventoryEntryLoadingState) ? state.isLoading : false,
+                                          buttonTitle: S.current.add,
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: 2.h),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -453,7 +596,7 @@ class _InventoryViewState extends State<InventoryView> with TickerProviderStateM
     required BuildContext context,
     required List<String> itemList,
     required String selectedItem,
-    required void Function(int index, String typeName)? onPressed,
+    required void Function(int index, String itemName)? onPressed,
     required String title,
   }) async {
     int selectedIndex = itemList.indexWhere((element) => element == selectedItem);

@@ -29,4 +29,12 @@ class ApiKeys {
   static const sheetBoxType = "sheetBoxType";
   static const aValue = "aValue";
   static const overFlap = "overFlap";
+  static const entryType = "entryType";
+  static const itemType = "itemType";
+  static const size = "size";
+  static const gsm = "gsm";
+  static const bf = "bf";
+  static const shade = "shade";
+  static const weight = "weight";
+  static const quantity = "quantity";
 }

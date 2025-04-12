@@ -26,4 +26,5 @@ class ApiUrls {
   static const String updateAValueApi = '${_apiPath}updateAValue.php';
   static const String getProductionApi = '${_apiPath}getProduction.php';
   static const String getInventoryApi = '${_apiPath}getInventory.php';
+  static const String createInventoryEntryApi = '${_apiPath}createInventoryEntry.php';
 }

@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart' hide Response;
 import 'package:raj_packaging/Constants/api_urls.dart';
 import 'package:raj_packaging/Constants/app_constance.dart';
 import 'package:raj_packaging/Constants/get_storage.dart';
 import 'package:raj_packaging/Network/response_model.dart';
-import 'package:raj_packaging/Utils/progress_dialog.dart';
 import 'package:raj_packaging/Utils/utils.dart';
 
 class ApiBaseHelper {
@@ -42,18 +40,9 @@ class ApiBaseHelper {
       ..interceptors.add(
         InterceptorsWrapper(
           onRequest: (RequestOptions options, handler) async {
-            if (Get.isSnackbarOpen) {
-              await Get.closeCurrentSnackbar();
-            }
-            if (showProgressDialog) Get.put(ProgressDialog()).showProgressDialog(true);
             return requestInterceptor(options, handler);
           },
           onResponse: (response, handler) async {
-            if (Get.isSnackbarOpen) {
-              await Get.closeCurrentSnackbar();
-            }
-            Get.put(ProgressDialog()).showProgressDialog(false);
-            Get.delete<ProgressDialog>();
             showProgressDialog = true;
 
             if (response.statusCode! >= 100 && response.statusCode! <= 199) {
@@ -65,11 +54,6 @@ class ApiBaseHelper {
             return handler.next(response);
           },
           onError: (DioException e, handler) async {
-            if (Get.isSnackbarOpen) {
-              await Get.closeCurrentSnackbar();
-            }
-            Get.put(ProgressDialog()).showProgressDialog(false);
-            Get.delete<ProgressDialog>();
             showProgressDialog = true;
 
             Logger.printLog(tag: 'ERROR CODE ${e.response?.statusCode} : ', printLog: e.toString(), logIcon: Logger.error);

@@ -52,3 +52,26 @@ class InventoryItemsTypeState extends InventoryState {
   @override
   List<Object?> get props => [itemsTypeIndex];
 }
+
+class InventoryEntryLoadingState extends InventoryState {
+  final bool isLoading;
+
+  const InventoryEntryLoadingState({required this.isLoading});
+
+  @override
+  List<Object?> get props => [isLoading];
+}
+
+class InventoryEntrySuccessState extends InventoryState {
+  final String? successMessage;
+
+  const InventoryEntrySuccessState({this.successMessage});
+
+  @override
+  List<Object?> get props => [successMessage];
+}
+
+class InventoryEntryFailedState extends InventoryState {
+  @override
+  List<Object?> get props => [];
+}

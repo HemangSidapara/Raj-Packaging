@@ -8,6 +8,17 @@ part 'production_report_state.dart';
 class ProductionReportBloc extends Bloc<ProductionReportEvent, ProductionReportState> {
   List productionList = [];
 
+  List<ProductionReportData> productionReportData = [
+    ProductionReportData('10-04-2025', '100', '100'),
+    ProductionReportData('15-04-2025', '125', '150'),
+    ProductionReportData('12-04-2025', '90', '250'),
+    ProductionReportData('11-04-2025', '100', '100'),
+    ProductionReportData('20-04-2025', '260', '150'),
+    ProductionReportData('22-04-2025', '300', '450'),
+    ProductionReportData('10-05-2025', '300', '450'),
+    ProductionReportData('15-05-2025', '300', '450'),
+  ];
+
   ProductionReportBloc() : super(ProductionReportInitial()) {
     on<ProductionReportStartedEvent>((event, emit) {
       add(const ProductionReportGetProductionEvent());
@@ -44,4 +55,16 @@ class ProductionReportBloc extends Bloc<ProductionReportEvent, ProductionReportS
       add(const ProductionReportGetProductionLoadingEvent(isLoading: false));
     }
   }
+}
+
+class ProductionReportData {
+  ProductionReportData(
+    this.date,
+    this.meters,
+    this.kgs,
+  );
+
+  final String date;
+  final String meters;
+  final String kgs;
 }
