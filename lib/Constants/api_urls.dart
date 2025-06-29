@@ -1,8 +1,7 @@
 class ApiUrls {
   static const String baseUrl = 'https://mindwaveinfoway.com/';
-  // static const String baseUrl = 'https://thelivetalk.xyz/';
   static const String _apiPath = 'RajPackaging/AdminPanel/WebApi/';
-  // static const String _apiPath = 'LaxmiBox/WebApi/';
+  // static const String _apiPath = 'InstaPrintPack/AdminPanel/WebApi/';
 
   static const String loginApi = '${_apiPath}Login.php';
   static const String createOrderApi = '${_apiPath}createOrder.php';
