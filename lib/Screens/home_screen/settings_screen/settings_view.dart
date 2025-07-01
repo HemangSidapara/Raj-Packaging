@@ -34,7 +34,7 @@ class _SettingsViewState extends State<SettingsView> {
         ),
       ],
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w).copyWith(top: 5.h),
+        padding: EdgeInsets.symmetric(horizontal: 5.w).copyWith(bottom: 2.h),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +114,7 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
               ],
             ),
-            SizedBox(height: 5.h),
+            SizedBox(height: 2.h),
 
             ///Change Language
             Card(

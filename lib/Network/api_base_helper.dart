@@ -132,11 +132,16 @@ class ApiBaseHelper {
     bool showProgress = true,
     Function(ResponseModel res)? onSuccess,
     Function(DioExceptions dioExceptions)? onError,
+    Options? options,
   }) async {
     try {
       showProgressDialog = showProgress;
       stopWatch.start();
-      Response response = await baseAPI.get(url, queryParameters: params);
+      Response response = await baseAPI.get(
+        url,
+        queryParameters: params,
+        options: options,
+      );
       stopWatch.stop();
       Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
       stopWatch.reset();
@@ -191,21 +196,13 @@ class ApiBaseHelper {
     }
   }
 
-  static handleResponse(
-    Response response,
-    Function(DioExceptions dioExceptions) onError,
-    Function(ResponseModel res) onSuccess,
-  ) {
+  static ResponseModel handleResponse(Response response, Function(DioExceptions dioExceptions) onError, Function(ResponseModel res) onSuccess) {
     var successModel = ResponseModel(statusCode: response.statusCode, response: response);
     onSuccess(successModel);
     return successModel;
   }
 
-  static handleError(
-    DioException e,
-    Function(DioExceptions dioExceptions) onError,
-    Function(ResponseModel res) onSuccess,
-  ) {
+  static ResponseModel handleError(DioException e, Function(DioExceptions dioExceptions) onError, Function(ResponseModel res) onSuccess) {
     switch (e.type) {
       case DioExceptionType.badResponse:
         var errorModel = ResponseModel(statusCode: e.response!.statusCode, response: e.response);

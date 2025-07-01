@@ -52,45 +52,49 @@ class _HomeViewState extends State<HomeView> {
                   color: AppColors.MAIN_BORDER_COLOR.withValues(alpha: 0.2),
                   spreadRadius: 5,
                   blurRadius: 80,
-                )
+                ),
               ],
             ),
+            child: SafeArea(
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  final items = context.read<HomeBloc>().bottomItemWidgetList;
+                  if (state is HomeCheckTokenFailedState && state.statusCode == 498) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      context.goNamed(Routes.signInScreen);
+                      Utils.handleMessage(message: S.current.sessionExpired, isError: true);
+                      clearData();
+                    });
+                  }
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      for (int i = 0; i < items.length; i++)
+                        if (i != 1 || getData(AppConstance.role) == AppConstance.admin)
+                          SizedBox(
+                            width: 100.w / items.length,
+                            child: BottomNavigationBarItem(
+                              index: i,
+                              iconName: context.read<HomeBloc>().listOfImages[i],
+                            ),
+                          ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+          body: SafeArea(
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
-                final items = context.read<HomeBloc>().bottomItemWidgetList;
-                if (state is HomeCheckTokenFailedState && state.statusCode == 498) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    context.goNamed(Routes.signInScreen);
-                    Utils.handleMessage(message: S.current.sessionExpired, isError: true);
-                    clearData();
-                  });
-                }
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    for (int i = 0; i < items.length; i++)
-                      if (i != 1 || getData(AppConstance.role) == AppConstance.admin)
-                        SizedBox(
-                          width: 100.w / items.length,
-                          child: BottomNavigationBarItem(
-                            index: i,
-                            iconName: context.read<HomeBloc>().listOfImages[i],
-                          ),
-                        ),
-                  ],
+                final homeBloc = context.read<HomeBloc>();
+                return PageView(
+                  controller: homeBloc.pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: homeBloc.bottomItemWidgetList,
                 );
               },
             ),
-          ),
-          body: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              final homeBloc = context.read<HomeBloc>();
-              return PageView(
-                controller: homeBloc.pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: homeBloc.bottomItemWidgetList,
-              );
-            },
           ),
         ),
       ),
@@ -118,7 +122,7 @@ class _HomeViewState extends State<HomeView> {
                   iconName,
                   width: index == 1 ? 6.5.w : 8.w,
                   color: homeBloc.bottomIndex == index ? AppColors.TERTIARY_COLOR : AppColors.WHITE_COLOR,
-                )
+                ),
               ],
             ),
           ),

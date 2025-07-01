@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:raj_packaging/Constants/api_urls.dart';
 import 'package:raj_packaging/Constants/app_utils.dart';
@@ -10,6 +11,10 @@ class RecycleBinService {
     final response = await ApiBaseHelper.getHTTP(
       ApiUrls.getArchivedOrdersApi,
       showProgress: false,
+      options: Options(
+        sendTimeout: Duration.zero,
+        receiveTimeout: Duration.zero,
+      ),
       onError: (dioExceptions) {
         Utils.handleMessage(message: dioExceptions.message, isError: true);
       },

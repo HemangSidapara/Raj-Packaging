@@ -2,10 +2,10 @@ name: raj_packaging
 description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
-version: 1.1.14+26
+version: 1.1.15+27
 
 environment:
-  sdk: '>=3.4.1 <4.0.0'
+  sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
   flutter:

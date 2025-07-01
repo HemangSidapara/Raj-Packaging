@@ -45,31 +45,88 @@ class _InventoryViewState extends State<InventoryView> with TickerProviderStateM
       onTap: () => Utils.unfocus(),
       behavior: HitTestBehavior.opaque,
       child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
-          child: Column(
-            children: [
-              ///Header
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 7.w),
-                child: CustomHeaderWidget(
-                  title: S.current.inventory,
-                  titleIcon: AppAssets.inventoryIcon,
-                  onBackPressed: () {
-                    context.pop();
-                  },
-                  titleIconSize: 9.w,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 2.h),
+            child: Column(
+              children: [
+                ///Header
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 7.w),
+                  child: CustomHeaderWidget(
+                    title: S.current.inventory,
+                    titleIcon: AppAssets.inventoryIcon,
+                    onBackPressed: () {
+                      context.pop();
+                    },
+                    titleIconSize: 9.w,
+                  ),
                 ),
-              ),
-              SizedBox(height: 3.h),
+                SizedBox(height: 2.h),
 
-              ///Add
-              if (getData(AppConstance.role) == AppConstance.admin) ...[
+                ///Add
+                if (getData(AppConstance.role) == AppConstance.admin) ...[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 7.w),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        context.goNamed(Routes.addScreen);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.LIGHT_SECONDARY_COLOR,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 65.w,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.format_align_center_rounded,
+                                    color: AppColors.SECONDARY_COLOR,
+                                    size: 5.w,
+                                  ),
+                                  SizedBox(width: 3.w),
+                                  Text(
+                                    S.current.add,
+                                    style: TextStyle(
+                                      color: AppColors.SECONDARY_COLOR,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Image.asset(
+                              AppAssets.frontIcon,
+                              width: 9.w,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                ],
+
+                ///Consume
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 7.w),
                   child: ElevatedButton(
                     onPressed: () async {
-                      context.goNamed(Routes.addScreen);
+                      context.goNamed(Routes.consumeScreen);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -92,13 +149,13 @@ class _InventoryViewState extends State<InventoryView> with TickerProviderStateM
                             child: Row(
                               children: [
                                 Icon(
-                                  Icons.format_align_center_rounded,
+                                  Icons.takeout_dining_outlined,
                                   color: AppColors.SECONDARY_COLOR,
-                                  size: 5.w,
+                                  size: 6.w,
                                 ),
                                 SizedBox(width: 3.w),
                                 Text(
-                                  S.current.add,
+                                  S.current.consume,
                                   style: TextStyle(
                                     color: AppColors.SECONDARY_COLOR,
                                     fontWeight: FontWeight.w600,
@@ -117,120 +174,65 @@ class _InventoryViewState extends State<InventoryView> with TickerProviderStateM
                     ),
                   ),
                 ),
-                SizedBox(height: 2.h),
-              ],
 
-              ///Consume
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 7.w),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    context.goNamed(Routes.consumeScreen);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.LIGHT_SECONDARY_COLOR,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 65.w,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.takeout_dining_outlined,
-                                color: AppColors.SECONDARY_COLOR,
-                                size: 6.w,
-                              ),
-                              SizedBox(width: 3.w),
-                              Text(
-                                S.current.consume,
-                                style: TextStyle(
-                                  color: AppColors.SECONDARY_COLOR,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18.sp,
-                                ),
-                              ),
-                            ],
-                          ),
+                ///Stock
+                if (getData(AppConstance.role) == AppConstance.admin) ...[
+                  SizedBox(height: 2.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 7.w),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        context.goNamed(Routes.stockScreen);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        Image.asset(
-                          AppAssets.frontIcon,
-                          width: 9.w,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.LIGHT_SECONDARY_COLOR,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              ///Stock
-              if (getData(AppConstance.role) == AppConstance.admin) ...[
-                SizedBox(height: 2.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 7.w),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      context.goNamed(Routes.stockScreen);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.LIGHT_SECONDARY_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 65.w,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.inventory_2_outlined,
-                                  color: AppColors.SECONDARY_COLOR,
-                                  size: 5.w,
-                                ),
-                                SizedBox(width: 3.w),
-                                Text(
-                                  S.current.stock,
-                                  style: TextStyle(
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 65.w,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.inventory_2_outlined,
                                     color: AppColors.SECONDARY_COLOR,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18.sp,
+                                    size: 5.w,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(width: 3.w),
+                                  Text(
+                                    S.current.stock,
+                                    style: TextStyle(
+                                      color: AppColors.SECONDARY_COLOR,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Image.asset(
-                            AppAssets.frontIcon,
-                            width: 9.w,
-                          ),
-                        ],
+                            Image.asset(
+                              AppAssets.frontIcon,
+                              width: 9.w,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

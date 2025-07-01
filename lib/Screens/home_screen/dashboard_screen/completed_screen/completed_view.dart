@@ -32,8 +32,9 @@ class _CompletedViewState extends State<CompletedView> {
       child: GestureDetector(
         onTap: () => Utils.unfocus(),
         child: Scaffold(
-          body: Padding(
-            padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
+          body: SafeArea(
+            child: Padding(
+            padding: EdgeInsets.only(bottom: 2.h),
             child: BlocBuilder<CompletedBloc, CompletedState>(
               builder: (context, state) {
                 final completedOrdersBloc = context.read<CompletedBloc>();
@@ -51,7 +52,7 @@ class _CompletedViewState extends State<CompletedView> {
                         titleIconSize: 7.5.w,
                       ),
                     ),
-                    SizedBox(height: 3.h),
+                    SizedBox(height: 2.h),
 
                     ///Search Orders
                     Padding(
@@ -1541,7 +1542,7 @@ class _CompletedViewState extends State<CompletedView> {
                 );
               },
             ),
-          ),
+          ),),
         ),
       ),
     );

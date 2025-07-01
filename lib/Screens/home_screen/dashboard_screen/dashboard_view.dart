@@ -47,7 +47,7 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 5.h),
+      padding: EdgeInsets.symmetric(horizontal: 7.w).copyWith(bottom: 5.h),
       child: Column(
         children: [
           ///Header

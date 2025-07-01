@@ -33,7 +33,7 @@ class _RecycleBinViewState extends State<RecycleBinView> {
           return Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w).copyWith(top: 5.h),
+                padding: EdgeInsets.symmetric(horizontal: 5.w).copyWith(bottom: 2.h),
                 child: CustomHeaderWidget(
                   title: S.current.recycleBin,
                   titleIcon: AppAssets.recycleBinIcon,
@@ -121,8 +121,8 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                   title: SizedBox(
                                     height: Device.screenType == ScreenType.tablet
                                         ? Device.aspectRatio < 0.5
-                                            ? 4.h
-                                            : 6.h
+                                              ? 4.h
+                                              : 6.h
                                         : null,
                                     child: Row(
                                       children: [
@@ -221,8 +221,8 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                       party.productData?[i].orderType == "Box"
                                                           ? FontAwesomeIcons.box
                                                           : party.productData?[i].orderType == "Sheet"
-                                                              ? FontAwesomeIcons.sheetPlastic
-                                                              : FontAwesomeIcons.toiletPaper,
+                                                          ? FontAwesomeIcons.sheetPlastic
+                                                          : FontAwesomeIcons.toiletPaper,
                                                       size: 5.w,
                                                       color: AppColors.DARK_RED_COLOR,
                                                     ),
@@ -247,8 +247,8 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                           title: SizedBox(
                                                             height: Device.screenType == ScreenType.tablet
                                                                 ? Device.aspectRatio > 0.5
-                                                                    ? 5.5.h
-                                                                    : 4.5.h
+                                                                      ? 5.5.h
+                                                                      : 4.5.h
                                                                 : null,
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -602,22 +602,23 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                                 width: 35.w,
                                                                                 child: Text.rich(
                                                                                   TextSpan(
-                                                                                      text: "${S.current.topPaper}: ",
-                                                                                      style: TextStyle(
-                                                                                        color: AppColors.BLACK_COLOR,
-                                                                                        fontWeight: FontWeight.w600,
-                                                                                        fontSize: 15.sp,
-                                                                                      ),
-                                                                                      children: [
-                                                                                        TextSpan(
-                                                                                          text: party.productData?[i].topPaper ?? "",
-                                                                                          style: TextStyle(
-                                                                                            color: AppColors.BLACK_COLOR,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            fontSize: 16.sp,
-                                                                                          ),
+                                                                                    text: "${S.current.topPaper}: ",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 15.sp,
+                                                                                    ),
+                                                                                    children: [
+                                                                                      TextSpan(
+                                                                                        text: party.productData?[i].topPaper ?? "",
+                                                                                        style: TextStyle(
+                                                                                          color: AppColors.BLACK_COLOR,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 16.sp,
                                                                                         ),
-                                                                                      ]),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                             ],
@@ -632,22 +633,23 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                               width: 35.w,
                                                                               child: Text.rich(
                                                                                 TextSpan(
-                                                                                    text: "${S.current.paper}: ",
-                                                                                    style: TextStyle(
-                                                                                      color: AppColors.BLACK_COLOR,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 15.sp,
-                                                                                    ),
-                                                                                    children: [
-                                                                                      TextSpan(
-                                                                                        text: party.productData?[i].paper ?? "",
-                                                                                        style: TextStyle(
-                                                                                          color: AppColors.BLACK_COLOR,
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 16.sp,
-                                                                                        ),
+                                                                                  text: "${S.current.paper}: ",
+                                                                                  style: TextStyle(
+                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 15.sp,
+                                                                                  ),
+                                                                                  children: [
+                                                                                    TextSpan(
+                                                                                      text: party.productData?[i].paper ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
                                                                                       ),
-                                                                                    ]),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                             SizedBox(width: 2.w),
@@ -655,22 +657,23 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                               width: 35.w,
                                                                               child: Text.rich(
                                                                                 TextSpan(
-                                                                                    text: "${S.current.flute}: ",
-                                                                                    style: TextStyle(
-                                                                                      color: AppColors.BLACK_COLOR,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 15.sp,
-                                                                                    ),
-                                                                                    children: [
-                                                                                      TextSpan(
-                                                                                        text: party.productData?[i].flute ?? "",
-                                                                                        style: TextStyle(
-                                                                                          color: AppColors.BLACK_COLOR,
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 16.sp,
-                                                                                        ),
+                                                                                  text: "${S.current.flute}: ",
+                                                                                  style: TextStyle(
+                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 15.sp,
+                                                                                  ),
+                                                                                  children: [
+                                                                                    TextSpan(
+                                                                                      text: party.productData?[i].flute ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
                                                                                       ),
-                                                                                    ]),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ],
@@ -867,7 +870,6 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                         ),
                                                                         SizedBox(height: 1.5.h),
                                                                       ]
-
                                                                       ///Sheet
                                                                       else if (party.productData?[i].orderType == "Sheet") ...[
                                                                         ///Order size [inch]
@@ -991,22 +993,23 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                                 width: 35.w,
                                                                                 child: Text.rich(
                                                                                   TextSpan(
-                                                                                      text: "${S.current.topPaper}: ",
-                                                                                      style: TextStyle(
-                                                                                        color: AppColors.BLACK_COLOR,
-                                                                                        fontWeight: FontWeight.w600,
-                                                                                        fontSize: 15.sp,
-                                                                                      ),
-                                                                                      children: [
-                                                                                        TextSpan(
-                                                                                          text: party.productData?[i].topPaper ?? "",
-                                                                                          style: TextStyle(
-                                                                                            color: AppColors.BLACK_COLOR,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            fontSize: 16.sp,
-                                                                                          ),
+                                                                                    text: "${S.current.topPaper}: ",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 15.sp,
+                                                                                    ),
+                                                                                    children: [
+                                                                                      TextSpan(
+                                                                                        text: party.productData?[i].topPaper ?? "",
+                                                                                        style: TextStyle(
+                                                                                          color: AppColors.BLACK_COLOR,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 16.sp,
                                                                                         ),
-                                                                                      ]),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                             ],
@@ -1021,22 +1024,23 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                               width: 35.w,
                                                                               child: Text.rich(
                                                                                 TextSpan(
-                                                                                    text: "${S.current.paper}: ",
-                                                                                    style: TextStyle(
-                                                                                      color: AppColors.BLACK_COLOR,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 15.sp,
-                                                                                    ),
-                                                                                    children: [
-                                                                                      TextSpan(
-                                                                                        text: party.productData?[i].paper ?? "",
-                                                                                        style: TextStyle(
-                                                                                          color: AppColors.BLACK_COLOR,
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 16.sp,
-                                                                                        ),
+                                                                                  text: "${S.current.paper}: ",
+                                                                                  style: TextStyle(
+                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 15.sp,
+                                                                                  ),
+                                                                                  children: [
+                                                                                    TextSpan(
+                                                                                      text: party.productData?[i].paper ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
                                                                                       ),
-                                                                                    ]),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                             SizedBox(width: 2.w),
@@ -1044,22 +1048,23 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                               width: 35.w,
                                                                               child: Text.rich(
                                                                                 TextSpan(
-                                                                                    text: "${S.current.flute}: ",
-                                                                                    style: TextStyle(
-                                                                                      color: AppColors.BLACK_COLOR,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 15.sp,
-                                                                                    ),
-                                                                                    children: [
-                                                                                      TextSpan(
-                                                                                        text: party.productData?[i].flute ?? "",
-                                                                                        style: TextStyle(
-                                                                                          color: AppColors.BLACK_COLOR,
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 16.sp,
-                                                                                        ),
+                                                                                  text: "${S.current.flute}: ",
+                                                                                  style: TextStyle(
+                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 15.sp,
+                                                                                  ),
+                                                                                  children: [
+                                                                                    TextSpan(
+                                                                                      text: party.productData?[i].flute ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
                                                                                       ),
-                                                                                    ]),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ],
@@ -1183,7 +1188,6 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                         ),
                                                                         SizedBox(height: 1.5.h),
                                                                       ]
-
                                                                       ///Roll
                                                                       else ...[
                                                                         ///Order size [inch]
@@ -1249,22 +1253,23 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                               width: 35.w,
                                                                               child: Text.rich(
                                                                                 TextSpan(
-                                                                                    text: "${S.current.paper}: ",
-                                                                                    style: TextStyle(
-                                                                                      color: AppColors.BLACK_COLOR,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 15.sp,
-                                                                                    ),
-                                                                                    children: [
-                                                                                      TextSpan(
-                                                                                        text: party.productData?[i].paper ?? "",
-                                                                                        style: TextStyle(
-                                                                                          color: AppColors.BLACK_COLOR,
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 16.sp,
-                                                                                        ),
+                                                                                  text: "${S.current.paper}: ",
+                                                                                  style: TextStyle(
+                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 15.sp,
+                                                                                  ),
+                                                                                  children: [
+                                                                                    TextSpan(
+                                                                                      text: party.productData?[i].paper ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
                                                                                       ),
-                                                                                    ]),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                             SizedBox(width: 2.w),
@@ -1272,22 +1277,23 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                                               width: 35.w,
                                                                               child: Text.rich(
                                                                                 TextSpan(
-                                                                                    text: "${S.current.flute}: ",
-                                                                                    style: TextStyle(
-                                                                                      color: AppColors.BLACK_COLOR,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 15.sp,
-                                                                                    ),
-                                                                                    children: [
-                                                                                      TextSpan(
-                                                                                        text: party.productData?[i].flute ?? "",
-                                                                                        style: TextStyle(
-                                                                                          color: AppColors.BLACK_COLOR,
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 16.sp,
-                                                                                        ),
+                                                                                  text: "${S.current.flute}: ",
+                                                                                  style: TextStyle(
+                                                                                    color: AppColors.BLACK_COLOR,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 15.sp,
+                                                                                  ),
+                                                                                  children: [
+                                                                                    TextSpan(
+                                                                                      text: party.productData?[i].flute ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
                                                                                       ),
-                                                                                    ]),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ],
@@ -1387,7 +1393,7 @@ class _RecycleBinViewState extends State<RecycleBinView> {
                                                           ],
                                                         ),
                                                         SizedBox(height: 1.h),
-                                                      ]
+                                                      ],
                                                     ],
                                                   ),
                                                 ),

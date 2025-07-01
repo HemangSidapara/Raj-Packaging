@@ -9,6 +9,9 @@ analyzer:
     - "**/generated/**"
     - "**/.dart_tool/**"
 
+formatter:
+  trailing_commas: preserve
+
 linter:
   rules:
     non_constant_identifier_names: false
