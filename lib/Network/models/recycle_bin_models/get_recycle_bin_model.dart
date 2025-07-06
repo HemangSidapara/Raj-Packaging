@@ -38,12 +38,11 @@ class GetRecycleBinModel {
     String? code,
     String? msg,
     List<Data>? data,
-  }) =>
-      GetRecycleBinModel(
-        code: code ?? _code,
-        msg: msg ?? _msg,
-        data: data ?? _data,
-      );
+  }) => GetRecycleBinModel(
+    code: code ?? _code,
+    msg: msg ?? _msg,
+    data: data ?? _data,
+  );
 
   String? get code => _code;
 
@@ -106,13 +105,12 @@ class Data {
     String? partyName,
     String? partyPhone,
     List<ProductData>? productData,
-  }) =>
-      Data(
-        partyId: partyId ?? _partyId,
-        partyName: partyName ?? _partyName,
-        partyPhone: partyPhone ?? _partyPhone,
-        productData: productData ?? _productData,
-      );
+  }) => Data(
+    partyId: partyId ?? _partyId,
+    partyName: partyName ?? _partyName,
+    partyPhone: partyPhone ?? _partyPhone,
+    productData: productData ?? _productData,
+  );
 
   String? get partyId => _partyId;
 
@@ -175,6 +173,7 @@ class ProductData {
     String? productionDeckle,
     String? joint,
     String? ups,
+    String? notes,
     List<OrderData>? orderData,
   }) {
     _productId = productId;
@@ -194,6 +193,7 @@ class ProductData {
     _productionDeckle = productionDeckle;
     _joint = joint;
     _ups = ups;
+    _notes = notes;
     _orderData = orderData;
   }
 
@@ -215,6 +215,7 @@ class ProductData {
     _productionDeckle = json['productionDeckle'];
     _joint = json['joint'];
     _ups = json['ups'];
+    _notes = json['notes'];
     if (json['orderData'] != null) {
       _orderData = [];
       json['orderData'].forEach((v) {
@@ -240,6 +241,7 @@ class ProductData {
   String? _productionDeckle;
   String? _joint;
   String? _ups;
+  String? _notes;
   List<OrderData>? _orderData;
 
   ProductData copyWith({
@@ -260,28 +262,29 @@ class ProductData {
     String? productionDeckle,
     String? joint,
     String? ups,
+    String? notes,
     List<OrderData>? orderData,
-  }) =>
-      ProductData(
-        productId: productId ?? _productId,
-        orderType: orderType ?? _orderType,
-        boxType: boxType ?? _boxType,
-        deckle: deckle ?? _deckle,
-        cutting: cutting ?? _cutting,
-        productName: productName ?? _productName,
-        ply: ply ?? _ply,
-        topPaper: topPaper ?? _topPaper,
-        paper: paper ?? _paper,
-        flute: flute ?? _flute,
-        l: l ?? _l,
-        b: b ?? _b,
-        h: h ?? _h,
-        productionCutting: productionCutting ?? _productionCutting,
-        productionDeckle: productionDeckle ?? _productionDeckle,
-        joint: joint ?? _joint,
-        ups: ups ?? _ups,
-        orderData: orderData ?? _orderData,
-      );
+  }) => ProductData(
+    productId: productId ?? _productId,
+    orderType: orderType ?? _orderType,
+    boxType: boxType ?? _boxType,
+    deckle: deckle ?? _deckle,
+    cutting: cutting ?? _cutting,
+    productName: productName ?? _productName,
+    ply: ply ?? _ply,
+    topPaper: topPaper ?? _topPaper,
+    paper: paper ?? _paper,
+    flute: flute ?? _flute,
+    l: l ?? _l,
+    b: b ?? _b,
+    h: h ?? _h,
+    productionCutting: productionCutting ?? _productionCutting,
+    productionDeckle: productionDeckle ?? _productionDeckle,
+    joint: joint ?? _joint,
+    ups: ups ?? _ups,
+    notes: notes ?? _notes,
+    orderData: orderData ?? _orderData,
+  );
 
   String? get productId => _productId;
 
@@ -317,6 +320,8 @@ class ProductData {
 
   String? get ups => _ups;
 
+  String? get notes => _notes;
+
   List<OrderData>? get orderData => _orderData;
 
   Map<String, dynamic> toJson() {
@@ -338,6 +343,7 @@ class ProductData {
     map['productionDeckle'] = _productionDeckle;
     map['joint'] = _joint;
     map['ups'] = _ups;
+    map['notes'] = _notes;
     if (_orderData != null) {
       map['orderData'] = _orderData?.map((v) => v.toJson()).toList();
     }
@@ -407,16 +413,15 @@ class OrderData {
     String? createdDate,
     String? createdTime,
     List<JobData>? jobData,
-  }) =>
-      OrderData(
-        orderId: orderId ?? _orderId,
-        orderQuantity: orderQuantity ?? _orderQuantity,
-        productionQuantity: productionQuantity ?? _productionQuantity,
-        status: status ?? _status,
-        createdDate: createdDate ?? _createdDate,
-        createdTime: createdTime ?? _createdTime,
-        jobData: jobData ?? _jobData,
-      );
+  }) => OrderData(
+    orderId: orderId ?? _orderId,
+    orderQuantity: orderQuantity ?? _orderQuantity,
+    productionQuantity: productionQuantity ?? _productionQuantity,
+    status: status ?? _status,
+    createdDate: createdDate ?? _createdDate,
+    createdTime: createdTime ?? _createdTime,
+    jobData: jobData ?? _jobData,
+  );
 
   String? get orderId => _orderId;
 
@@ -492,14 +497,13 @@ class JobData {
     String? status,
     String? createdDate,
     String? createdTime,
-  }) =>
-      JobData(
-        jobId: jobId ?? _jobId,
-        jobName: jobName ?? _jobName,
-        status: status ?? _status,
-        createdDate: createdDate ?? _createdDate,
-        createdTime: createdTime ?? _createdTime,
-      );
+  }) => JobData(
+    jobId: jobId ?? _jobId,
+    jobName: jobName ?? _jobName,
+    status: status ?? _status,
+    createdDate: createdDate ?? _createdDate,
+    createdTime: createdTime ?? _createdTime,
+  );
 
   String? get jobId => _jobId;
 

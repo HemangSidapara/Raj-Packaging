@@ -5,6 +5,7 @@ import 'dart:convert';
 /// Data : [{"partyId":"1","partyName":"delicate foods","partyPhone":"9638879056","productData":[{"productId":"1","orderType":"Box","boxType":"RSC","deckle":"24.00","cutting":"49.50","productName":"no 1 outer","ply":"5","topPaper":"180 gsm","paper":"100 gsm","flute":"100 gsm","l":"12","b":"12","h":"12","productionCutting":"49.5","productionDeckle":"48","joint":"","orderData":[{"orderId":"1","orderQuantity":"500","productionQuantity":"250","status":"Completed","createdDate":"2024-07-03","createdTime":"15:31:29","jobData":[{"jobId":"1","jobName":"Corrugation","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"2","jobName":"Paper Cutting","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"3","jobName":"Pesting","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"4","jobName":"Slitting - Scoring","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"}]}]}]},{"partyId":"3","partyName":"applied auto","partyPhone":"7908190007","productData":[{"productId":"6","orderType":"Roll","boxType":"","deckle":"12","cutting":"","productName":"8 roll","ply":"","topPaper":"","paper":"150 gsm","flute":"150 gsm","l":"","b":"","h":"","productionCutting":"","productionDeckle":"48","joint":"","orderData":[{"orderId":"6","orderQuantity":"40","productionQuantity":"10","status":"Completed","createdDate":"2024-07-03","createdTime":"15:38:50","jobData":[{"jobId":"5","jobName":"Corrugation","status":"Completed","createdDate":"2024-09-19","createdTime":"20:29:38"},{"jobId":"6","jobName":"Slitting - Scoring","status":"Completed","createdDate":"2024-09-19","createdTime":"20:29:38"}]}]}]},{"partyId":"2","partyName":"abc","partyPhone":"7990695771","productData":[{"productId":"11","orderType":"Roll","boxType":"","deckle":"5","cutting":"","productName":"roll","ply":"","topPaper":"","paper":"100 gsm","flute":"100 gsm","l":"","b":"","h":"","productionCutting":"","productionDeckle":"40","joint":"","orderData":[{"orderId":"18","orderQuantity":"40","productionQuantity":"5","status":"Completed","createdDate":"2024-09-15","createdTime":"19:44:17","jobData":[]}]},{"productId":"12","orderType":"Roll","boxType":"","deckle":"40","cutting":"","productName":"40 roll","ply":"","topPaper":"","paper":"100 gsm","flute":"100 gsm","l":"","b":"","h":"","productionCutting":"","productionDeckle":"40","joint":"","orderData":[{"orderId":"19","orderQuantity":"10","productionQuantity":"10","status":"Completed","createdDate":"2024-09-15","createdTime":"19:45:39","jobData":[]}]}]},{"partyId":"2","partyName":"abc","partyPhone":"7990695771","productData":[{"productId":"11","orderType":"Roll","boxType":"","deckle":"5","cutting":"","productName":"roll","ply":"","topPaper":"","paper":"100 gsm","flute":"100 gsm","l":"","b":"","h":"","productionCutting":"","productionDeckle":"40","joint":"","orderData":[{"orderId":"18","orderQuantity":"40","productionQuantity":"5","status":"Completed","createdDate":"2024-09-15","createdTime":"19:44:17","jobData":[]}]},{"productId":"12","orderType":"Roll","boxType":"","deckle":"40","cutting":"","productName":"40 roll","ply":"","topPaper":"","paper":"100 gsm","flute":"100 gsm","l":"","b":"","h":"","productionCutting":"","productionDeckle":"40","joint":"","orderData":[{"orderId":"19","orderQuantity":"10","productionQuantity":"10","status":"Completed","createdDate":"2024-09-15","createdTime":"19:45:39","jobData":[]}]}]},{"partyId":"5","partyName":"vrudhi","partyPhone":"7894561237","productData":[{"productId":"7","orderType":"Sheet","boxType":"","deckle":"42","cutting":"42","productName":"42x42","ply":"2","topPaper":"","paper":"100 gsm","flute":"100 gsm","l":"","b":"","h":"","productionCutting":"42","productionDeckle":"42","joint":"","orderData":[{"orderId":"20","orderQuantity":"5000","productionQuantity":"5000","status":"Completed","createdDate":"2024-09-15","createdTime":"19:53:03","jobData":[]}]}]}]
 
 GetCompletedOrdersModel getCompletedOrdersModelFromJson(String str) => GetCompletedOrdersModel.fromJson(json.decode(str));
+
 String getCompletedOrdersModelToJson(GetCompletedOrdersModel data) => json.encode(data.toJson());
 
 class GetCompletedOrdersModel {
@@ -28,9 +29,11 @@ class GetCompletedOrdersModel {
       });
     }
   }
+
   String? _code;
   String? _msg;
   List<Data>? _data;
+
   GetCompletedOrdersModel copyWith({
     String? code,
     String? msg,
@@ -41,8 +44,11 @@ class GetCompletedOrdersModel {
         msg: msg ?? _msg,
         data: data ?? _data,
       );
+
   String? get code => _code;
+
   String? get msg => _msg;
+
   List<Data>? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -62,6 +68,7 @@ class GetCompletedOrdersModel {
 /// productData : [{"productId":"1","orderType":"Box","boxType":"RSC","deckle":"24.00","cutting":"49.50","productName":"no 1 outer","ply":"5","topPaper":"180 gsm","paper":"100 gsm","flute":"100 gsm","l":"12","b":"12","h":"12","productionCutting":"49.5","productionDeckle":"48","joint":"","orderData":[{"orderId":"1","orderQuantity":"500","productionQuantity":"250","status":"Completed","createdDate":"2024-07-03","createdTime":"15:31:29","jobData":[{"jobId":"1","jobName":"Corrugation","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"2","jobName":"Paper Cutting","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"3","jobName":"Pesting","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"4","jobName":"Slitting - Scoring","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"}]}]}]
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
 
 class Data {
@@ -88,10 +95,12 @@ class Data {
       });
     }
   }
+
   String? _partyId;
   String? _partyName;
   String? _partyPhone;
   List<ProductData>? _productData;
+
   Data copyWith({
     String? partyId,
     String? partyName,
@@ -104,9 +113,13 @@ class Data {
         partyPhone: partyPhone ?? _partyPhone,
         productData: productData ?? _productData,
       );
+
   String? get partyId => _partyId;
+
   String? get partyName => _partyName;
+
   String? get partyPhone => _partyPhone;
+
   List<ProductData>? get productData => _productData;
 
   Map<String, dynamic> toJson() {
@@ -140,6 +153,7 @@ class Data {
 /// orderData : [{"orderId":"1","orderQuantity":"500","productionQuantity":"250","status":"Completed","createdDate":"2024-07-03","createdTime":"15:31:29","jobData":[{"jobId":"1","jobName":"Corrugation","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"2","jobName":"Paper Cutting","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"3","jobName":"Pesting","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"4","jobName":"Slitting - Scoring","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"}]}]
 
 ProductData productDataFromJson(String str) => ProductData.fromJson(json.decode(str));
+
 String productDataToJson(ProductData data) => json.encode(data.toJson());
 
 class ProductData {
@@ -161,6 +175,7 @@ class ProductData {
     String? productionDeckle,
     String? joint,
     String? ups,
+    String? notes,
     List<OrderData>? orderData,
   }) {
     _productId = productId;
@@ -180,6 +195,7 @@ class ProductData {
     _productionDeckle = productionDeckle;
     _joint = joint;
     _ups = ups;
+    _notes = notes;
     _orderData = orderData;
   }
 
@@ -201,6 +217,7 @@ class ProductData {
     _productionDeckle = json['productionDeckle'];
     _joint = json['joint'];
     _ups = json['ups'];
+    _notes = json['notes'];
     if (json['orderData'] != null) {
       _orderData = [];
       json['orderData'].forEach((v) {
@@ -208,6 +225,7 @@ class ProductData {
       });
     }
   }
+
   String? _productId;
   String? _orderType;
   String? _boxType;
@@ -225,7 +243,9 @@ class ProductData {
   String? _productionDeckle;
   String? _joint;
   String? _ups;
+  String? _notes;
   List<OrderData>? _orderData;
+
   ProductData copyWith({
     String? productId,
     String? orderType,
@@ -244,6 +264,7 @@ class ProductData {
     String? productionDeckle,
     String? joint,
     String? ups,
+    String? notes,
     List<OrderData>? orderData,
   }) =>
       ProductData(
@@ -264,25 +285,46 @@ class ProductData {
         productionDeckle: productionDeckle ?? _productionDeckle,
         joint: joint ?? _joint,
         ups: ups ?? _ups,
+        notes: notes ?? _notes,
         orderData: orderData ?? _orderData,
       );
+
   String? get productId => _productId;
+
   String? get orderType => _orderType;
+
   String? get boxType => _boxType;
+
   String? get deckle => _deckle;
+
   String? get cutting => _cutting;
+
   String? get productName => _productName;
+
   String? get ply => _ply;
+
   String? get topPaper => _topPaper;
+
   String? get paper => _paper;
+
   String? get flute => _flute;
+
   String? get l => _l;
+
   String? get b => _b;
+
   String? get h => _h;
+
   String? get productionCutting => _productionCutting;
+
   String? get productionDeckle => _productionDeckle;
+
   String? get joint => _joint;
+
   String? get ups => _ups;
+
+  String? get notes => _notes;
+
   List<OrderData>? get orderData => _orderData;
 
   Map<String, dynamic> toJson() {
@@ -304,6 +346,7 @@ class ProductData {
     map['productionDeckle'] = _productionDeckle;
     map['joint'] = _joint;
     map['ups'] = _ups;
+    map['notes'] = _notes;
     if (_orderData != null) {
       map['orderData'] = _orderData?.map((v) => v.toJson()).toList();
     }
@@ -320,6 +363,7 @@ class ProductData {
 /// jobData : [{"jobId":"1","jobName":"Corrugation","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"2","jobName":"Paper Cutting","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"3","jobName":"Pesting","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"},{"jobId":"4","jobName":"Slitting - Scoring","status":"Completed","createdDate":"2024-09-17","createdTime":"19:23:58"}]
 
 OrderData orderDataFromJson(String str) => OrderData.fromJson(json.decode(str));
+
 String orderDataToJson(OrderData data) => json.encode(data.toJson());
 
 class OrderData {
@@ -355,6 +399,7 @@ class OrderData {
       });
     }
   }
+
   String? _orderId;
   String? _orderQuantity;
   String? _productionQuantity;
@@ -362,6 +407,7 @@ class OrderData {
   String? _createdDate;
   String? _createdTime;
   List<JobData>? _jobData;
+
   OrderData copyWith({
     String? orderId,
     String? orderQuantity,
@@ -380,12 +426,19 @@ class OrderData {
         createdTime: createdTime ?? _createdTime,
         jobData: jobData ?? _jobData,
       );
+
   String? get orderId => _orderId;
+
   String? get orderQuantity => _orderQuantity;
+
   String? get productionQuantity => _productionQuantity;
+
   String? get status => _status;
+
   String? get createdDate => _createdDate;
+
   String? get createdTime => _createdTime;
+
   List<JobData>? get jobData => _jobData;
 
   Map<String, dynamic> toJson() {
@@ -410,6 +463,7 @@ class OrderData {
 /// createdTime : "19:23:58"
 
 JobData jobDataFromJson(String str) => JobData.fromJson(json.decode(str));
+
 String jobDataToJson(JobData data) => json.encode(data.toJson());
 
 class JobData {
@@ -434,11 +488,13 @@ class JobData {
     _createdDate = json['createdDate'];
     _createdTime = json['createdTime'];
   }
+
   String? _jobId;
   String? _jobName;
   String? _status;
   String? _createdDate;
   String? _createdTime;
+
   JobData copyWith({
     String? jobId,
     String? jobName,
@@ -453,10 +509,15 @@ class JobData {
         createdDate: createdDate ?? _createdDate,
         createdTime: createdTime ?? _createdTime,
       );
+
   String? get jobId => _jobId;
+
   String? get jobName => _jobName;
+
   String? get status => _status;
+
   String? get createdDate => _createdDate;
+
   String? get createdTime => _createdTime;
 
   Map<String, dynamic> toJson() {

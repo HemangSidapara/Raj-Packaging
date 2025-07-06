@@ -1121,7 +1121,6 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                     ),
                                                                                   ],
                                                                                 ),
-                                                                                SizedBox(height: 1.5.h),
                                                                               ]
                                                                               ///Sheet
                                                                               else if (party.productData?[i].orderType == "Sheet") ...[
@@ -1439,7 +1438,6 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                     ),
                                                                                   ],
                                                                                 ),
-                                                                                SizedBox(height: 1.5.h),
                                                                               ]
                                                                               ///Roll
                                                                               else ...[
@@ -1636,8 +1634,31 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                                     ),
                                                                                   ],
                                                                                 ),
-                                                                                SizedBox(height: 1.5.h),
                                                                               ],
+                                                                              SizedBox(height: 0.8.h),
+
+                                                                              ///Notes
+                                                                              Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                    "${S.current.notes}: ",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 15.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    party.productData?[i].notes ?? "",
+                                                                                    style: TextStyle(
+                                                                                      color: AppColors.BLACK_COLOR,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 16.sp,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              SizedBox(height: 1.5.h),
                                                                             ],
                                                                           ),
                                                                         ),
