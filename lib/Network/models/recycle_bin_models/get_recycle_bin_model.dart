@@ -173,7 +173,6 @@ class ProductData {
     String? productionDeckle,
     String? joint,
     String? ups,
-    String? notes,
     List<OrderData>? orderData,
   }) {
     _productId = productId;
@@ -193,7 +192,6 @@ class ProductData {
     _productionDeckle = productionDeckle;
     _joint = joint;
     _ups = ups;
-    _notes = notes;
     _orderData = orderData;
   }
 
@@ -215,7 +213,6 @@ class ProductData {
     _productionDeckle = json['productionDeckle'];
     _joint = json['joint'];
     _ups = json['ups'];
-    _notes = json['notes'];
     if (json['orderData'] != null) {
       _orderData = [];
       json['orderData'].forEach((v) {
@@ -241,7 +238,6 @@ class ProductData {
   String? _productionDeckle;
   String? _joint;
   String? _ups;
-  String? _notes;
   List<OrderData>? _orderData;
 
   ProductData copyWith({
@@ -282,7 +278,6 @@ class ProductData {
     productionDeckle: productionDeckle ?? _productionDeckle,
     joint: joint ?? _joint,
     ups: ups ?? _ups,
-    notes: notes ?? _notes,
     orderData: orderData ?? _orderData,
   );
 
@@ -320,8 +315,6 @@ class ProductData {
 
   String? get ups => _ups;
 
-  String? get notes => _notes;
-
   List<OrderData>? get orderData => _orderData;
 
   Map<String, dynamic> toJson() {
@@ -343,7 +336,6 @@ class ProductData {
     map['productionDeckle'] = _productionDeckle;
     map['joint'] = _joint;
     map['ups'] = _ups;
-    map['notes'] = _notes;
     if (_orderData != null) {
       map['orderData'] = _orderData?.map((v) => v.toJson()).toList();
     }
@@ -371,6 +363,7 @@ class OrderData {
     String? status,
     String? createdDate,
     String? createdTime,
+    String? notes,
     List<JobData>? jobData,
   }) {
     _orderId = orderId;
@@ -379,6 +372,7 @@ class OrderData {
     _status = status;
     _createdDate = createdDate;
     _createdTime = createdTime;
+    _notes = notes;
     _jobData = jobData;
   }
 
@@ -389,6 +383,7 @@ class OrderData {
     _status = json['status'];
     _createdDate = json['createdDate'];
     _createdTime = json['createdTime'];
+    _notes = json['notes'];
     if (json['jobData'] != null) {
       _jobData = [];
       json['jobData'].forEach((v) {
@@ -403,6 +398,7 @@ class OrderData {
   String? _status;
   String? _createdDate;
   String? _createdTime;
+  String? _notes;
   List<JobData>? _jobData;
 
   OrderData copyWith({
@@ -412,6 +408,7 @@ class OrderData {
     String? status,
     String? createdDate,
     String? createdTime,
+    String? notes,
     List<JobData>? jobData,
   }) => OrderData(
     orderId: orderId ?? _orderId,
@@ -420,6 +417,7 @@ class OrderData {
     status: status ?? _status,
     createdDate: createdDate ?? _createdDate,
     createdTime: createdTime ?? _createdTime,
+    notes: notes ?? _notes,
     jobData: jobData ?? _jobData,
   );
 
@@ -435,6 +433,8 @@ class OrderData {
 
   String? get createdTime => _createdTime;
 
+  String? get notes => _notes;
+
   List<JobData>? get jobData => _jobData;
 
   Map<String, dynamic> toJson() {
@@ -445,6 +445,7 @@ class OrderData {
     map['status'] = _status;
     map['createdDate'] = _createdDate;
     map['createdTime'] = _createdTime;
+    map['notes'] = _notes;
     if (_jobData != null) {
       map['jobData'] = _jobData?.map((v) => v.toJson()).toList();
     }

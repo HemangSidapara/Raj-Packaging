@@ -38,12 +38,11 @@ class GetCompletedOrdersModel {
     String? code,
     String? msg,
     List<Data>? data,
-  }) =>
-      GetCompletedOrdersModel(
-        code: code ?? _code,
-        msg: msg ?? _msg,
-        data: data ?? _data,
-      );
+  }) => GetCompletedOrdersModel(
+    code: code ?? _code,
+    msg: msg ?? _msg,
+    data: data ?? _data,
+  );
 
   String? get code => _code;
 
@@ -106,13 +105,12 @@ class Data {
     String? partyName,
     String? partyPhone,
     List<ProductData>? productData,
-  }) =>
-      Data(
-        partyId: partyId ?? _partyId,
-        partyName: partyName ?? _partyName,
-        partyPhone: partyPhone ?? _partyPhone,
-        productData: productData ?? _productData,
-      );
+  }) => Data(
+    partyId: partyId ?? _partyId,
+    partyName: partyName ?? _partyName,
+    partyPhone: partyPhone ?? _partyPhone,
+    productData: productData ?? _productData,
+  );
 
   String? get partyId => _partyId;
 
@@ -175,7 +173,6 @@ class ProductData {
     String? productionDeckle,
     String? joint,
     String? ups,
-    String? notes,
     List<OrderData>? orderData,
   }) {
     _productId = productId;
@@ -195,7 +192,6 @@ class ProductData {
     _productionDeckle = productionDeckle;
     _joint = joint;
     _ups = ups;
-    _notes = notes;
     _orderData = orderData;
   }
 
@@ -217,7 +213,6 @@ class ProductData {
     _productionDeckle = json['productionDeckle'];
     _joint = json['joint'];
     _ups = json['ups'];
-    _notes = json['notes'];
     if (json['orderData'] != null) {
       _orderData = [];
       json['orderData'].forEach((v) {
@@ -243,7 +238,6 @@ class ProductData {
   String? _productionDeckle;
   String? _joint;
   String? _ups;
-  String? _notes;
   List<OrderData>? _orderData;
 
   ProductData copyWith({
@@ -264,30 +258,27 @@ class ProductData {
     String? productionDeckle,
     String? joint,
     String? ups,
-    String? notes,
     List<OrderData>? orderData,
-  }) =>
-      ProductData(
-        productId: productId ?? _productId,
-        orderType: orderType ?? _orderType,
-        boxType: boxType ?? _boxType,
-        deckle: deckle ?? _deckle,
-        cutting: cutting ?? _cutting,
-        productName: productName ?? _productName,
-        ply: ply ?? _ply,
-        topPaper: topPaper ?? _topPaper,
-        paper: paper ?? _paper,
-        flute: flute ?? _flute,
-        l: l ?? _l,
-        b: b ?? _b,
-        h: h ?? _h,
-        productionCutting: productionCutting ?? _productionCutting,
-        productionDeckle: productionDeckle ?? _productionDeckle,
-        joint: joint ?? _joint,
-        ups: ups ?? _ups,
-        notes: notes ?? _notes,
-        orderData: orderData ?? _orderData,
-      );
+  }) => ProductData(
+    productId: productId ?? _productId,
+    orderType: orderType ?? _orderType,
+    boxType: boxType ?? _boxType,
+    deckle: deckle ?? _deckle,
+    cutting: cutting ?? _cutting,
+    productName: productName ?? _productName,
+    ply: ply ?? _ply,
+    topPaper: topPaper ?? _topPaper,
+    paper: paper ?? _paper,
+    flute: flute ?? _flute,
+    l: l ?? _l,
+    b: b ?? _b,
+    h: h ?? _h,
+    productionCutting: productionCutting ?? _productionCutting,
+    productionDeckle: productionDeckle ?? _productionDeckle,
+    joint: joint ?? _joint,
+    ups: ups ?? _ups,
+    orderData: orderData ?? _orderData,
+  );
 
   String? get productId => _productId;
 
@@ -323,8 +314,6 @@ class ProductData {
 
   String? get ups => _ups;
 
-  String? get notes => _notes;
-
   List<OrderData>? get orderData => _orderData;
 
   Map<String, dynamic> toJson() {
@@ -346,7 +335,6 @@ class ProductData {
     map['productionDeckle'] = _productionDeckle;
     map['joint'] = _joint;
     map['ups'] = _ups;
-    map['notes'] = _notes;
     if (_orderData != null) {
       map['orderData'] = _orderData?.map((v) => v.toJson()).toList();
     }
@@ -374,6 +362,7 @@ class OrderData {
     String? status,
     String? createdDate,
     String? createdTime,
+    String? notes,
     List<JobData>? jobData,
   }) {
     _orderId = orderId;
@@ -383,6 +372,7 @@ class OrderData {
     _createdDate = createdDate;
     _createdTime = createdTime;
     _jobData = jobData;
+    _notes = notes;
   }
 
   OrderData.fromJson(dynamic json) {
@@ -392,6 +382,7 @@ class OrderData {
     _status = json['status'];
     _createdDate = json['createdDate'];
     _createdTime = json['createdTime'];
+    _notes = json['notes'];
     if (json['jobData'] != null) {
       _jobData = [];
       json['jobData'].forEach((v) {
@@ -406,6 +397,7 @@ class OrderData {
   String? _status;
   String? _createdDate;
   String? _createdTime;
+  String? _notes;
   List<JobData>? _jobData;
 
   OrderData copyWith({
@@ -415,17 +407,18 @@ class OrderData {
     String? status,
     String? createdDate,
     String? createdTime,
+    String? notes,
     List<JobData>? jobData,
-  }) =>
-      OrderData(
-        orderId: orderId ?? _orderId,
-        orderQuantity: orderQuantity ?? _orderQuantity,
-        productionQuantity: productionQuantity ?? _productionQuantity,
-        status: status ?? _status,
-        createdDate: createdDate ?? _createdDate,
-        createdTime: createdTime ?? _createdTime,
-        jobData: jobData ?? _jobData,
-      );
+  }) => OrderData(
+    orderId: orderId ?? _orderId,
+    orderQuantity: orderQuantity ?? _orderQuantity,
+    productionQuantity: productionQuantity ?? _productionQuantity,
+    status: status ?? _status,
+    createdDate: createdDate ?? _createdDate,
+    createdTime: createdTime ?? _createdTime,
+    notes: notes ?? _notes,
+    jobData: jobData ?? _jobData,
+  );
 
   String? get orderId => _orderId;
 
@@ -439,6 +432,8 @@ class OrderData {
 
   String? get createdTime => _createdTime;
 
+  String? get notes => _notes;
+
   List<JobData>? get jobData => _jobData;
 
   Map<String, dynamic> toJson() {
@@ -449,6 +444,7 @@ class OrderData {
     map['status'] = _status;
     map['createdDate'] = _createdDate;
     map['createdTime'] = _createdTime;
+    map['notes'] = _notes;
     if (_jobData != null) {
       map['jobData'] = _jobData?.map((v) => v.toJson()).toList();
     }
@@ -501,14 +497,13 @@ class JobData {
     String? status,
     String? createdDate,
     String? createdTime,
-  }) =>
-      JobData(
-        jobId: jobId ?? _jobId,
-        jobName: jobName ?? _jobName,
-        status: status ?? _status,
-        createdDate: createdDate ?? _createdDate,
-        createdTime: createdTime ?? _createdTime,
-      );
+  }) => JobData(
+    jobId: jobId ?? _jobId,
+    jobName: jobName ?? _jobName,
+    status: status ?? _status,
+    createdDate: createdDate ?? _createdDate,
+    createdTime: createdTime ?? _createdTime,
+  );
 
   String? get jobId => _jobId;
 

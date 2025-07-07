@@ -2,7 +2,7 @@ name: raj_packaging
 description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
-version: 1.1.15+27
+version: 1.1.16+28
 
 environment:
   sdk: '>=3.8.0 <4.0.0'

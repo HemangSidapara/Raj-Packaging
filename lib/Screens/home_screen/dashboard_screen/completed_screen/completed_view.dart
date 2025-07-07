@@ -1511,6 +1511,7 @@ class _CompletedViewState extends State<CompletedView> {
 
                                                                               ///Notes
                                                                               Row(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   Text(
                                                                                     "${S.current.notes}: ",
@@ -1520,12 +1521,14 @@ class _CompletedViewState extends State<CompletedView> {
                                                                                       fontSize: 15.sp,
                                                                                     ),
                                                                                   ),
-                                                                                  Text(
-                                                                                    party.productData?[i].notes ?? "",
-                                                                                    style: TextStyle(
-                                                                                      color: AppColors.BLACK_COLOR,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 16.sp,
+                                                                                  Flexible(
+                                                                                    child: Text(
+                                                                                      party.productData?[i].orderData?[j].notes ?? "",
+                                                                                      style: TextStyle(
+                                                                                        color: AppColors.BLACK_COLOR,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 16.sp,
+                                                                                      ),
                                                                                     ),
                                                                                   ),
                                                                                 ],

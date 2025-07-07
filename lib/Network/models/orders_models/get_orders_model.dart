@@ -172,7 +172,6 @@ class ProductData {
     String? joint,
     String? productionCutting,
     String? productionDeckle,
-    String? notes,
     String? flapType,
     String? sheetBoxType,
     List<OrderData>? orderData,
@@ -196,7 +195,6 @@ class ProductData {
     _orderData = orderData;
     _joint = joint;
     _flapType = flapType;
-    _notes = notes;
     _sheetBoxType = sheetBoxType;
   }
 
@@ -220,7 +218,6 @@ class ProductData {
     _productionDeckle = json['productionDeckle'];
     _flapType = json['flapType'];
     _sheetBoxType = json['sheetBoxType'];
-    _notes = json['notes'];
     if (json['orderData'] != null) {
       _orderData = [];
       json['orderData'].forEach((v) {
@@ -248,7 +245,6 @@ class ProductData {
   String? _productionDeckle;
   String? _flapType;
   String? _sheetBoxType;
-  String? _notes;
   List<OrderData>? _orderData;
 
   ProductData copyWith({
@@ -271,7 +267,6 @@ class ProductData {
     String? productionDeckle,
     String? flapType,
     String? sheetBoxType,
-    String? notes,
     List<OrderData>? orderData,
   }) => ProductData(
     productId: productId ?? _productId,
@@ -293,7 +288,6 @@ class ProductData {
     productionDeckle: productionDeckle ?? _productionDeckle,
     orderData: orderData ?? _orderData,
     flapType: flapType ?? _flapType,
-    notes: notes ?? _notes,
     sheetBoxType: sheetBoxType ?? _sheetBoxType,
   );
 
@@ -335,8 +329,6 @@ class ProductData {
 
   String? get sheetBoxType => _sheetBoxType;
 
-  String? get notes => _notes;
-
   List<OrderData>? get orderData => _orderData;
 
   Map<String, dynamic> toJson() {
@@ -360,7 +352,6 @@ class ProductData {
     map['productionDeckle'] = _productionDeckle;
     map['flapType'] = _flapType;
     map['sheetBoxType'] = _sheetBoxType;
-    map['notes'] = _notes;
     if (_orderData != null) {
       map['orderData'] = _orderData?.map((v) => v.toJson()).toList();
     }
@@ -385,12 +376,14 @@ class OrderData {
     String? productionQuantity,
     String? createdDate,
     String? createdTime,
+    String? notes,
   }) {
     _orderId = orderId;
     _orderQuantity = orderQuantity;
     _productionQuantity = productionQuantity;
     _createdDate = createdDate;
     _createdTime = createdTime;
+    _notes = notes;
   }
 
   OrderData.fromJson(dynamic json) {
@@ -399,6 +392,7 @@ class OrderData {
     _productionQuantity = json['productionQuantity'];
     _createdDate = json['createdDate'];
     _createdTime = json['createdTime'];
+    _notes = json['notes'];
   }
 
   String? _orderId;
@@ -406,6 +400,7 @@ class OrderData {
   String? _productionQuantity;
   String? _createdDate;
   String? _createdTime;
+  String? _notes;
 
   OrderData copyWith({
     String? orderId,
@@ -413,12 +408,14 @@ class OrderData {
     String? productionQuantity,
     String? createdDate,
     String? createdTime,
+    String? notes,
   }) => OrderData(
     orderId: orderId ?? _orderId,
     orderQuantity: orderQuantity ?? _orderQuantity,
     productionQuantity: productionQuantity ?? _productionQuantity,
     createdDate: createdDate ?? _createdDate,
     createdTime: createdTime ?? _createdTime,
+    notes: notes ?? _notes,
   );
 
   String? get orderId => _orderId;
@@ -431,6 +428,8 @@ class OrderData {
 
   String? get createdTime => _createdTime;
 
+  String? get notes => _notes;
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['orderId'] = _orderId;
@@ -438,6 +437,7 @@ class OrderData {
     map['productionQuantity'] = _productionQuantity;
     map['createdDate'] = _createdDate;
     map['createdTime'] = _createdTime;
+    map['notes'] = _notes;
     return map;
   }
 }
