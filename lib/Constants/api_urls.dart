@@ -10,7 +10,7 @@ class ApiUrls {
   static const String editPartyApi = '${_apiPath}editParty.php';
   static const String deleteOrderApi = '${_apiPath}deleteOrder.php?orderId=';
   static const String createJobApi = '${_apiPath}createJob.php';
-  static const String getJobApi = '${_apiPath}getJobs.php';
+  static const String getJobApi = '${_apiPath}getJobs.php?branch=';
   static const String completeJobApi = '${_apiPath}completeJob.php?jobId=';
   static const String getJobDataApi = '${_apiPath}getJobData.php';
   static const String getPartiesApi = '${_apiPath}getParties.php';

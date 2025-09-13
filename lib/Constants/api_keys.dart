@@ -37,4 +37,5 @@ class ApiKeys {
   static const shade = "shade";
   static const weight = "weight";
   static const quantity = "quantity";
+  static const branch = "branch";
 }

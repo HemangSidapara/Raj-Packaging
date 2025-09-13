@@ -61,15 +61,18 @@ class PendingOrdersService {
     required String partyId,
     required String productId,
     required String orderId,
+    required int branch,
   }) async {
+    final params = {
+      ApiKeys.partyId: partyId,
+      ApiKeys.productId: productId,
+      ApiKeys.orderId: orderId,
+      ApiKeys.branch: branch,
+    };
     final response = await ApiBaseHelper.postHTTP(
       ApiUrls.createJobApi,
       showProgress: false,
-      params: {
-        ApiKeys.partyId: partyId,
-        ApiKeys.productId: productId,
-        ApiKeys.orderId: orderId,
-      },
+      params: params,
       onError: (dioExceptions) {
         Utils.handleMessage(message: dioExceptions.message, isError: true);
       },

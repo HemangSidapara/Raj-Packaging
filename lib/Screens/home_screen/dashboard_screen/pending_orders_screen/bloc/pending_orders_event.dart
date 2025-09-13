@@ -62,11 +62,11 @@ class PendingOrdersEditPartyClickEvent extends PendingOrdersEvent {
 
   @override
   List<Object?> get props => [
-        isValidate,
-        partyId,
-        partyName,
-        partyPhone,
-      ];
+    isValidate,
+    partyId,
+    partyName,
+    partyPhone,
+  ];
 }
 
 class PendingOrdersEditPartyLoadingEvent extends PendingOrdersEvent {
@@ -100,8 +100,14 @@ class PendingOrdersCreateJobClickEvent extends PendingOrdersEvent {
   final String partyId;
   final String productId;
   final String orderId;
+  final int branch;
 
-  const PendingOrdersCreateJobClickEvent({required this.partyId, required this.orderId, required this.productId});
+  const PendingOrdersCreateJobClickEvent({
+    required this.branch,
+    required this.partyId,
+    required this.orderId,
+    required this.productId,
+  });
 
   @override
   List<Object?> get props => [partyId, productId, orderId];

@@ -1,13 +1,23 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  language:
+    strict-casts: false
+    strict-inference: false
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "**/*.gr.dart"
+    - "**/*.gen.dart"
+    - "**/*.config.dart"
+    - "**/*.mocks.dart"
     - "**/build/**"
     - "**/generated/**"
     - "**/.dart_tool/**"
+  errors:
+    # Downgrade some lints to info/warning to reduce noise & analysis load
+    invalid_annotation_target: ignore
+    todo: info
 
 formatter:
   trailing_commas: preserve
@@ -17,7 +27,6 @@ linter:
     non_constant_identifier_names: false
     library_private_types_in_public_api: false
     prefer_const_constructors: false
-    avoid_unnecessary_containers: false
     prefer_expression_function_bodies: false
     unnecessary_this: false
     annotate_overrides: false

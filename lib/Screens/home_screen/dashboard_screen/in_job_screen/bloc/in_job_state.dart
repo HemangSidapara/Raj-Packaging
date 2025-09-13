@@ -11,8 +11,12 @@ final class InJobInitial extends InJobState {
 
 class InJobGetJobsLoadingState extends InJobState {
   final bool isLoading;
+  final int branch;
 
-  const InJobGetJobsLoadingState({required this.isLoading});
+  const InJobGetJobsLoadingState({
+    required this.isLoading,
+    required this.branch,
+  });
 
   @override
   List<Object?> get props => [isLoading];

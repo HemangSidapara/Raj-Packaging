@@ -11,8 +11,9 @@ class InJobStartedEvent extends InJobEvent {
 
 class InJobGetJobsEvent extends InJobEvent {
   final bool isLoading;
+  final int branch;
 
-  const InJobGetJobsEvent({this.isLoading = true});
+  const InJobGetJobsEvent({this.branch = 0, this.isLoading = true,});
 
   @override
   List<Object?> get props => [];
@@ -20,8 +21,9 @@ class InJobGetJobsEvent extends InJobEvent {
 
 class InJobGetJobsLoadingEvent extends InJobEvent {
   final bool isLoading;
+  final int branch;
 
-  const InJobGetJobsLoadingEvent({required this.isLoading});
+  const InJobGetJobsLoadingEvent({required this.isLoading, required this.branch,});
 
   @override
   List<Object?> get props => [isLoading];

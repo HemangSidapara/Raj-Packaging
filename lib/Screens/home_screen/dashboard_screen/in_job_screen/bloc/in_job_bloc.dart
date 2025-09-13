@@ -6,7 +6,6 @@ import 'package:raj_packaging/Network/models/jobs_models/get_job_model.dart' as 
 import 'package:raj_packaging/Network/services/in_job_services/in_job_service.dart';
 
 part 'in_job_event.dart';
-
 part 'in_job_state.dart';
 
 class InJobBloc extends Bloc<InJobEvent, InJobState> {
@@ -25,7 +24,7 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
     });
 
     on<InJobGetJobsLoadingEvent>((event, emit) async {
-      emit(InJobGetJobsLoadingState(isLoading: event.isLoading));
+      emit(InJobGetJobsLoadingState(isLoading: event.isLoading, branch: event.branch));
     });
 
     on<InJobGetJobsSuccessEvent>((event, emit) async {
@@ -59,8 +58,8 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
 
   Future<void> getJobsApiCall(InJobGetJobsEvent event, Emitter<InJobState> emit) async {
     try {
-      add(InJobGetJobsLoadingEvent(isLoading: event.isLoading));
-      final response = await InJobService.getJobsService();
+      add(InJobGetJobsLoadingEvent(isLoading: event.isLoading, branch: event.branch));
+      final response = await InJobService.getJobsService(branch: event.branch);
 
       if (response.isSuccess) {
         get_jobs.GetJobModel getJobModel = get_jobs.GetJobModel.fromJson(response.response?.data);
@@ -73,7 +72,7 @@ class InJobBloc extends Bloc<InJobEvent, InJobState> {
         add(InJobGetJobsFailedEvent());
       }
     } finally {
-      add(const InJobGetJobsLoadingEvent(isLoading: false));
+      add(InJobGetJobsLoadingEvent(isLoading: false, branch: event.branch));
     }
   }
 

@@ -6,9 +6,9 @@ import 'package:raj_packaging/Network/response_model.dart';
 
 class InJobService {
   ///Get Jobs
-  static Future<ResponseModel> getJobsService() async {
+  static Future<ResponseModel> getJobsService({required int branch,}) async {
     final response = await ApiBaseHelper.getHTTP(
-      ApiUrls.getJobApi,
+      "${ApiUrls.getJobApi}$branch",
       showProgress: false,
       onError: (dioExceptions) {
         Utils.handleMessage(message: dioExceptions.message, isError: true);

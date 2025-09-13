@@ -358,20 +358,11 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                           SizedBox(width: 2.w),
                                                                           IconButton(
                                                                             onPressed: () async {
-                                                                              await showConfirmDialog(
-                                                                                context: context,
-                                                                                title: S.current.confirmItemText,
-                                                                                onPressed: () async {
-                                                                                  if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
-                                                                                    pendingOrdersBloc.add(
-                                                                                      PendingOrdersCreateJobClickEvent(
-                                                                                        partyId: party.partyId ?? "",
-                                                                                        productId: party.productData?[i].productId ?? "",
-                                                                                        orderId: party.productData?[i].orderData?[j].orderId ?? "",
-                                                                                      ),
-                                                                                    );
-                                                                                  }
-                                                                                },
+                                                                              await showBottomSheetBranch(
+                                                                                ctx: context,
+                                                                                partyId: party.partyId ?? "",
+                                                                                productId: party.productData?[i].productId ?? "",
+                                                                                orderId: party.productData?[i].orderData?[j].orderId ?? "",
                                                                               );
                                                                             },
                                                                             style: IconButton.styleFrom(
@@ -427,20 +418,11 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                                             ///Create Job
                                                                             IconButton(
                                                                               onPressed: () async {
-                                                                                await showConfirmDialog(
-                                                                                  context: context,
-                                                                                  title: S.current.confirmItemText,
-                                                                                  onPressed: () async {
-                                                                                    if (party.productData?[i].orderData?[j].orderId?.isNotEmpty == true) {
-                                                                                      pendingOrdersBloc.add(
-                                                                                        PendingOrdersCreateJobClickEvent(
-                                                                                          partyId: party.partyId ?? "",
-                                                                                          productId: party.productData?[i].productId ?? "",
-                                                                                          orderId: party.productData?[i].orderData?[j].orderId ?? "",
-                                                                                        ),
-                                                                                      );
-                                                                                    }
-                                                                                  },
+                                                                                await showBottomSheetBranch(
+                                                                                  ctx: context,
+                                                                                  partyId: party.partyId ?? "",
+                                                                                  productId: party.productData?[i].productId ?? "",
+                                                                                  orderId: party.productData?[i].orderData?[j].orderId ?? "",
                                                                                 );
                                                                               },
                                                                               style: IconButton.styleFrom(
@@ -1867,6 +1849,209 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                   ),
                   SizedBox(height: 2.h),
                 ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showBottomSheetBranch({
+    required BuildContext ctx,
+    required String partyId,
+    required String productId,
+    required String orderId,
+  }) async {
+    final pendingOrdersBloc = ctx.read<PendingOrdersBloc>();
+    int selectedBranchIndex = -1;
+    await showModalBottomSheet(
+      context: ctx,
+      constraints: BoxConstraints(maxWidth: 100.w, minWidth: 100.w, maxHeight: 90.h, minHeight: 0.h),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      isScrollControlled: true,
+      useRootNavigator: true,
+      clipBehavior: Clip.hardEdge,
+      backgroundColor: AppColors.WHITE_COLOR,
+      builder: (context) {
+        return GestureDetector(
+          onTap: Utils.unfocus,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(top: 1.h),
+              child: StatefulBuilder(
+                builder: (context, branchState) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ///Back, Title & Save
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              style: IconButton.styleFrom(
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              icon: Icon(
+                                Icons.close_rounded,
+                                color: AppColors.SECONDARY_COLOR,
+                                size: 6.w,
+                              ),
+                            ),
+                            Text(
+                              S.current.branch,
+                              style: TextStyle(
+                                color: AppColors.SECONDARY_COLOR,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 18.sp,
+                              ),
+                            ),
+                            BlocProvider.value(
+                              value: pendingOrdersBloc,
+                              child: BlocConsumer<PendingOrdersBloc, PendingOrdersState>(
+                                listener: (context, state) {
+                                  if (state is PendingOrdersEditPartySuccessState) {
+                                    context.pop();
+                                    Utils.handleMessage(message: state.successMessage);
+                                    pendingOrdersBloc.add(PendingOrdersGetOrdersEvent());
+                                  }
+                                  if (state is PendingOrdersEditPartyFailedState) {
+                                    Utils.handleMessage(message: state.failedMessage, isError: true);
+                                  }
+                                },
+                                builder: (context, state) {
+                                  return TextButton(
+                                    onPressed: () async {
+                                      if (selectedBranchIndex != -1) {
+                                        context.pop();
+                                        await showConfirmDialog(
+                                          context: ctx,
+                                          title: S.current.confirmItemText,
+                                          onPressed: () async {
+                                            pendingOrdersBloc.add(
+                                              PendingOrdersCreateJobClickEvent(
+                                                partyId: partyId,
+                                                productId: productId,
+                                                orderId: orderId,
+                                                branch: selectedBranchIndex,
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }
+                                    },
+                                    style: IconButton.styleFrom(
+                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    child: state is PendingOrdersEditPartyLoadingState && state.isLoading
+                                        ? LoadingWidget(
+                                            width: 8.w,
+                                            height: 8.w,
+                                          )
+                                        : Text(
+                                            S.current.save,
+                                            style: TextStyle(
+                                              color: AppColors.DARK_GREEN_COLOR,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        child: Divider(
+                          color: AppColors.HINT_GREY_COLOR,
+                          thickness: 1,
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+
+                      for (int i = 0; i < 2; i++) ...[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          child: InkWell(
+                            onTap: () {
+                              branchState(() {
+                                selectedBranchIndex = i;
+                              });
+                            },
+                            borderRadius: BorderRadius.circular(10),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: AppColors.WHITE_COLOR,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.GREY_COLOR.withValues(alpha: 0.2),
+                                    blurRadius: 25,
+                                    offset: const Offset(-10, 5),
+                                    spreadRadius: 3,
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h).copyWith(left: 4.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        "${S.current.branch} ${i + 1}",
+                                        style: TextStyle(
+                                          color: AppColors.BLACK_COLOR,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 2.w),
+                                    AnimatedContainer(
+                                      duration: const Duration(milliseconds: 300),
+                                      decoration: BoxDecoration(
+                                        color: selectedBranchIndex == i ? AppColors.DARK_GREEN_COLOR : AppColors.WHITE_COLOR,
+                                        border: Border.all(
+                                          color: selectedBranchIndex == i ? AppColors.DARK_GREEN_COLOR : AppColors.GREY_COLOR,
+                                          width: 1,
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      padding: EdgeInsets.all(1.w),
+                                      child: Icon(
+                                        Icons.check_rounded,
+                                        color: AppColors.WHITE_COLOR,
+                                        size: 3.w,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                      ],
+                    ],
+                  );
+                },
               ),
             ),
           ),

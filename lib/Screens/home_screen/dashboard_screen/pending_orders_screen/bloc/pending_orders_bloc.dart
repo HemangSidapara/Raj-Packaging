@@ -168,6 +168,7 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
         partyId: event.partyId,
         productId: event.productId,
         orderId: event.orderId,
+        branch: event.branch,
       );
 
       if (response.isSuccess) {

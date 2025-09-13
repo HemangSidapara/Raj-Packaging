@@ -214,5 +214,6 @@
   "meters": "Meters",
   "kgs": "KGs",
   "production": "Production",
-  "reports": "Reports"
+  "reports": "Reports",
+  "branch": "Branch"
 }
