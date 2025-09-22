@@ -151,7 +151,7 @@ class AddBloc extends Bloc<AddEvent, AddState> {
     }
   }
 
-  resetData() {
+  void resetData() {
     sizeList.clear();
     gsmList.clear();
     bfList.clear();

@@ -25,7 +25,6 @@ class _ConsumeViewState extends State<ConsumeView> {
             padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
             child: BlocBuilder<ConsumeBloc, ConsumeState>(
               builder: (context, state) {
-                final consumeBloc = context.read<ConsumeBloc>();
                 return Column(
                   children: [
                     ///Header

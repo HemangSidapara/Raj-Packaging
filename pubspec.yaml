@@ -2,7 +2,7 @@ name: raj_packaging
 description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
-version: 1.1.16+28
+version: 1.1.17+29
 
 environment:
   sdk: ^3.9.0
@@ -22,7 +22,7 @@ dependencies:
   dio: ^5.9.0
   cupertino_icons: ^1.0.8
   get_storage: ^2.1.1
-  go_router: ^16.2.1
+  go_router: ^16.2.2
   cached_network_image: ^3.4.1
   url_launcher: ^6.3.2
 
@@ -46,8 +46,8 @@ dependencies:
   package_info_plus: ^9.0.0
 
   # Syncfusion Libs
-  syncfusion_flutter_core: ^31.1.19
-  syncfusion_flutter_charts: ^31.1.19
+  syncfusion_flutter_core: ^31.1.20
+  syncfusion_flutter_charts: ^31.1.20
 
 dependency_overrides:
   intl: ^0.20.2

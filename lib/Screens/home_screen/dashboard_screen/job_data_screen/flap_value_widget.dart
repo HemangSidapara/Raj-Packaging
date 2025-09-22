@@ -192,7 +192,7 @@ class _FlapValueWidgetState extends State<FlapValueWidget> with SingleTickerProv
                                     }
                                   });
                                 },
-                                activeColor: AppColors.PRIMARY_COLOR,
+                                activeThumbColor: AppColors.PRIMARY_COLOR,
                                 activeTrackColor: AppColors.SECONDARY_COLOR,
                                 inactiveTrackColor: AppColors.PRIMARY_COLOR,
                                 inactiveThumbColor: AppColors.SECONDARY_COLOR,
