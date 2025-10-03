@@ -2,10 +2,10 @@ name: raj_packaging
 description: "The stock and order management app for the Raj Packaging."
 publish_to: 'none'
 
-version: 1.1.16+28
+version: 1.1.17+29
 
 environment:
-  sdk: '>=3.8.0 <4.0.0'
+  sdk: ^3.9.0
 
 dependencies:
   flutter:
@@ -14,15 +14,15 @@ dependencies:
     sdk: flutter
 
   # State management Libs
-  bloc: ^9.0.0
+  bloc: ^9.0.1
   flutter_bloc: ^9.1.1
   equatable: ^2.0.7
 
   # Networking, Router & Storage Libs
-  dio: ^5.8.0+1
+  dio: ^5.9.0
   cupertino_icons: ^1.0.8
   get_storage: ^2.1.1
-  go_router: ^16.1.0
+  go_router: ^16.2.4
   cached_network_image: ^3.4.1
   url_launcher: ^6.3.2
 
@@ -30,8 +30,8 @@ dependencies:
   responsive_sizer: ^3.3.1
   intl: ^0.20.2
   dropdown_search: ^6.0.2
-  font_awesome_flutter: ^10.9.0
-  lottie: ^3.3.1
+  font_awesome_flutter: ^10.10.0
+  lottie: ^3.3.2
   carousel_slider: ^5.1.1
   flutter_staggered_animations: ^1.1.1
   collection: ^1.19.1
@@ -41,13 +41,13 @@ dependencies:
 
   # File Libs
   path_provider: ^2.1.5
-  image_picker: ^1.1.2
+  image_picker: ^1.2.0
   permission_handler: ^12.0.1
-  package_info_plus: ^8.3.0
+  package_info_plus: ^9.0.0
 
   # Syncfusion Libs
-  syncfusion_flutter_core: ^30.1.42
-  syncfusion_flutter_charts: ^30.1.42
+  syncfusion_flutter_core: ^31.1.22
+  syncfusion_flutter_charts: ^31.1.22
 
 dependency_overrides:
   intl: ^0.20.2
